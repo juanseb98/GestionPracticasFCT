@@ -3,13 +3,14 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the PERSONA_CONTACTO database table.
  * 
  */
 @Entity
-@Table(name = "PERSONA_CONTACTO")
-@NamedQuery(name = "PersonaContacto.findAll", query = "SELECT p FROM PersonaContacto p")
+@Table(name="PERSONA_CONTACTO")
+@NamedQuery(name="PersonaContacto.findAll", query="SELECT p FROM PersonaContacto p")
 public class PersonaContacto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,20 +21,12 @@ public class PersonaContacto implements Serializable {
 
 	private String nombre;
 
-	private int telefono;
+	private String telefono;
 
-	// bi-directional many-to-one association to Empresa
+	//uni-directional many-to-one association to Empresa
 	@ManyToOne
-	@JoinColumn(name = "cifEmpresa")
+	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
-
-	public PersonaContacto(String email, String nombre, int telefono, Empresa empresa) {
-		super();
-		this.email = email;
-		this.nombre = nombre;
-		this.telefono = telefono;
-		this.empresa = empresa;
-	}
 
 	public PersonaContacto() {
 	}
@@ -62,11 +55,11 @@ public class PersonaContacto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return this.telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 

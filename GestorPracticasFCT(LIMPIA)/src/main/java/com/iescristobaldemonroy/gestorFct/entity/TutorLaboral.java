@@ -19,18 +19,18 @@ public class TutorLaboral implements Serializable {
 
 	private String email;
 
-	private int telefono;
+	private String telefono;
 
 	// bi-directional many-to-one association to Practica
 	@OneToMany(mappedBy = "tutorLaboral")
 	private List<Practica> practicas;
 
 	// bi-directional many-to-one association to Empresa
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.REMOVE })
 	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 
-	// bi-directional one-to-one association to Persona
+	// uni-directional one-to-one association to Persona
 	@OneToOne
 	@JoinColumn(name = "dni")
 	private Persona persona;
@@ -54,34 +54,34 @@ public class TutorLaboral implements Serializable {
 		this.email = email;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return this.telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
-	public List<Practica> getPracticas() {
+	public List<Practica> getPracticas1() {
 		return this.practicas;
 	}
 
-	public void setPracticas(List<Practica> practicas) {
-		this.practicas = practicas;
+	public void setPracticas1(List<Practica> practicas1) {
+		this.practicas = practicas1;
 	}
 
-	public Practica addPractica(Practica practica) {
-		getPracticas().add(practica);
-		practica.setTutorLaboral(this);
+	public Practica addPracticas1(Practica practicas) {
+		getPracticas1().add(practicas);
+		practicas.setTutorLaboral(this);
 
-		return practica;
+		return practicas;
 	}
 
-	public Practica removePractica(Practica practica) {
-		getPracticas().remove(practica);
-		practica.setTutorLaboral(null);
+	public Practica removePracticas1(Practica practicas1) {
+		getPracticas1().remove(practicas1);
+		practicas1.setTutorLaboral(null);
 
-		return practica;
+		return practicas1;
 	}
 
 	public Empresa getEmpresa() {

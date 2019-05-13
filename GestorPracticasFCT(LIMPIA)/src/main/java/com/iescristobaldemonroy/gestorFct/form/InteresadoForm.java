@@ -1,10 +1,10 @@
 package com.iescristobaldemonroy.gestorFct.form;
 
-public class PersonaContactoForm {
+public class InteresadoForm {
 
 	private String email;
 	private String nombre;
-	private int telefono;
+	private String telefono;
 	private String empresa;
 
 	public String getEmail() {
@@ -23,11 +23,11 @@ public class PersonaContactoForm {
 		this.nombre = nombre;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 

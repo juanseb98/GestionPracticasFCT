@@ -14,7 +14,7 @@ public class Notificacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Long id;
+	private int id;
 
 	private String mensaje;
 
@@ -22,21 +22,33 @@ public class Notificacion implements Serializable {
 
 	private String tipo;
 
+	// uni-directional many-to-one association to Interesado
+	@ManyToOne
+	@JoinColumn(name = "idInteresado")
+	private Interesado interesado;
+
+	// uni-directional many-to-one association to Valoracion
+	@ManyToOne
+	@JoinColumn(name = "idValoracion")
+	private Valoracion valoracion;
+
 	public Notificacion() {
 	}
 
-	public Notificacion(String mensaje, String nueva, String tipo) {
+	public Notificacion(String mensaje, String nueva, String tipo, Interesado interesado, Valoracion valoracion) {
 		super();
 		this.mensaje = mensaje;
 		this.nueva = nueva;
 		this.tipo = tipo;
+		this.interesado = interesado;
+		this.valoracion = valoracion;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -57,11 +69,27 @@ public class Notificacion implements Serializable {
 	}
 
 	public String getTipo() {
-		return this.tipo.toString();
+		return this.tipo;
 	}
 
 	public void setTipo(String tipo) {
-		this.tipo = TipoNotificacion.valueOf(tipo).toString();
+		this.tipo = tipo;
+	}
+
+	public Interesado getInteresado() {
+		return this.interesado;
+	}
+
+	public void setInteresado(Interesado interesado) {
+		this.interesado = interesado;
+	}
+
+	public Valoracion getValoracion() {
+		return this.valoracion;
+	}
+
+	public void setValoracion(Valoracion valoracion) {
+		this.valoracion = valoracion;
 	}
 
 }

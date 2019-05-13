@@ -19,13 +19,13 @@ public class CentroTrabajo implements Serializable {
 
 	private String calle;
 
-	private int codigoPostal;
+	private String codigoPostal;
 
 	private String descripcion;
 
 	private String email;
 
-	private int escalera;
+	private String escalera;
 
 	private String letra;
 
@@ -33,19 +33,19 @@ public class CentroTrabajo implements Serializable {
 
 	private String municipio;
 
-	private int numero;
+	private String numero;
 
-	private int piso;
+	private String piso;
 
-	private byte principal;
+	private String principal;
 
 	private String provincia;
 
-	private int telefono;
+	private String telefono;
 
 	private String tipoVia;
 
-	//bi-directional many-to-one association to Empresa
+	//uni-directional many-to-one association to Empresa
 	@ManyToOne
 	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
@@ -69,11 +69,11 @@ public class CentroTrabajo implements Serializable {
 		this.calle = calle;
 	}
 
-	public int getCodigoPostal() {
+	public String getCodigoPostal() {
 		return this.codigoPostal;
 	}
 
-	public void setCodigoPostal(int codigoPostal) {
+	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 
@@ -93,11 +93,11 @@ public class CentroTrabajo implements Serializable {
 		this.email = email;
 	}
 
-	public int getEscalera() {
+	public String getEscalera() {
 		return this.escalera;
 	}
 
-	public void setEscalera(int escalera) {
+	public void setEscalera(String escalera) {
 		this.escalera = escalera;
 	}
 
@@ -125,27 +125,27 @@ public class CentroTrabajo implements Serializable {
 		this.municipio = municipio;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return this.numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
-	public int getPiso() {
+	public String getPiso() {
 		return this.piso;
 	}
 
-	public void setPiso(int piso) {
+	public void setPiso(String piso) {
 		this.piso = piso;
 	}
 
-	public byte getPrincipal() {
+	public String getPrincipal() {
 		return this.principal;
 	}
 
-	public void setPrincipal(byte principal) {
+	public void setPrincipal(String principal) {
 		this.principal = principal;
 	}
 
@@ -157,11 +157,11 @@ public class CentroTrabajo implements Serializable {
 		this.provincia = provincia;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return this.telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 

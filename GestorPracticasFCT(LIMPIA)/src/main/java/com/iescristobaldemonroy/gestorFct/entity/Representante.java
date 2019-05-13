@@ -3,28 +3,27 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the REPRESENTANTE database table.
  * 
  */
 @Entity
-@Table(name="REPRESENTANTE")
-@NamedQuery(name="Representante.findAll", query="SELECT r FROM Representante r")
+@Table(name = "REPRESENTANTE")
+@NamedQuery(name = "Representante.findAll", query = "SELECT r FROM Representante r")
 public class Representante implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String dni;
 
-	//bi-directional many-to-one association to Empresa
+	// uni-directional many-to-one association to Empresa
 	@ManyToOne
-	@JoinColumn(name="cifEmpresa")
+	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 
-	//bi-directional one-to-one association to Persona
+	// uni-directional one-to-one association to Persona
 	@OneToOne
-	@JoinColumn(name="dni")
+	@JoinColumn(name = "dni")
 	private Persona persona;
 
 	public Representante() {

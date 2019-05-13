@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the TUTOR_DOCENTE database table.
  * 
  */
 @Entity
-@Table(name="TUTOR_DOCENTE")
-@NamedQuery(name="TutorDocente.findAll", query="SELECT t FROM TutorDocente t")
+@Table(name = "TUTOR_DOCENTE")
+@NamedQuery(name = "TutorDocente.findAll", query = "SELECT t FROM TutorDocente t")
 public class TutorDocente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,13 +19,13 @@ public class TutorDocente implements Serializable {
 
 	private String contrasenia;
 
-	//bi-directional many-to-one association to Practica
-	@OneToMany(mappedBy="tutorDocente")
+	// bi-directional many-to-one association to Practica
+	@OneToMany(mappedBy = "tutorDocente")
 	private List<Practica> practicas;
 
-	//bi-directional one-to-one association to Persona
+	// uni-directional one-to-one association to Persona
 	@OneToOne
-	@JoinColumn(name="dni")
+	@JoinColumn(name = "dni")
 	private Persona persona;
 
 	public TutorDocente() {
@@ -48,26 +47,26 @@ public class TutorDocente implements Serializable {
 		this.contrasenia = contrasenia;
 	}
 
-	public List<Practica> getPracticas() {
+	public List<Practica> getPracticas1() {
 		return this.practicas;
 	}
 
-	public void setPracticas(List<Practica> practicas) {
-		this.practicas = practicas;
+	public void setPracticas1(List<Practica> practicas1) {
+		this.practicas = practicas1;
 	}
 
-	public Practica addPractica(Practica practica) {
-		getPracticas().add(practica);
-		practica.setTutorDocente(this);
+	public Practica addPracticas(Practica practicas) {
+		getPracticas1().add(practicas);
+		practicas.setTutorDocente(this);
 
-		return practica;
+		return practicas;
 	}
 
-	public Practica removePractica(Practica practica) {
-		getPracticas().remove(practica);
-		practica.setTutorDocente(null);
+	public Practica removePracticas1(Practica practicas1) {
+		getPracticas1().remove(practicas1);
+		practicas1.setTutorDocente(null);
 
-		return practica;
+		return practicas1;
 	}
 
 	public Persona getPersona() {

@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <html>
 
 <head>
@@ -65,19 +64,25 @@
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="sizing-addon1"><i
 							class="glyphicon glyphicon-envelope"></i></span>
-						<form:input path="id" class="form-control" />
+						<form:input path="dni" class="form-control" />
 					</div>
 					<br>
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="sizing-addon1"><i
 							class="glyphicon glyphicon-lock"></i></span>
-						<form:input type="password" class="form-control"
-							id="inputPassword" placeholder="Password" path="nombre" />
+						<form:input type="password" class="form-control" id="password"
+							placeholder="password" path="password" />
+
 					</div>
 					<br>
+					<c:if test="${param.error != null}">
+						<p class="error">Username y password incorrectos, intentalo
+							nuevamente.</p>
+					</c:if>																																														
 					<input type="submit" value="Register" class="register" />
 					<div class="opcioncontra">
-						<a href="/recuperarCuenta">Olvidaste tu contraseña?</a>
+						<a href="/recuperarCuenta"><spring:message
+								code="logIn.recuperar" /></a>
 					</div>
 				</form:form>
 			</div>

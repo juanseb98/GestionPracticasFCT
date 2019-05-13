@@ -3,13 +3,14 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the ADMINISTRADOR database table.
  * 
  */
 @Entity
-@Table(name = "ADMINISTRADOR")
-@NamedQuery(name = "Administrador.findAll", query = "SELECT a FROM Administrador a")
+@Table(name="ADMINISTRADOR")
+@NamedQuery(name="Administrador.findAll", query="SELECT a FROM Administrador a")
 public class Administrador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,9 +19,9 @@ public class Administrador implements Serializable {
 
 	private String contrasenia;
 
-	// bi-directional one-to-one association to Persona
-	@OneToOne
-	@JoinColumn(name = "dni")
+	//uni-directional one-to-one association to Persona
+	@OneToOne(cascade={CascadeType.REMOVE})
+	@JoinColumn(name="dni")
 	private Persona persona;
 
 	public Administrador() {
