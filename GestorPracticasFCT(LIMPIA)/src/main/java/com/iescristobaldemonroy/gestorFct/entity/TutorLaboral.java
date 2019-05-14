@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "TUTOR_LABORAL")
 @NamedQuery(name = "TutorLaboral.findAll", query = "SELECT t FROM TutorLaboral t")
-public class TutorLaboral implements Serializable {
+public class TutorLaboral extends Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

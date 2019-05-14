@@ -60,27 +60,38 @@
 					alt="I.E.S. Cristóbal de Monroy"></span>
 			</div>
 			<div class="ContentForm">
+
 				<form:form modelAttribute="newMember" id="reg">
 					<div class="input-group input-group-lg">
+
 						<span class="input-group-addon" id="sizing-addon1"><i
 							class="glyphicon glyphicon-envelope"></i></span>
+						<form:label path="dni" for="dni">
+							*<spring:message code="logIn.dni" />
+							<div class="popup" onclick="myFunction()">
+								(?) <span class="popuptext" id="myPopup">dni</span>
+							</div>
+							<form:errors path="dni" cssClass="errores" />
+						</form:label>
+						<br>
 						<form:input path="dni" class="form-control" />
 					</div>
 					<br>
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="sizing-addon1"><i
 							class="glyphicon glyphicon-lock"></i></span>
+						<form:label path="password" for="password">
+							*<spring:message code="logIn.password" />
+							<form:errors path="password" cssClass="errores" />
+						</form:label>
+						<br>
 						<form:input type="password" class="form-control" id="password"
 							placeholder="password" path="password" />
 
 					</div>
-					<br>
-					<c:if test="${param.error != null}">
-						<p class="error">Username y password incorrectos, intentalo
-							nuevamente.</p>
-					</c:if>																																														
 					<input type="submit" value="Register" class="register" />
-					<div class="opcioncontra">
+					<br>
+					<div>
 						<a href="/recuperarCuenta"><spring:message
 								code="logIn.recuperar" /></a>
 					</div>
@@ -99,3 +110,11 @@
 	</div>
 </body>
 </html>
+
+<script type="text/javascript">
+	// When the user clicks on div, open the popup
+	function myFunction() {
+		var popup = document.getElementById("myPopup");
+		popup.classList.toggle("show");
+	}
+</script>

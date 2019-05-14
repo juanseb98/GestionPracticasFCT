@@ -11,16 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.iescristobaldemonroy.gestorFct.entity.PersonaContacto;
-import com.iescristobaldemonroy.gestorFct.form.InteresadoForm;
+import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.form.LogInForm;
-import com.iescristobaldemonroy.gestorFct.service.PersonaContactoService;
+import com.iescristobaldemonroy.gestorFct.service.PersonaService;
 
 @Controller
 @RequestMapping(value = "/login")
 public class LogInController {
 	@Autowired
-	private PersonaContactoService personaContactoService;
+	private PersonaService personaService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String displaySortedMembers(Model model) {
@@ -34,24 +33,25 @@ public class LogInController {
 
 		if (StringUtils.isEmpty(intentoLogueo.getDni())) {
 			result.rejectValue("dni", "error.campoObligatorio");
+			System.out.println("Error dni");
 		}
+
 		if (StringUtils.isEmpty(intentoLogueo.getPassword())) {
 			result.rejectValue("password", "error.campoObligatorio");
+			System.out.println("Error password");
 		}
 
 		if (!result.hasErrors()) {
 			try {
-				// TODO Controlar inicio comprobar que existe comprobar contraseña y comprobar
-				// que tipo de usuario es
+				Persona per = personaService.getPersonaByDni(intentoLogueo.getDni());
 
-				return "redirect:/login";
+				return "logIn";
 			} catch (UnexpectedRollbackException e) {
 				model.addAttribute("error", e.getCause().getCause());
-				return "redirect:/login";
+				return "logIn";
 			}
 		} else {
-			System.out.println("Errores");
-			return "redirect:/login";
+			return "logIn";
 		}
 	}
 }

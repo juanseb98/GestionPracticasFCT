@@ -96,49 +96,41 @@
 										<form:label path="nombre" for="nombre"
 											class="col-md-1 control-label">
 											*<spring:message code="interesado.nombre" />
+											<form:errors path="nombre" cssClass="errores" />
 										</form:label>
 										<div class="col-md-3">
 											<form:input id="nombre" path="nombre" class="form-control" />
-										</div>
-										<div class="col-md-3">
-											<form:errors path="nombre" cssClass="errores" />
 										</div>
 									</div>
 									<div class="form-group">
 										<form:label path="telefono" for="telefono"
 											class="col-md-1 control-label">
 											*<spring:message code="interesado.telefono" />
+											<form:errors path="telefono" cssClass="errores" />
 										</form:label>
 										<div class="col-md-3">
-											<form:input type="tel" id="telefono" path="telefono"
-												class="form-control" pattern="[0-9]{9}" />
-										</div>
-										<div class="col-md-3">
-											<form:errors path="telefono" cssClass="errores" />
+											<form:input id="telefono" path="telefono"
+												class="form-control" />
 										</div>
 									</div>
 									<div class="form-group">
 										<form:label path="email" for="email"
 											class="col-md-1 control-label">
 											*<spring:message code="interesado.correo" />
+											<form:errors path="email" cssClass="errores" />
 										</form:label>
 										<div class="col-md-3">
 											<form:input id="email" path="email" class="form-control" />
-										</div>
-										<div class="col-md-3">
-											<form:errors path="email" cssClass="errores" />
 										</div>
 									</div>
 									<div class="form-group">
 										<form:label path="empresa" for="empresa"
 											class="col-md-1 control-label">
 											*<spring:message code="interesado.empresa" />
+											<form:errors path="empresa" cssClass="errores" />
 										</form:label>
 										<div class="col-md-3">
 											<form:input id="empresa" path="empresa" class="form-control" />
-										</div>
-										<div class="col-md-3">
-											<form:errors path="empresa" cssClass="errores" />
 										</div>
 									</div>
 

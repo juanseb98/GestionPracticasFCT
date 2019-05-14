@@ -43,20 +43,9 @@ public class IndexController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String registerNewMember(@ModelAttribute("newMember") InteresadoForm newInteresado, BindingResult result,
+	public String registerNewMember(@ModelAttribute("newInteresado") InteresadoForm newInteresado, BindingResult result,
 			Model model) {
-		if (StringUtils.isEmpty(newInteresado.getNombre())) {
-			result.rejectValue("nombre", "error.campoObligatorio");
-		}
-		if (StringUtils.isEmpty(newInteresado.getTelefono())) {
-			result.rejectValue("telefono", "error.campoObligatorio");
-		}
-		if (StringUtils.isEmpty(newInteresado.getEmail())) {
-			result.rejectValue("email", "error.campoObligatorio");
-		}
-		if (StringUtils.isEmpty(newInteresado.getEmpresa())) {
-			result.rejectValue("cifEmpresa", "error.campoObligatorio");
-		}
+		comprobarDatos(newInteresado, result);
 
 		if (!result.hasErrors()) {
 			try {
@@ -85,6 +74,29 @@ public class IndexController {
 			}
 		} else {
 			return "index";
+		}
+	}
+
+	private void comprobarDatos(InteresadoForm newInteresado, BindingResult result) {
+		if (StringUtils.isEmpty(newInteresado.getNombre())) {
+			result.rejectValue("nombre", "error.campoObligatorio");
+		}
+
+		if (StringUtils.isEmpty(newInteresado.getTelefono())) {
+			result.rejectValue("telefono", "error.campoObligatorio");
+		} else {
+			try {
+				Integer.parseInt(newInteresado.getTelefono());
+			} catch (NumberFormatException ex) {
+				result.rejectValue("telefono", "error.campoObligatorio");
+			}
+		}
+
+		if (StringUtils.isEmpty(newInteresado.getEmail())) {
+			result.rejectValue("email", "error.numerico");
+		}
+		if (StringUtils.isEmpty(newInteresado.getEmpresa())) {
+			result.rejectValue("empresa", "error.campoObligatorio");
 		}
 	}
 

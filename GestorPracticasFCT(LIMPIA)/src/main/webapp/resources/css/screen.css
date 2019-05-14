@@ -1,16 +1,22 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
-@import url(http://fonts.googleapis.com/css?family=Dosis:500&subset=latin,latin-ext);
 
-body, p{font-family: 'Open Sans', sans-serif;}
-h1, h2, h3, h4, h5, h6, .smartlib-site-logo{font-family: 'Dosis', sans-serif;}
+@import
+	url(http://fonts.googleapis.com/css?family=Dosis:500&subset=latin,latin-ext)
+	;
 
+body, p {
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .smartlib-site-logo {
+	font-family: 'Dosis', sans-serif;
+}
 
 *, *:before, *:after {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
-
 
 html, body {
 	font-size: 100%;
@@ -193,6 +199,63 @@ select {
 	padding-right: 0.9375em;
 	width: 100%;
 	float: left;
+}
+
+/* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
 }
 
 @media only screen {
@@ -1459,7 +1522,11 @@ select {
 
 
 
+
+
 .expanded
+
+
 
 
 
@@ -1482,7 +1549,9 @@ select {
 
 
 
+
  
+
 
 
 
@@ -1499,7 +1568,9 @@ select {
 
 
 
+
  
+
 
 
 
@@ -1524,7 +1595,10 @@ overflow-y
 
 
 
+
+
 :
+
 
 
 
@@ -1540,7 +1614,10 @@ overflow-y
 
 
 
+
 auto
+
+
 
 
 
@@ -1571,7 +1648,10 @@ height
 
 
 
+
+
 :
+
 
 
 
@@ -1587,7 +1667,10 @@ height
 
 
 
+
 auto
+
+
 
 
 
@@ -1618,6 +1701,8 @@ width
 
 
 
+
+
 :
 
 
@@ -1626,7 +1711,9 @@ width
 
 
 
+
  
+
 
 
 
@@ -1650,6 +1737,8 @@ max-height
 
 
 
+
+
 :
 
 
@@ -1658,7 +1747,9 @@ max-height
 
 
 
+
  
+
 
 
 
@@ -2037,6 +2128,7 @@ max-height
 	
 	
 	
+	
 	 
 	
 	
@@ -2045,7 +2137,10 @@ max-height
 	
 	
 	
+	
 	li
+	
+	
 	
 	
 	
@@ -2077,6 +2172,8 @@ max-height
 	
 	
 	
+	
+	
 	:not
 	
 	
@@ -2085,7 +2182,9 @@ max-height
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -2102,7 +2201,9 @@ max-height
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -2127,7 +2228,10 @@ max-height
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	
@@ -2143,7 +2247,10 @@ max-height
 	
 	
 	
+	
 	#272727
+	
+	
 	
 	
 	
@@ -2174,7 +2281,10 @@ max-height
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	
@@ -2190,7 +2300,10 @@ max-height
 	
 	
 	
+	
 	white
+	
+	
 	
 	
 	
@@ -2216,7 +2329,9 @@ max-height
 
 
 
+
  
+
 
 
 
@@ -2239,6 +2354,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -2247,7 +2364,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -2264,7 +2383,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -2288,6 +2409,8 @@ a
 
 
 
+
+
 :not
 
 
@@ -2296,7 +2419,9 @@ a
 
 
 
+
  
+
 
 
 
@@ -2313,7 +2438,9 @@ a
 
 
 
+
  
+
 
 
 
@@ -2338,7 +2465,10 @@ padding
 
 
 
+
+
 :
+
 
 
 
@@ -2354,9 +2484,12 @@ padding
 
 
 
+
 0
 15
 px
+
+
 
 
 
@@ -2387,7 +2520,10 @@ line-height
 
 
 
+
+
 :
+
 
 
 
@@ -2403,8 +2539,11 @@ line-height
 
 
 
+
 45
 px
+
+
 
 
 
@@ -2435,7 +2574,10 @@ background
 
 
 
+
+
 :
+
 
 
 
@@ -2451,7 +2593,10 @@ background
 
 
 
+
 #333333
+
+
 
 
 
@@ -7216,6 +7361,7 @@ cite {
 }
 
 code {
+	
 }
 
 sup, sub, small {
@@ -7277,6 +7423,8 @@ audio
 
 
 
+
+
 :not
 
 
@@ -7285,7 +7433,9 @@ audio
 
 
 
+
  
+
 
 
 
@@ -7304,7 +7454,9 @@ controls
 
 
 
+
  
+
 
 
 
@@ -7329,7 +7481,10 @@ display
 
 
 
+
+
 :
+
 
 
 
@@ -7345,7 +7500,10 @@ display
 
 
 
+
 none
+
+
 
 
 
@@ -7676,7 +7834,8 @@ body {
 	display: flex;
 	justify-content: center;
 }
-.galeria img{
+
+.galeria img {
 	padding: 5;
 }
 
@@ -10039,4 +10198,3 @@ ul.pagination .current:hover, ul.pagination li .current {
 		color: initial;
 	}
 }
-

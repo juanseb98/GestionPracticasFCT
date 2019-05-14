@@ -3,15 +3,14 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the ALUMNO database table.
  * 
  */
 @Entity
-@Table(name="ALUMNO")
-@NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
-public class Alumno implements Serializable {
+@Table(name = "ALUMNO")
+@NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a")
+public class Alumno extends Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -19,9 +18,9 @@ public class Alumno implements Serializable {
 
 	private String contrasenia;
 
-	//uni-directional one-to-one association to Persona
-	@OneToOne(cascade={CascadeType.REMOVE})
-	@JoinColumn(name="dni")
+	// uni-directional one-to-one association to Persona
+	@OneToOne(cascade = { CascadeType.REMOVE })
+	@JoinColumn(name = "dni")
 	private Persona persona;
 
 	public Alumno() {
