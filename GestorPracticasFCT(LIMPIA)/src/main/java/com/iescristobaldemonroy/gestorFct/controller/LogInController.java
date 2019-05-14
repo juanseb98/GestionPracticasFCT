@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
@@ -60,7 +61,7 @@ public class LogInController {
 				} else if (per.getAlumno() != null) {
 					Alumno alumno = per.getAlumno();
 					if (alumno.getContrasenia().equals(intentoLogueo.getPassword())) {
-						return "alumno";
+						return "redirect: alumno?dni=" + alumno.getDni();
 					} else {
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
