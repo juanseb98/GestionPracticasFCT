@@ -19,11 +19,6 @@ public class Administrador implements Serializable {
 
 	private String contrasenia;
 
-	//uni-directional one-to-one association to Persona
-	@OneToOne(cascade={CascadeType.REMOVE})
-	@JoinColumn(name="dni")
-	private Persona persona;
-
 	public Administrador() {
 	}
 
@@ -41,14 +36,6 @@ public class Administrador implements Serializable {
 
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
-	}
-
-	public Persona getPersona() {
-		return this.persona;
-	}
-
-	public void setPersona(Persona persona) {
-		this.persona = persona;
 	}
 
 }

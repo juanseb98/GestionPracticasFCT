@@ -45,7 +45,7 @@ public class CentroTrabajo implements Serializable {
 
 	private String tipoVia;
 
-	//uni-directional many-to-one association to Empresa
+	//bi-directional many-to-one association to Empresa
 	@ManyToOne
 	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;

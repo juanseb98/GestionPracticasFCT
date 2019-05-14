@@ -2,18 +2,16 @@ package com.iescristobaldemonroy.gestorFct.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
-
 import java.util.List;
+
 
 /**
  * The persistent class for the EMPRESA database table.
  * 
  */
 @Entity
-@Table(name = "EMPRESA")
-@NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")
+@Table(name="EMPRESA")
+@NamedQuery(name="Empresa.findAll", query="SELECT e FROM Empresa e")
 public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,21 +24,15 @@ public class Empresa implements Serializable {
 
 	private String telefono;
 
-	// bi-directional many-to-one association to Practica
-	@OneToMany(mappedBy = "empresa")
-	private List<Practica> practicas;
+	//bi-directional many-to-one association to CentroTrabajo
+	@OneToMany(mappedBy="empresa")
+	private List<CentroTrabajo> centroTrabajos;
 
-	// bi-directional many-to-one association to TutorLaboral
-	@OneToMany(mappedBy = "empresa")
-	private List<TutorLaboral> tutorLaborals;
+	//bi-directional many-to-one association to Representante
+	@OneToMany(mappedBy="empresa")
+	private List<Representante> representantes;
 
 	public Empresa() {
-	}
-
-	public Empresa(String cif, String denominacion) {
-		super();
-		this.cif = cif;
-		this.denominacion = denominacion;
 	}
 
 	public String getCif() {
@@ -75,48 +67,48 @@ public class Empresa implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<Practica> getPracticas() {
-		return this.practicas;
+	public List<CentroTrabajo> getCentroTrabajos() {
+		return this.centroTrabajos;
 	}
 
-	public void setPracticas(List<Practica> practicas) {
-		this.practicas = practicas;
+	public void setCentroTrabajos(List<CentroTrabajo> centroTrabajos) {
+		this.centroTrabajos = centroTrabajos;
 	}
 
-	public Practica addPractica(Practica practica) {
-		getPracticas().add(practica);
-		practica.setEmpresa(this);
+	public CentroTrabajo addCentroTrabajo(CentroTrabajo centroTrabajo) {
+		getCentroTrabajos().add(centroTrabajo);
+		centroTrabajo.setEmpresa(this);
 
-		return practica;
+		return centroTrabajo;
 	}
 
-	public Practica removePractica(Practica practica) {
-		getPracticas().remove(practica);
-		practica.setEmpresa(null);
+	public CentroTrabajo removeCentroTrabajo(CentroTrabajo centroTrabajo) {
+		getCentroTrabajos().remove(centroTrabajo);
+		centroTrabajo.setEmpresa(null);
 
-		return practica;
+		return centroTrabajo;
 	}
 
-	public List<TutorLaboral> getTutorLaborals() {
-		return this.tutorLaborals;
+	public List<Representante> getRepresentantes() {
+		return this.representantes;
 	}
 
-	public void setTutorLaborals(List<TutorLaboral> tutorLaborals) {
-		this.tutorLaborals = tutorLaborals;
+	public void setRepresentantes(List<Representante> representantes) {
+		this.representantes = representantes;
 	}
 
-	public TutorLaboral addTutorLaboral(TutorLaboral tutorLaboral) {
-		getTutorLaborals().add(tutorLaboral);
-		tutorLaboral.setEmpresa(this);
+	public Representante addRepresentante(Representante representante) {
+		getRepresentantes().add(representante);
+		representante.setEmpresa(this);
 
-		return tutorLaboral;
+		return representante;
 	}
 
-	public TutorLaboral removeTutorLaboral(TutorLaboral tutorLaboral) {
-		getTutorLaborals().remove(tutorLaboral);
-		tutorLaboral.setEmpresa(null);
+	public Representante removeRepresentante(Representante representante) {
+		getRepresentantes().remove(representante);
+		representante.setEmpresa(null);
 
-		return tutorLaboral;
+		return representante;
 	}
 
 }

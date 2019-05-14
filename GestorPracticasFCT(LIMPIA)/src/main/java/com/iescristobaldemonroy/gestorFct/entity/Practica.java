@@ -4,13 +4,14 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 
+
 /**
  * The persistent class for the PRACTICA database table.
  * 
  */
 @Entity
-@Table(name = "PRACTICA")
-@NamedQuery(name = "Practica.findAll", query = "SELECT p FROM Practica p")
+@Table(name="PRACTICA")
+@NamedQuery(name="Practica.findAll", query="SELECT p FROM Practica p")
 public class Practica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,24 +29,24 @@ public class Practica implements Serializable {
 
 	private String tipoJornada;
 
-	// uni-directional many-to-one association to Alumno
+	//uni-directional many-to-one association to Alumno
 	@ManyToOne
-	@JoinColumn(name = "dniAlumno")
+	@JoinColumn(name="dniAlumno")
 	private Alumno alumno;
 
-	// bi-directional many-to-one association to Empresa
+	//uni-directional many-to-one association to Empresa
 	@ManyToOne
-	@JoinColumn(name = "cifEmpresa")
+	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
 
-	// bi-directional many-to-one association to TutorDocente
+	//uni-directional many-to-one association to TutorDocente
 	@ManyToOne
-	@JoinColumn(name = "dniTutorDocente")
+	@JoinColumn(name="dniTutorDocente")
 	private TutorDocente tutorDocente;
 
-	// bi-directional many-to-one association to TutorLaboral
+	//uni-directional many-to-one association to TutorLaboral
 	@ManyToOne
-	@JoinColumn(name = "dniTutorLaboral")
+	@JoinColumn(name="dniTutorLaboral")
 	private TutorLaboral tutorLaboral;
 
 	public Practica() {
@@ -53,22 +54,6 @@ public class Practica implements Serializable {
 
 	public int getId() {
 		return this.id;
-	}
-
-	public TutorDocente getTutorDocente() {
-		return tutorDocente;
-	}
-
-	public void setTutorDocente(TutorDocente tutorDocente) {
-		this.tutorDocente = tutorDocente;
-	}
-
-	public TutorLaboral getTutorLaboral() {
-		return tutorLaboral;
-	}
-
-	public void setTutorLaboral(TutorLaboral tutorLaboral) {
-		this.tutorLaboral = tutorLaboral;
 	}
 
 	public void setId(int id) {
@@ -129,6 +114,22 @@ public class Practica implements Serializable {
 
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
+	}
+
+	public TutorDocente getTutorDocente() {
+		return this.tutorDocente;
+	}
+
+	public void setTutorDocente(TutorDocente tutorDocente) {
+		this.tutorDocente = tutorDocente;
+	}
+
+	public TutorLaboral getTutorLaboral() {
+		return this.tutorLaboral;
+	}
+
+	public void setTutorLaboral(TutorLaboral tutorLaboral) {
+		this.tutorLaboral = tutorLaboral;
 	}
 
 }

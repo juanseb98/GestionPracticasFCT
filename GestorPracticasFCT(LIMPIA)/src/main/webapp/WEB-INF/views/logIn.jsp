@@ -53,6 +53,9 @@
 		</div>
 
 		<div id="Contenedor">
+			<c:if test="${not empty error}">
+				<span class="errores"><c:out value="${error}" /></span>
+			</c:if>
 			<div class="Icon">
 				<!--Icono de usuario-->
 				<span class="glyphicon glyphicon-user"><img

@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.iescristobaldemonroy.gestorFct.entity.Administrador;
+import com.iescristobaldemonroy.gestorFct.entity.Alumno;
+import com.iescristobaldemonroy.gestorFct.entity.Interesado;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
+import com.iescristobaldemonroy.gestorFct.entity.TutorDocente;
+import com.iescristobaldemonroy.gestorFct.form.InteresadoForm;
 import com.iescristobaldemonroy.gestorFct.form.LogInForm;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
 
@@ -45,13 +50,37 @@ public class LogInController {
 			try {
 				Persona per = personaService.getPersonaByDni(intentoLogueo.getDni());
 
-				return "logIn";
-			} catch (UnexpectedRollbackException e) {
-				model.addAttribute("error", e.getCause().getCause());
+				if (per.getAdministrador() != null) {
+					Administrador administrador = per.getAdministrador();
+					if (administrador.getContrasenia().equals(intentoLogueo.getPassword())) {
+						return "administracion";
+					} else {
+						result.rejectValue("password", "error.datoIncorrecto");
+					}
+				} else if (per.getAlumno() != null) {
+					Alumno alumno = per.getAlumno();
+					if (alumno.getContrasenia().equals(intentoLogueo.getPassword())) {
+						return "alumno";
+					} else {
+						result.rejectValue("password", "error.datoIncorrecto");
+					}
+				} else if (per.getTutorDocente() != null) {
+					TutorDocente tutorDocente = per.getTutorDocente();
+					if (tutorDocente.getContrasenia().equals(intentoLogueo.getPassword())) {
+						return "tutorDocente";
+					} else {
+						result.rejectValue("password", "error.datoIncorrecto");
+					}
+				}
+				model.addAttribute("newInteresado", new InteresadoForm());
+				return "index";
+			} catch (NullPointerException e) {
+				model.addAttribute("error", "No se ha encontrado usuario");
 				return "logIn";
 			}
 		} else {
 			return "logIn";
 		}
 	}
+
 }
