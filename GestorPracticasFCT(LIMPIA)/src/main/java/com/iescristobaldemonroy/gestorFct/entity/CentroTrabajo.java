@@ -46,7 +46,7 @@ public class CentroTrabajo implements Serializable {
 	private String tipoVia;
 
 	//bi-directional many-to-one association to Empresa
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.REMOVE})
 	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
 

@@ -1,23 +1,27 @@
 
 package com.iescristobaldemonroy.gestorFct.controller;
 
+import java.security.MessageDigest;
+import java.util.Arrays;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
-import com.iescristobaldemonroy.gestorFct.entity.Interesado;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.entity.TutorDocente;
-import com.iescristobaldemonroy.gestorFct.form.InteresadoForm;
 import com.iescristobaldemonroy.gestorFct.form.LogInForm;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
 
@@ -61,7 +65,8 @@ public class LogInController {
 				} else if (per.getAlumno() != null) {
 					Alumno alumno = per.getAlumno();
 					if (alumno.getContrasenia().equals(intentoLogueo.getPassword())) {
-						return "redirect: alumno?dni=" + alumno.getDni();
+						String DniEncriptado = encriptar(alumno.getDni());
+						return "redirect: alumno?pikjuihj=" + DniEncriptado;
 					} else {
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
@@ -73,15 +78,36 @@ public class LogInController {
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
 				}
-				model.addAttribute("newInteresado", new InteresadoForm());
-				return "index";
 			} catch (NullPointerException e) {
 				model.addAttribute("error", "No se ha encontrado usuario");
 				return "logIn";
 			}
-		} else {
-			return "logIn";
 		}
+		return "logIn";
+	}
+
+	private String encriptar(String dni) {
+		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
+		String base64EncryptedString = "";
+
+		try {
+
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
+			byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+
+			SecretKey key = new SecretKeySpec(keyBytes, "DESede");
+			Cipher cipher = Cipher.getInstance("DESede");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+
+			byte[] plainTextBytes = dni.getBytes("utf-8");
+			byte[] buf = cipher.doFinal(plainTextBytes);
+			byte[] base64Bytes = Base64.encodeBase64(buf);
+			base64EncryptedString = new String(base64Bytes);
+
+		} catch (Exception ex) {
+		}
+		return base64EncryptedString;
 	}
 
 }

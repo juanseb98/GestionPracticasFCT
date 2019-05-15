@@ -17,41 +17,39 @@ public class Persona implements Serializable {
 	@Id
 	private String dni;
 
+	private String contrasenia;
+
+	@Column(name = "DTYPE")
+	private String dtype;
+
 	private String nombre;
 
-	// uni-directional one-to-one association to Administrador
-	@OneToOne
-	@JoinColumn(name = "dni")
+	// bi-directional one-to-one association to Administrador
+	@OneToOne(mappedBy = "persona", cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	private Administrador administrador;
 
-	// uni-directional one-to-one association to Alumno
-	@OneToOne
-	@JoinColumn(name = "dni")
+	// bi-directional one-to-one association to Alumno
+	@OneToOne(mappedBy = "persona", cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	private Alumno alumno;
 
-	// uni-directional one-to-one association to Representante
-	@OneToOne
-	@JoinColumn(name = "dni")
+	// bi-directional one-to-one association to Representante
+	@OneToOne(mappedBy = "persona", cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	private Representante representante;
 
-	// uni-directional one-to-one association to TutorDocente
-	@OneToOne
-	@JoinColumn(name = "dni")
+	// bi-directional one-to-one association to TutorDocente
+	@OneToOne(mappedBy = "persona", cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	private TutorDocente tutorDocente;
 
-	// uni-directional one-to-one association to TutorLaboral
-	@OneToOne
-	@JoinColumn(name = "dni")
+	// bi-directional one-to-one association to TutorLaboral
+	@OneToOne(mappedBy = "persona", cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	private TutorLaboral tutorLaboral;
 
 	// bi-directional many-to-one association to Valoracion
 	@OneToMany(mappedBy = "persona")
-	private List<Valoracion> valoraciones;
+	private List<Valoracion> valoracions;
 
 	public Persona() {
 	}
-	
-	
 
 	public String getDni() {
 		return this.dni;
@@ -59,6 +57,22 @@ public class Persona implements Serializable {
 
 	public void setDni(String dni) {
 		this.dni = dni;
+	}
+
+	public String getContrasenia() {
+		return this.contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+
+	public String getDtype() {
+		return this.dtype;
+	}
+
+	public void setDtype(String dtype) {
+		this.dtype = dtype;
 	}
 
 	public String getNombre() {
@@ -109,23 +123,23 @@ public class Persona implements Serializable {
 		this.tutorLaboral = tutorLaboral;
 	}
 
-	public List<Valoracion> getValoraciones() {
-		return this.valoraciones;
+	public List<Valoracion> getValoracions() {
+		return this.valoracions;
 	}
 
-	public void setValoraciones(List<Valoracion> valoracions) {
-		this.valoraciones = valoracions;
+	public void setValoracions(List<Valoracion> valoracions) {
+		this.valoracions = valoracions;
 	}
 
 	public Valoracion addValoracion(Valoracion valoracion) {
-		getValoraciones().add(valoracion);
+		getValoracions().add(valoracion);
 		valoracion.setPersona(this);
 
 		return valoracion;
 	}
 
 	public Valoracion removeValoracion(Valoracion valoracion) {
-		getValoraciones().remove(valoracion);
+		getValoracions().remove(valoracion);
 		valoracion.setPersona(null);
 
 		return valoracion;

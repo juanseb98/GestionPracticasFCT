@@ -29,25 +29,25 @@ public class Practica implements Serializable {
 
 	private String tipoJornada;
 
-	//uni-directional many-to-one association to Alumno
+	//bi-directional many-to-one association to TutorLaboral
+	@ManyToOne
+	@JoinColumn(name="dniTutorLaboral")
+	private TutorLaboral tutorLaboral;
+
+	//bi-directional many-to-one association to Alumno
 	@ManyToOne
 	@JoinColumn(name="dniAlumno")
 	private Alumno alumno;
 
-	//uni-directional many-to-one association to Empresa
+	//bi-directional many-to-one association to Empresa
 	@ManyToOne
 	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
 
-	//uni-directional many-to-one association to TutorDocente
+	//bi-directional many-to-one association to TutorDocente
 	@ManyToOne
 	@JoinColumn(name="dniTutorDocente")
 	private TutorDocente tutorDocente;
-
-	//uni-directional many-to-one association to TutorLaboral
-	@ManyToOne
-	@JoinColumn(name="dniTutorLaboral")
-	private TutorLaboral tutorLaboral;
 
 	public Practica() {
 	}
@@ -100,6 +100,14 @@ public class Practica implements Serializable {
 		this.tipoJornada = tipoJornada;
 	}
 
+	public TutorLaboral getTutorLaboral() {
+		return this.tutorLaboral;
+	}
+
+	public void setTutorLaboral(TutorLaboral tutorLaboral) {
+		this.tutorLaboral = tutorLaboral;
+	}
+
 	public Alumno getAlumno() {
 		return this.alumno;
 	}
@@ -122,14 +130,6 @@ public class Practica implements Serializable {
 
 	public void setTutorDocente(TutorDocente tutorDocente) {
 		this.tutorDocente = tutorDocente;
-	}
-
-	public TutorLaboral getTutorLaboral() {
-		return this.tutorLaboral;
-	}
-
-	public void setTutorLaboral(TutorLaboral tutorLaboral) {
-		this.tutorLaboral = tutorLaboral;
 	}
 
 }

@@ -92,7 +92,8 @@
 							placeholder="password" path="password" />
 
 					</div>
-					<input type="submit" value="Register" class="register" />
+					<input type="submit"
+						value="<spring:message code="boton.conectar"/> " class="register" />
 					<br>
 					<div>
 						<a href="/recuperarCuenta"><spring:message

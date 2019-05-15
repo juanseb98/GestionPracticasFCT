@@ -27,10 +27,11 @@ public class Interesado implements Serializable {
 	public Interesado() {
 	}
 
-	public Interesado(String email, String nombre, String empresa, String telefono) {
+	public Interesado(String email, String nombre, String nombreEmpresa, String telefono) {
+		super();
 		this.email = email;
 		this.nombre = nombre;
-		this.nombreEmpresa = empresa;
+		this.nombreEmpresa = nombreEmpresa;
 		this.telefono = telefono;
 	}
 

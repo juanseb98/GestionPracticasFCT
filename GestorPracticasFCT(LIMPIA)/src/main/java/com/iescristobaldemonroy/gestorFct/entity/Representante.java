@@ -18,9 +18,14 @@ public class Representante implements Serializable {
 	private String dni;
 
 	//bi-directional many-to-one association to Empresa
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.REMOVE})
 	@JoinColumn(name="cifEmpresa")
 	private Empresa empresa;
+
+	//bi-directional one-to-one association to Persona
+	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
+	@JoinColumn(name="dni")
+	private Persona persona;
 
 	public Representante() {
 	}
@@ -39,6 +44,14 @@ public class Representante implements Serializable {
 
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
+	}
+
+	public Persona getPersona() {
+		return this.persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 }

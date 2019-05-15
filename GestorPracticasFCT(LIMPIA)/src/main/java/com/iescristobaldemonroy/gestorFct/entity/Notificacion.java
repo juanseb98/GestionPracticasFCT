@@ -36,6 +36,7 @@ public class Notificacion implements Serializable {
 	}
 
 	public Notificacion(String mensaje, String nueva, String tipo, Interesado interesado, Valoracion valoracion) {
+		super();
 		this.mensaje = mensaje;
 		this.nueva = nueva;
 		this.tipo = tipo;
