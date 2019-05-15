@@ -36,15 +36,9 @@ public class PersonaContactoServiceImpl implements PersonaContactoService {
 	}
 
 	@Override
-	public PersonaContacto getPersonaContactoById(Long id) {
-		PersonaContacto user = repository.findById(id).get();
-		return user;
-	}
-
-	@Override
-	public boolean save(PersonaContacto user) {
+	public boolean save(PersonaContacto personaContacto) {
 		try {
-			repository.save(user);
+			repository.save(personaContacto);
 			return true;
 		} catch (Exception ex) {
 			return false;
@@ -60,6 +54,18 @@ public class PersonaContactoServiceImpl implements PersonaContactoService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public PersonaContacto getPersonaContactoByNombre(String nombre) {
+		return repository.findByNombre(nombre);
+	}
+
+	@Override
+	public List<PersonaContacto> getPersonaContactoByEmpresa(String empresa) {
+		List<PersonaContacto> list = new ArrayList();
+		repository.findByEmpresa(empresa).forEach(e -> list.add((PersonaContacto) e));
+		return list;
 	}
 
 }

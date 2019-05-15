@@ -25,6 +25,11 @@ public class Valoracion implements Serializable {
 	@JoinColumn(name = "dniPersona")
 	private Persona persona;
 
+	// bi-directional many-to-one association to Practica
+	@ManyToOne
+	@JoinColumn(name = "idPractica")
+	private Practica practica;
+
 	public Valoracion() {
 	}
 
@@ -58,6 +63,14 @@ public class Valoracion implements Serializable {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public Practica getPractica() {
+		return practica;
+	}
+
+	public void setPractica(Practica practica) {
+		this.practica = practica;
 	}
 
 }

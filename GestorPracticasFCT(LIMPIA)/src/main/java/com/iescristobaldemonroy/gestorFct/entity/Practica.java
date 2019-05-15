@@ -3,15 +3,15 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-
+import java.util.List;
 
 /**
  * The persistent class for the PRACTICA database table.
  * 
  */
 @Entity
-@Table(name="PRACTICA")
-@NamedQuery(name="Practica.findAll", query="SELECT p FROM Practica p")
+@Table(name = "PRACTICA")
+@NamedQuery(name = "Practica.findAll", query = "SELECT p FROM Practica p")
 public class Practica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,27 +29,39 @@ public class Practica implements Serializable {
 
 	private String tipoJornada;
 
-	//bi-directional many-to-one association to TutorLaboral
+	// bi-directional many-to-one association to TutorLaboral
 	@ManyToOne
-	@JoinColumn(name="dniTutorLaboral")
+	@JoinColumn(name = "dniTutorLaboral")
 	private TutorLaboral tutorLaboral;
 
-	//bi-directional many-to-one association to Alumno
+	// bi-directional many-to-one association to Alumno
 	@ManyToOne
-	@JoinColumn(name="dniAlumno")
+	@JoinColumn(name = "dniAlumno")
 	private Alumno alumno;
 
-	//bi-directional many-to-one association to Empresa
+	// bi-directional many-to-one association to Empresa
 	@ManyToOne
-	@JoinColumn(name="cifEmpresa")
+	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 
-	//bi-directional many-to-one association to TutorDocente
+	// bi-directional many-to-one association to TutorDocente
 	@ManyToOne
-	@JoinColumn(name="dniTutorDocente")
+	@JoinColumn(name = "dniTutorDocente")
 	private TutorDocente tutorDocente;
 
+	// bi-directional many-to-one association to Valoracion
+	@OneToMany(mappedBy = "practica")
+	private List<Valoracion> valoracions;
+
 	public Practica() {
+	}
+
+	public List<Valoracion> getValoracions() {
+		return valoracions;
+	}
+
+	public void setValoracions(List<Valoracion> valoracions) {
+		this.valoracions = valoracions;
 	}
 
 	public int getId() {

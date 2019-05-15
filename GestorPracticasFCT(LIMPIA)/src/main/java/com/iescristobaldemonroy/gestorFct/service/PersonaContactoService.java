@@ -8,7 +8,9 @@ public interface PersonaContactoService {
 
 	public List getAllPersonaContacto();
 
-	public PersonaContacto getPersonaContactoById(Long id);
+	public PersonaContacto getPersonaContactoByNombre(String nombre);
+
+	public List getPersonaContactoByEmpresa(String empresa);
 
 	public boolean save(PersonaContacto persona);
 
