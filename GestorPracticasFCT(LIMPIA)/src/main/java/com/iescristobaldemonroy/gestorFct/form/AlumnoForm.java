@@ -10,7 +10,20 @@ public class AlumnoForm {
 	private String dni;
 	private String contrasenia;
 	private List<Practica> practicas;
-	private int practicaSelected;
+	private String practicaSelected;
+
+	public AlumnoForm() {
+	}
+
+	public AlumnoForm(String nombre, String dni, String contrasenia, List<Practica> practicas,
+			String practicaSelected) {
+		super();
+		this.nombre = nombre;
+		this.dni = dni;
+		this.contrasenia = contrasenia;
+		this.practicas = practicas;
+		this.practicaSelected = practicaSelected;
+	}
 
 	public AlumnoForm(Alumno alumno) {
 		this.nombre = alumno.getPersona().getNombre();
@@ -19,11 +32,11 @@ public class AlumnoForm {
 		this.practicas = alumno.getPracticas();
 	}
 
-	public int getPracticaSelected() {
+	public String getPracticaSelected() {
 		return practicaSelected;
 	}
 
-	public void setPracticaSelected(int practicaSelected) {
+	public void setPracticaSelected(String practicaSelected) {
 		this.practicaSelected = practicaSelected;
 	}
 

@@ -82,4 +82,9 @@ public class PracticaServiceImpl implements PracticaService {
 		}
 	}
 
+	@Override
+	public Practica getPracticaById(int id) {
+		return repository.findById(id);
+	}
+
 }

@@ -12,7 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.iescristobaldemonroy.gestorFct.entity.Practica;
 
 @Repository
-public interface PracticaRepository extends JpaRepository<Practica, String>, JpaSpecificationExecutor<Practica> {
+public interface PracticaRepository extends JpaRepository<Practica, Integer>, JpaSpecificationExecutor<Practica> {
+
+	@Transactional(readOnly = true)
+	@Query("SELECT p FROM Practica p WHERE p.id = ?1")
+	Practica findById(int id);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM Practica o WHERE o.empresa =(SELECT e FROM Empresa e WHERE e.denominacion = ?1)")

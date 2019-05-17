@@ -8,6 +8,8 @@ import com.iescristobaldemonroy.gestorFct.entity.Practica;
 public interface PracticaService {
 	public List getAllPracticas();
 
+	public Practica getPracticaById(int id);
+
 	public List<Practica> getPracticaByEmpresa(String denominacion);
 
 	public List<Practica> getPracticaByAlumno(String dni);

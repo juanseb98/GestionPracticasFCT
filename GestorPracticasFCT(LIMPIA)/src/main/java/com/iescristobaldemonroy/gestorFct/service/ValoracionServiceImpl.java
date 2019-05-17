@@ -38,12 +38,12 @@ public class ValoracionServiceImpl implements ValoracionService {
 
 	@Override
 	public List<Valoracion> getValoracionByAlumno(String dni) {
-		return repository.findByAlumno(dni);
+		return repository.findByPersona(dni);
 	}
 
 	@Override
-	public List<Valoracion> getValoracionByPractica(String denominacion) {
-		return repository.findByPractica(denominacion);
+	public List<Valoracion> getValoracionByPractica(int id) {
+		return repository.findByPractica(id);
 	}
 
 	@Override
@@ -63,6 +63,25 @@ public class ValoracionServiceImpl implements ValoracionService {
 			return true;
 		} catch (Exception ex) {
 			return false;
+		}
+	}
+
+	@Override
+	public List<Valoracion> getValoracionByEmpresa(String denominacion) {
+		return repository.findByEmpresa(denominacion);
+	}
+
+	@Override
+	public Valoracion getValoracionByPracticaAndPersona(int id, String dni) {
+		return repository.findByPracticaAlumno(id, dni);
+	}
+
+	@Override
+	public Boolean exist(String dni) {
+		if (repository.findByPersona(dni) == null) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 

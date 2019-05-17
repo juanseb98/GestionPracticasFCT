@@ -9,7 +9,13 @@ public interface ValoracionService {
 
 	public List<Valoracion> getValoracionByAlumno(String dni);
 
-	public List<Valoracion> getValoracionByPractica(String denominacion);
+	public List<Valoracion> getValoracionByPractica(int id);
+
+	public Valoracion getValoracionByPracticaAndPersona(int id, String dni);
+
+	public List<Valoracion> getValoracionByEmpresa(String denominacion);
+
+	public Boolean exist(String dni);
 
 	public boolean save(Valoracion valoracion);
 

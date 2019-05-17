@@ -55,7 +55,80 @@
 		<p>
 			<spring:message code="relleno" />
 		</p>
+		<form:form modelAttribute="alumnoForm" action="${formAction}"
+			method="post">
+			<form:hidden path="nombre" id="nombre" />
+			<form:hidden path="dni" id="dni" />
+			<form:hidden path="contrasenia" id="contrasenia" />
+			<table>
+				<tr>
+					<td><form:label path="practicaSelected" for="practicaSelected"
+							class="col-md-1 control-label">
+							<spring:message code="alumno.practica.titulo" />
+						</form:label></td>
+					<td><select id="practicaSelected" name="practicaSelected"
+						class="form-control">
+							<c:forEach items="${alumnoForm.practicas}" var="practica">
+								<option value="${practica.id}"
+									${practica.id == alumnoForm.practicaSelected ? 'selected' : ''}>
+									<c:out value="${practica.empresa.denominacion}" /></option>
+							</c:forEach>
+					</select></td>
+					<td><button type="submit" class="btn btn-primary btn-block"
+							title="<spring:message code="boton.filtrar"/>">
+							<spring:message code="boton.filtrar" />
+						</button></td>
+				</tr>
+			</table>
+		</form:form>
 
+		<c:if test="${not empty practicaSeleccionada}">
+			<form:form>
+				<table>
+					<tr>
+						<th><spring:message code="alumno.tabla.empresa" /></th>
+						<th><spring:message code="alumno.tabla.horasDia" /></th>
+						<th><spring:message code="alumno.tabla.TipoJornada" /></th>
+						<th><spring:message code="alumno.tabla.permanencia" /></th>
+						<th><spring:message code="alumno.tabla.TutorDocente" /></th>
+						<th><spring:message code="alumno.tabla.TutorLaboral" /></th>
+						<th><spring:message code="alumno.tabla.fecha" /></th>
+						<th><spring:message code="alumno.tabla.valoracion" /></th>
+					</tr>
+					<tr>
+						<td><c:out
+								value="${practicaSeleccionada.empresa.denominacion }" /></td>
+						<td><c:out value="${practicaSeleccionada.horasDia }" /></td>
+						<td><c:out value="${practicaSeleccionada.tipoJornada }" /></td>
+						<td>
+							<table>
+								<tr>
+									<td>
+										<c:if test="${empty practicaSeleccionada.permanencia }">
+											<spring:message code="nulo"/>
+										</c:if> 
+										<c:if test="${not empty practicaSeleccionada.permanencia }">
+											<c:out value="${practicaSeleccionada.permanencia }" />
+										</c:if>
+									</td>
+									<td><a>aniadir</a></td>
+								</tr>
+							</table>
+						</td>
+						<td><c:out
+								value="${practicaSeleccionada.tutorDocente.persona.nombre }" /></td>
+						<td><c:out
+								value="${practicaSeleccionada.tutorLaboral.persona.nombre }" /></td>
+						<td><c:out value="${practicaSeleccionada.fecha }" /></td>
+						<td><a href="/GestorPracticasFCT/alumno/valoracion"
+							target="popup"
+							onClick="window.open(this.href, this.target, 'width=300,height=400'); return false;"><spring:message
+									code="alumno.tabla.valoracion" /></a>
+					</tr>
+
+				</table>
+			</form:form>
+		</c:if>
 
 		<!-- Pie de pagina -->
 		<div id="main-footer">
