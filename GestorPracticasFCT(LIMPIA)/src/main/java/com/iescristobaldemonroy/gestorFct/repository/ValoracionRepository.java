@@ -19,6 +19,6 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, String>,
 	List<Valoracion> findByAlumno(String dni);
 
 	@Transactional(readOnly = true, noRollbackFor = Exception.class)
-	@Query(value = "SELECT o FROM Valoracion o WHERE o.practica = (SELECT a FROM Pactica a WHERE a.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1))")
+	@Query(value = "SELECT o FROM Valoracion o WHERE o.practica = (SELECT a FROM Practica a WHERE a.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1))")
 	List<Valoracion> findByPractica(String denominacion);
 }
