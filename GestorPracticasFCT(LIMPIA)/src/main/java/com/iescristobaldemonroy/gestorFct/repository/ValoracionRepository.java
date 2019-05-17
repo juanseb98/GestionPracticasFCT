@@ -15,10 +15,10 @@ import com.iescristobaldemonroy.gestorFct.entity.Valoracion;
 public interface ValoracionRepository extends JpaRepository<Valoracion, String>, JpaSpecificationExecutor<Valoracion> {
 
 	@Transactional(readOnly = true, noRollbackFor = Exception.class)
-	@Query(value = "SELECT o FROM Valoracion o WHERE o.alumno = (SELECT a FROM Alumno a WHERE a.dni = ?1)")
+	@Query(value = "SELECT o FROM Valoracion o WHERE o.persona = (SELECT a FROM Alumno a WHERE a.dni = ?1)")
 	List<Valoracion> findByAlumno(String dni);
-	
+
 	@Transactional(readOnly = true, noRollbackFor = Exception.class)
-	@Query(value = "SELECT o FROM Valoracion o WHERE o.practica = (SELECT a FROM Alumno a WHERE a.dni = ?1)")
-	List<Valoracion> findByPractica(String id);
+	@Query(value = "SELECT o FROM Valoracion o WHERE o.practica = (SELECT a FROM Pactica a WHERE a.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1))")
+	List<Valoracion> findByPractica(String denominacion);
 }

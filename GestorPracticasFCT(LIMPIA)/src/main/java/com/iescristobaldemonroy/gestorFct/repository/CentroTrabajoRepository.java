@@ -23,7 +23,7 @@ public interface CentroTrabajoRepository
 	List<CentroTrabajo> findByMunicipio(String municipio);
 
 	@Transactional(readOnly = true)
-	@Query("SELECT o FROM CentroTrabajo o WHERE LOWER(o.calle) = LOWER(?1) and u.numero = ?2")
+	@Query("SELECT o FROM CentroTrabajo o WHERE LOWER(o.calle) = LOWER(?1) and o.numero = ?2")
 	CentroTrabajo findByDireccion(String calle, String numero);
 
 	@Transactional(readOnly = true)
