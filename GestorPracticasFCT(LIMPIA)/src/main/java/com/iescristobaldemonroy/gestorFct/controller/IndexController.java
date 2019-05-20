@@ -105,7 +105,10 @@ public class IndexController {
 		}
 
 		if (StringUtils.isEmpty(newInteresado.getEmail())) {
-			result.rejectValue("email", "error.numerico");
+			result.rejectValue("email", "error.datoIncorrecto");
+		} else {
+			// TODO comprobar patron correcto de datos
+
 		}
 		if (StringUtils.isEmpty(newInteresado.getEmpresa())) {
 			result.rejectValue("empresa", "error.campoObligatorio");

@@ -11,6 +11,7 @@ public class AdministradorForm {
 	private String nombre;
 	private int numeroNotificaciones;
 	private boolean log;
+	private String notificacionSelected;
 
 	public AdministradorForm() {
 		this.log = false;
@@ -22,6 +23,14 @@ public class AdministradorForm {
 		this.nombre = admin.getPersona().getNombre();
 		this.log = true;
 
+	}
+
+	public String getNotificacionSelected() {
+		return notificacionSelected;
+	}
+
+	public void setNotificacionSelected(String notificacionSelected) {
+		this.notificacionSelected = notificacionSelected;
 	}
 
 	public boolean isLog() {

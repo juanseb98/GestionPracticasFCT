@@ -41,6 +41,7 @@ public class AdministracionController {
 
 	private Administrador admin;
 	private AdministradorForm adminForm;
+	private int idNotificacion;
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public String inicio(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
@@ -80,17 +81,32 @@ public class AdministracionController {
 		return "notificacion";
 	}
 
-	@RequestMapping(value = "/logOut", method = RequestMethod.GET)
-	public String logOut(@ModelAttribute("administradorForm") AdministradorForm administradorForm, BindingResult result,
+	@RequestMapping(value = "/leido", method = RequestMethod.POST)
+	public String marcarNotificaciones(@RequestParam(value = "id", required = true) String id, BindingResult result,
 			Model model) {
 		try {
-			adminForm = null;
-			model.addAttribute("newInteresado", new InteresadoForm());
+			if (adminForm == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				List<Notificacion> notificaciones = notificacionService
+						.getNotificacionByEstado(Constantes.BOOLEAN_TRUE);
+				try {
+					model.addAttribute("listaNotificaciones", notificaciones);
+				} catch (Exception e) {
+					int notificacionesCount = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
+					model.addAttribute("administradorForm", new AdministradorForm(admin, notificacionesCount));
+					return "administracion";
+				}
+			} else {
+				return "error";
+			}
 		} catch (NullPointerException e) {
 			// TODO
 			System.out.println("Error no controlado");
 		}
-		return "index";
+		return "notificacion";
 	}
 
 	public static String desencriptar(String textoEncriptado) {

@@ -103,14 +103,12 @@
 						<td>
 							<table>
 								<tr>
-									<td>
-										<c:if test="${empty practicaSeleccionada.permanencia }">
-											<spring:message code="nulo"/>
-										</c:if> 
-										<c:if test="${not empty practicaSeleccionada.permanencia }">
+									<td><c:if
+											test="${empty practicaSeleccionada.permanencia }">
+											<spring:message code="nulo" />
+										</c:if> <c:if test="${not empty practicaSeleccionada.permanencia }">
 											<c:out value="${practicaSeleccionada.permanencia }" />
-										</c:if>
-									</td>
+										</c:if></td>
 									<td><a>aniadir</a></td>
 								</tr>
 							</table>
@@ -122,7 +120,7 @@
 						<td><c:out value="${practicaSeleccionada.fecha }" /></td>
 						<td><a href="/GestorPracticasFCT/alumno/valoracion"
 							target="popup"
-							onClick="window.open(this.href, this.target, 'width=300,height=400'); return false;"><spring:message
+							onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;"><spring:message
 									code="alumno.tabla.valoracion" /></a>
 					</tr>
 

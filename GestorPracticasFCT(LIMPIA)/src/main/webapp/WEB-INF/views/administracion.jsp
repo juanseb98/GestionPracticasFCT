@@ -60,7 +60,7 @@
 
 							<li id="menu-item-582"
 								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-582"><a
-								href="/GestorPracticasFCT/administracion/logOut "> <i
+								href="/GestorPracticasFCT/ "> <i
 									class="_mi _before dashicons dashicons-calendar-alt"
 									aria-hidden="true"></i><span><spring:message
 											code="menu.logOut" /></span></a></li>

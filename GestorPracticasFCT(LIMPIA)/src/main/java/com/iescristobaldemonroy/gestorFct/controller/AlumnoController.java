@@ -50,9 +50,9 @@ public class AlumnoController {
 	@Autowired
 	private NotificacionService notificacionService;
 
-	Alumno alumno;
-	Practica practicaSeleccionada;
-	int idPractica;
+	private Alumno alumno;
+	private Practica practicaSeleccionada;
+	private int idPractica;
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public String inicio(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
