@@ -51,6 +51,20 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 
+span.red {
+	background: red;
+	border-radius: 0.8em;
+	-moz-border-radius: 0.8em;
+	-webkit-border-radius: 0.8em;
+	color: #ffffff;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 1.6em;
+	margin-right: 15px;
+	text-align: center;
+	width: 1.6em;
+}
+
 #map_canvas img, #map_canvas embed, #map_canvas object, .map_canvas img,
 	.map_canvas embed, .map_canvas object {
 	max-width: none !important;
@@ -203,61 +217,71 @@ select {
 
 /* Popup container - can be anything you want */
 .popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 /* The actual popup */
 .popup .popuptext {
-  visibility: hidden;
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -80px;
+	visibility: hidden;
+	width: 160px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 8px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -80px;
 }
 
 /* Popup arrow */
 .popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
 }
 
 /* Toggle this class - hide and show the popup */
 .popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
+	visibility: visible;
+	-webkit-animation: fadeIn 1s;
+	animation: fadeIn 1s;
 }
 
 /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
-  to {opacity: 1;}
+@
+-webkit-keyframes fadeIn {
+	from {opacity: 0;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+to {
+	opacity: 1;
 }
 
+}
+@
+keyframes fadeIn {
+	from {opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
 @media only screen {
 	.column.small-centered, .columns.small-centered {
 		position: relative;
@@ -1524,7 +1548,19 @@ select {
 
 
 
+
+
+
+
+
+
 .expanded
+
+
+
+
+
+
 
 
 
@@ -1550,7 +1586,13 @@ select {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -1569,7 +1611,13 @@ select {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -1597,7 +1645,16 @@ overflow-y
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -1615,7 +1672,16 @@ overflow-y
 
 
 
+
+
+
 auto
+
+
+
+
+
+
 
 
 
@@ -1650,7 +1716,16 @@ height
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -1668,7 +1743,16 @@ height
 
 
 
+
+
+
 auto
+
+
+
+
+
+
 
 
 
@@ -1703,6 +1787,12 @@ width
 
 
 
+
+
+
+
+
+
 :
 
 
@@ -1712,7 +1802,13 @@ width
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -1739,6 +1835,12 @@ max-height
 
 
 
+
+
+
+
+
+
 :
 
 
@@ -1748,7 +1850,13 @@ max-height
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2129,6 +2237,9 @@ max-height
 	
 	
 	
+	
+	
+	
 	 
 	
 	
@@ -2138,7 +2249,16 @@ max-height
 	
 	
 	
+	
+	
+	
 	li
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -2174,6 +2294,12 @@ max-height
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:not
 	
 	
@@ -2183,7 +2309,13 @@ max-height
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -2202,7 +2334,13 @@ max-height
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -2230,7 +2368,16 @@ max-height
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	
 	
 	
@@ -2248,7 +2395,16 @@ max-height
 	
 	
 	
+	
+	
+	
 	#272727
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -2283,7 +2439,16 @@ max-height
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	
 	
 	
@@ -2301,7 +2466,16 @@ max-height
 	
 	
 	
+	
+	
+	
 	white
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -2330,7 +2504,13 @@ max-height
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2356,6 +2536,12 @@ li
 
 
 
+
+
+
+
+
+
 :not
 
 
@@ -2365,7 +2551,13 @@ li
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2384,7 +2576,13 @@ li
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2411,6 +2609,12 @@ a
 
 
 
+
+
+
+
+
+
 :not
 
 
@@ -2420,7 +2624,13 @@ a
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2439,7 +2649,13 @@ a
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -2467,7 +2683,16 @@ padding
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -2485,9 +2710,18 @@ padding
 
 
 
+
+
+
 0
 15
 px
+
+
+
+
+
+
 
 
 
@@ -2522,7 +2756,16 @@ line-height
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -2540,8 +2783,17 @@ line-height
 
 
 
+
+
+
 45
 px
+
+
+
+
+
+
 
 
 
@@ -2576,7 +2828,16 @@ background
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -2594,7 +2855,16 @@ background
 
 
 
+
+
+
 #333333
+
+
+
+
+
+
 
 
 
@@ -7425,6 +7695,12 @@ audio
 
 
 
+
+
+
+
+
+
 :not
 
 
@@ -7434,7 +7710,13 @@ audio
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -7455,7 +7737,13 @@ controls
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -7483,7 +7771,16 @@ display
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -7501,7 +7798,16 @@ display
 
 
 
+
+
+
 none
+
+
+
+
+
+
 
 
 

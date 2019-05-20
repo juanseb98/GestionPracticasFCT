@@ -13,6 +13,10 @@ public interface NotificacionService {
 
 	public List getNotificacionByEstado(String nueva);
 
+	public int getTotalNotificaciones(String bool);
+
+	public int getTotalNotificaciones();
+
 	public boolean save(Notificacion notificacion);
 
 }

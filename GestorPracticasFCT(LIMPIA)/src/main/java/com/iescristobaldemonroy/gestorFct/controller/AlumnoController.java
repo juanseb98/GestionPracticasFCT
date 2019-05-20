@@ -8,6 +8,7 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.helpers.NotIdentifiableEventImpl;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
+import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Practica;
 import com.iescristobaldemonroy.gestorFct.entity.Valoracion;
 import com.iescristobaldemonroy.gestorFct.form.AlumnoForm;
 import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
+import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
 import com.iescristobaldemonroy.gestorFct.service.PracticaService;
 import com.iescristobaldemonroy.gestorFct.service.ValoracionService;
@@ -43,12 +47,15 @@ public class AlumnoController {
 	@Autowired
 	private PersonaService personaService;
 
+	@Autowired
+	private NotificacionService notificacionService;
+
 	Alumno alumno;
 	Practica practicaSeleccionada;
 	int idPractica;
 
 	@RequestMapping(method = { RequestMethod.GET })
-	public String displaySortedMembers(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
+	public String inicio(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
 		String dniLimpio = desencriptar(dni);
 		alumno = alumnoService.getAlumnoByDni(dniLimpio);
 		alumno.setPracticas(practicaService.getPracticaByAlumno(dniLimpio));
@@ -117,6 +124,13 @@ public class AlumnoController {
 			if (!result.hasErrors()) {
 				try {
 					valoracionesService.save(valoracion);
+
+					Notificacion notificacion = new Notificacion(Constantes.MENSAJE_NUEVA_VALORACION,
+							Constantes.BOOLEAN_TRUE, Constantes.NOTIFICACION_NUEVA_VALORACION, null, valoracionesService
+									.getValoracionByPracticaAndPersona(practicaSeleccionada.getId(), alumno.getDni()));
+
+					notificacionService.save(notificacion);
+
 				} catch (Exception e) {
 					return "valoracion";
 				}

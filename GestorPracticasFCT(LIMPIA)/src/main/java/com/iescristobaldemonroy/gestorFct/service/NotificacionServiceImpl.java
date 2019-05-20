@@ -65,4 +65,20 @@ public class NotificacionServiceImpl implements NotificacionService {
 		return list;
 	}
 
+	@Override
+	public int getTotalNotificaciones() {
+		int contador;
+		List<Notificacion> notificaciones = repository.findAll();
+		contador = notificaciones.size();
+		return contador;
+	}
+
+	@Override
+	public int getTotalNotificaciones(String bool) {
+		int contador;
+		List<Notificacion> notificaciones = repository.findByEstado(bool);
+		contador = notificaciones.size();
+		return contador;
+	}
+
 }

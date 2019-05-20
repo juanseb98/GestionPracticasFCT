@@ -38,8 +38,7 @@ public class LogInController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String registerNewMember(@ModelAttribute("newMember") LogInForm intentoLogueo, BindingResult result,
-			Model model) {
+	public String inicio(@ModelAttribute("newMember") LogInForm intentoLogueo, BindingResult result, Model model) {
 
 		if (StringUtils.isEmpty(intentoLogueo.getDni())) {
 			result.rejectValue("dni", "error.campoObligatorio");
@@ -54,22 +53,28 @@ public class LogInController {
 		if (!result.hasErrors()) {
 			try {
 				Persona per = personaService.getPersonaByDni(intentoLogueo.getDni());
-
+				// Comprobamos si es administrador
 				if (per.getAdministrador() != null) {
 					Administrador administrador = per.getAdministrador();
 					if (administrador.getContrasenia().equals(intentoLogueo.getPassword())) {
-						return "administracion";
+						String DniEncriptado = encriptar(administrador.getDni());
+						return "redirect: administracion?pikjuihj=" + DniEncriptado;
 					} else {
+						// Comprobamos contraseña
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
+					// Comprobamos si es alumno
 				} else if (per.getAlumno() != null) {
 					Alumno alumno = per.getAlumno();
+					// Comprobamos contraseña
 					if (alumno.getContrasenia().equals(intentoLogueo.getPassword())) {
 						String DniEncriptado = encriptar(alumno.getDni());
 						return "redirect: alumno?pikjuihj=" + DniEncriptado;
 					} else {
+						// Comprobamos contraseña
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
+					// Comprobamos si es tutor docente
 				} else if (per.getTutorDocente() != null) {
 					TutorDocente tutorDocente = per.getTutorDocente();
 					if (tutorDocente.getContrasenia().equals(intentoLogueo.getPassword())) {

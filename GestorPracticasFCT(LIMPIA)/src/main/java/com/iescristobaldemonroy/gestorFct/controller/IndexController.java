@@ -1,7 +1,9 @@
 
 package com.iescristobaldemonroy.gestorFct.controller;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import com.iescristobaldemonroy.gestorFct.service.InteresadoService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionServiceImpl;
 import com.iescristobaldemonroy.gestorFct.service.PersonaContactoService;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Controller
 @RequestMapping(value = "/")
@@ -55,9 +58,9 @@ public class IndexController {
 
 					interesadoService.save(interesado);
 
-					Notificacion notificacion = new Notificacion("Nueva empresa interesada en realizar contrato", "s",
-							"NuevoInteresado", interesadoService.getInteresadoByTelefono(interesado.getTelefono()),
-							null);
+					Notificacion notificacion = new Notificacion(Constantes.MENSAJE_NUEVO_INTERESADO,
+							Constantes.BOOLEAN_TRUE, Constantes.NOTIFICACION_NUEVO_INTERESADO,
+							interesadoService.getInteresadoByTelefono(interesado.getTelefono()), null);
 
 					notificacionService.save(notificacion);
 
@@ -70,6 +73,15 @@ public class IndexController {
 				return "redirect:/";
 			} catch (UnexpectedRollbackException e) {
 				model.addAttribute("error", e.getCause().getCause());
+				return "index";
+			} catch (ConstraintViolationException ex) {
+				model.addAttribute("error", ex.getCause().getCause());
+				return "index";
+			} catch (DataIntegrityViolationException exxx) {
+				result.rejectValue("telefono", "error.campoDuplicado");
+				return "index";
+			} catch (Exception exx) {
+				model.addAttribute("error", exx.getCause().getCause());
 				return "index";
 			}
 		} else {
