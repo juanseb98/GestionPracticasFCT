@@ -1,5 +1,7 @@
 package com.iescristobaldemonroy.gestorFct.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +16,5 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long>, JpaSpecif
 	@Transactional(readOnly = true, noRollbackFor = Exception.class)
 	@Query(value = "SELECT o FROM Alumno o WHERE o.dni = ?1")
 	Alumno findByDni(String dni);
+
 }

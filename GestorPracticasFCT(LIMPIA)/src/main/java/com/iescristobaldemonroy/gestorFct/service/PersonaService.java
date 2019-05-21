@@ -12,6 +12,8 @@ public interface PersonaService {
 
 	public Persona getPersonaByNombre(String nombre);
 
+	public Persona getPersonaBydniAndNombre(String dni, String nombre);
+
 	public boolean save(Persona persona);
 
 	public boolean exist(String dni);

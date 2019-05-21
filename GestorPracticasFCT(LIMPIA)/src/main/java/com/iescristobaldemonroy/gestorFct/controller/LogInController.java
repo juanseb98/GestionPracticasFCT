@@ -7,6 +7,7 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,8 @@ public class LogInController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String inicio(@ModelAttribute("newMember") LogInForm intentoLogueo, BindingResult result, Model model) {
+	public String inicio(@ModelAttribute("newMember") LogInForm intentoLogueo, BindingResult result, Model model,
+			HttpSession session) {
 
 		if (StringUtils.isEmpty(intentoLogueo.getDni())) {
 			result.rejectValue("dni", "error.campoObligatorio");
@@ -49,7 +51,6 @@ public class LogInController {
 			result.rejectValue("password", "error.campoObligatorio");
 			System.out.println("Error password");
 		}
-
 		if (!result.hasErrors()) {
 			try {
 				Persona per = personaService.getPersonaByDni(intentoLogueo.getDni());
@@ -57,8 +58,9 @@ public class LogInController {
 				if (per.getAdministrador() != null) {
 					Administrador administrador = per.getAdministrador();
 					if (administrador.getContrasenia().equals(intentoLogueo.getPassword())) {
+						session.setAttribute("personaLog", administrador);
 						String DniEncriptado = encriptar(administrador.getDni());
-						return "redirect: administracion?pikjuihj=" + DniEncriptado;
+						return "redirect: administracion";
 					} else {
 						// Comprobamos contraseña
 						result.rejectValue("password", "error.datoIncorrecto");

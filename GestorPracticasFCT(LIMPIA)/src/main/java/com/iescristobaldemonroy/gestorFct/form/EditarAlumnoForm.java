@@ -2,41 +2,32 @@ package com.iescristobaldemonroy.gestorFct.form;
 
 public class EditarAlumnoForm {
 
-	private String email;
-	private String nombre;
-	private String telefono;
-	private String empresa;
+	private String filtroDni;
+	private String filtroNombre;
+	private String operacion;
 
-	public String getEmail() {
-		return email;
+	public String getOperacion() {
+		return operacion;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setOperacion(String operacion) {
+		this.operacion = operacion;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getFiltroDni() {
+		return filtroDni;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setFiltroDni(String filtroDni) {
+		this.filtroDni = filtroDni;
 	}
 
-	public String getTelefono() {
-		return telefono;
+	public String getFiltroNombre() {
+		return filtroNombre;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public String getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
+	public void setFiltroNombre(String filtroNombre) {
+		this.filtroNombre = filtroNombre;
 	}
 
 }

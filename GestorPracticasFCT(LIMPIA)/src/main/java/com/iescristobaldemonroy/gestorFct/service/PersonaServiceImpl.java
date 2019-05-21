@@ -77,4 +77,9 @@ public class PersonaServiceImpl implements PersonaService {
 		}
 	}
 
+	@Override
+	public Persona getPersonaBydniAndNombre(String dni, String nombre) {
+		return repository.findByDniAndNombre(dni, nombre);
+	}
+
 }

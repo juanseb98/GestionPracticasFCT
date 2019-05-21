@@ -7,11 +7,13 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,24 +44,24 @@ public class AdministracionController {
 	@Autowired
 	private AlumnoService alumnoService;
 
-	private Administrador admin;
 	private AdministradorForm adminForm;
-	private int idNotificacion;
 
 	@RequestMapping(method = { RequestMethod.GET })
-	public String inicio(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
-		String dniLimpio = desencriptar(dni);
-		admin = administradorService.getAdministradorByDni(dniLimpio);
-		int notificaciones = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
-		adminForm = new AdministradorForm(admin, notificaciones, dni);
-		model.addAttribute("administradorForm", adminForm);
-		model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
-		return "administracion";
+	public String inicio(Model model, HttpSession session) {
+		Administrador admin = (Administrador) session.getAttribute("personaLog");
+		if (admin != null) {
+			int notificaciones = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
+			adminForm = new AdministradorForm(admin, notificaciones);
+			model.addAttribute("administradorForm", adminForm);
+			return "administracion";
+		} else {
+			return "error";
+		}
 	}
 
 	@RequestMapping(value = "/notificacion", method = RequestMethod.GET)
 	public String verNotificaciones(@ModelAttribute("administradorForm") AdministradorForm administradorForm,
-			BindingResult result, Model model) {
+			BindingResult result, Model model, HttpSession session) {
 		try {
 			if (adminForm == null) {
 				result.addError(null);
@@ -72,8 +74,8 @@ public class AdministracionController {
 					model.addAttribute("listaNotificaciones", notificaciones);
 				} catch (Exception e) {
 					int notificacionesCount = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
-					model.addAttribute("administradorForm",
-							new AdministradorForm(admin, notificacionesCount, encriptar(admin.getDni())));
+					model.addAttribute("administradorForm", new AdministradorForm(
+							(Administrador) session.getAttribute("personaLog"), notificacionesCount));
 					return "administracion";
 				}
 			} else {
@@ -84,6 +86,50 @@ public class AdministracionController {
 			System.out.println("Error no controlado");
 		}
 		return "notificacion";
+	}
+
+	@RequestMapping(value = "/leido", method = RequestMethod.GET)
+	public String marcarNotificaciones(@RequestParam("id") String id, Model model) {
+
+		try {
+			Notificacion not = notificacionService.getNotificacionById(Integer.parseInt(id));
+			not.setNueva(Constantes.BOOLEAN_FALSE);
+			notificacionService.save(not);
+			List<Notificacion> notificaciones = notificacionService.getNotificacionByEstado(Constantes.BOOLEAN_TRUE);
+			model.addAttribute("listaNotificaciones", notificaciones);
+			model.addAttribute("administradorForm", adminForm);
+		} catch (Exception e) {
+			return "error";
+		}
+
+		return "notificacion";
+	}
+
+	@RequestMapping(value = "/editarAlumnos", method = { RequestMethod.GET, RequestMethod.POST })
+	public String editarAlumnos(@ModelAttribute EditarAlumnoForm editarAlumnoForm, AdministradorForm administradorForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				List<Alumno> listaAlumnos;
+
+				// model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
+
+				listaAlumnos = alumnoService.search(editarAlumnoForm.getFiltroDni(),
+						editarAlumnoForm.getFiltroNombre());
+
+				model.addAttribute("listaAlumnos", listaAlumnos);
+				model.addAttribute("administradorForm", adminForm);
+			} else {
+				return "error";
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarAlumnos";
 	}
 
 	private String encriptar(String dni) {
@@ -108,45 +154,6 @@ public class AdministracionController {
 		} catch (Exception ex) {
 		}
 		return base64EncryptedString;
-	}
-
-	@RequestMapping(value = "/leido", method = RequestMethod.GET)
-	public String marcarNotificaciones(@RequestParam("id") String id, Model model) {
-
-		try {
-			Notificacion not = notificacionService.getNotificacionById(Integer.parseInt(id));
-			not.setNueva(Constantes.BOOLEAN_FALSE);
-			notificacionService.save(not);
-			List<Notificacion> notificaciones = notificacionService.getNotificacionByEstado(Constantes.BOOLEAN_TRUE);
-			model.addAttribute("listaNotificaciones", notificaciones);
-			model.addAttribute("administradorForm", adminForm);
-		} catch (Exception e) {
-			return "error";
-		}
-
-		return "notificacion";
-	}
-
-	@RequestMapping(value = "/{id}/editarAlumnos", method = { RequestMethod.GET, RequestMethod.POST })
-	public String editarAlumnos(@PathVariable("id") String id, @ModelAttribute EditarAlumnoForm editarAlumnoForm,
-			AdministradorForm administradorForm, BindingResult result, Model model) {
-		try {
-			if (!desencriptar(id).equals(admin.getDni())) {
-				result.addError(null);
-			}
-
-			if (!result.hasErrors()) {
-				model.addAttribute("newInteresado", new EditarAlumnoForm());
-				List<Alumno> listaAlumnos = alumnoService.getAllAlumno();
-				model.addAttribute("listaAlumnos", listaAlumnos);
-				model.addAttribute("administradorForm", adminForm);
-			} else {
-				return "error";
-			}
-		} catch (NullPointerException e) {
-			System.out.println("Error no controlado");
-		}
-		return "editarAlumnos";
 	}
 
 	public static String desencriptar(String textoEncriptado) {

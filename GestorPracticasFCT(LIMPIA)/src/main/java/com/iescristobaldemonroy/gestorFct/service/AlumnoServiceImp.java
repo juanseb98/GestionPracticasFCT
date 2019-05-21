@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
@@ -22,16 +23,16 @@ public class AlumnoServiceImp implements AlumnoService {
 	// Implementing Constructor based DI
 	private AlumnoRepository repository;
 	private PersonaRepository rep;
-	private PersonaService personaService;
 
 	public AlumnoServiceImp() {
 
 	}
 
 	@Autowired
-	public AlumnoServiceImp(AlumnoRepository repository) {
+	public AlumnoServiceImp(AlumnoRepository repository, PersonaRepository rep) {
 		super();
 		this.repository = repository;
+		this.rep = rep;
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class AlumnoServiceImp implements AlumnoService {
 	@Override
 	public boolean delete(Alumno alumno) {
 		try {
-			rep.delete(personaService.getPersonaByDni(alumno.getDni()));
+			rep.delete(rep.findByDni(alumno.getDni()));
 			repository.delete(alumno);
 			return true;
 		} catch (Exception ex) {
@@ -75,6 +76,41 @@ public class AlumnoServiceImp implements AlumnoService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public Alumno getAlumnoByNombre(String nombre) {
+		Persona per = rep.findByNombre(nombre);
+		return repository.findByDni(per.getDni());
+	}
+
+	@Override
+	public List<Alumno> search(String dni, String nombre) {
+		List<Alumno> lista = new ArrayList<Alumno>();
+
+		if (!StringUtils.isEmpty(dni)) {
+			if (!StringUtils.isEmpty(nombre)) {
+				try {
+					lista.add(rep.findByDniAndNombre(dni, nombre).getAlumno());
+				} catch (NullPointerException e) {
+
+				}
+			} else {
+				lista.add(repository.findByDni(dni));
+			}
+
+		} else if (!StringUtils.isEmpty(nombre)) {
+			try {
+				Persona per = rep.findByNombre(nombre);
+				lista.add(rep.findByNombre(nombre).getAlumno());
+			} catch (NullPointerException e) {
+
+			}
+		} else {
+			lista = getAllAlumno();
+		}
+
+		return lista;
 	}
 
 }

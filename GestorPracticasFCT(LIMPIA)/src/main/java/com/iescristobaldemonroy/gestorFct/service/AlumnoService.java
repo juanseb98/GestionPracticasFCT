@@ -9,6 +9,10 @@ public interface AlumnoService {
 
 	public Alumno getAlumnoByDni(String dni);
 
+	public Alumno getAlumnoByNombre(String nombre);
+
+	public List<Alumno> search(String dni, String nombre);
+
 	public boolean save(Alumno alumno);
 
 	public boolean exist(String dni);

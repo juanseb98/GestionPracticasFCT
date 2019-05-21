@@ -18,4 +18,8 @@ public interface PersonaRepository extends JpaRepository<Persona, Long>, JpaSpec
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM Persona o WHERE o.nombre = ?1")
 	Persona findByNombre(String nombre);
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o FROM Persona o WHERE o.dni = ?1 AND o.nombre = ?2")
+	Persona findByDniAndNombre(String dni, String nombre);
 }

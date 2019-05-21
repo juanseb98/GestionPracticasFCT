@@ -35,6 +35,14 @@ public class AdministradorForm {
 
 	}
 
+	public AdministradorForm(Administrador admin, int notificaciones) {
+		this.dni = admin.getDni();
+		this.contrasenia = admin.getContrasenia();
+		this.nombre = admin.getPersona().getNombre();
+		this.numeroNotificaciones = notificaciones;
+
+	}
+
 	public AdministradorForm(Administrador admin, int notificaciones, String dniencriptado) {
 		this.dni = admin.getDni();
 		this.dniEncriptado = dniencriptado;

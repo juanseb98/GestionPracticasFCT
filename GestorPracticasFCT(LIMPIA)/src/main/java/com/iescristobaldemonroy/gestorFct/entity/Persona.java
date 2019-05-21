@@ -2,6 +2,10 @@ package com.iescristobaldemonroy.gestorFct.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
