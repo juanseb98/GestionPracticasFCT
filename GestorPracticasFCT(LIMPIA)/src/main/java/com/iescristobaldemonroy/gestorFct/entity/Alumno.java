@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the ALUMNO database table.
  * 
  */
 @Entity
-@Table(name="ALUMNO")
-@NamedQuery(name="Alumno.findAll", query="SELECT a FROM Alumno a")
+@Table(name = "ALUMNO")
+@NamedQuery(name = "Alumno.findAll", query = "SELECT a FROM Alumno a")
 public class Alumno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -20,16 +19,26 @@ public class Alumno implements Serializable {
 
 	private String contrasenia;
 
-	//bi-directional one-to-one association to Persona
-	@OneToOne(cascade={CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
-	@JoinColumn(name="dni")
+	private String telefono;
+
+	// bi-directional one-to-one association to Persona
+	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
+	@JoinColumn(name = "dni")
 	private Persona persona;
 
-	//bi-directional many-to-one association to Practica
-	@OneToMany(mappedBy="alumno")
+	// bi-directional many-to-one association to Practica
+	@OneToMany(mappedBy = "alumno")
 	private List<Practica> practicas;
 
 	public Alumno() {
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public String getDni() {

@@ -7,6 +7,7 @@ import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 public class AdministradorForm {
 
 	private String dni;
+	private String dniEncriptado;
 	private String contrasenia;
 	private String nombre;
 	private int numeroNotificaciones;
@@ -25,6 +26,33 @@ public class AdministradorForm {
 
 	}
 
+	public AdministradorForm(Administrador admin, String dniencriptado) {
+		this.dni = admin.getDni();
+		this.dniEncriptado = dniencriptado;
+		this.contrasenia = admin.getContrasenia();
+		this.nombre = admin.getPersona().getNombre();
+		this.log = true;
+
+	}
+
+	public AdministradorForm(Administrador admin, int notificaciones, String dniencriptado) {
+		this.dni = admin.getDni();
+		this.dniEncriptado = dniencriptado;
+		this.contrasenia = admin.getContrasenia();
+		this.nombre = admin.getPersona().getNombre();
+		this.numeroNotificaciones = notificaciones;
+		this.log = true;
+
+	}
+
+	public String getDniEncriptado() {
+		return dniEncriptado;
+	}
+
+	public void setDniEncriptado(String dniEncriptado) {
+		this.dniEncriptado = dniEncriptado;
+	}
+
 	public String getNotificacionSelected() {
 		return notificacionSelected;
 	}
@@ -39,15 +67,6 @@ public class AdministradorForm {
 
 	public void setLog(boolean log) {
 		this.log = log;
-	}
-
-	public AdministradorForm(Administrador admin, int notificaciones) {
-		this.dni = admin.getDni();
-		this.contrasenia = admin.getContrasenia();
-		this.nombre = admin.getPersona().getNombre();
-		this.numeroNotificaciones = notificaciones;
-		this.log = true;
-
 	}
 
 	public int getNumeroNotificaciones() {

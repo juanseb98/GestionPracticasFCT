@@ -14,19 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
-import com.iescristobaldemonroy.gestorFct.entity.Interesado;
+import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
-import com.iescristobaldemonroy.gestorFct.entity.Practica;
-import com.iescristobaldemonroy.gestorFct.entity.Valoracion;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
-import com.iescristobaldemonroy.gestorFct.form.InteresadoForm;
+import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
 import com.iescristobaldemonroy.gestorFct.service.AdministradorService;
+import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 
 @Controller
@@ -39,6 +39,9 @@ public class AdministracionController {
 	@Autowired
 	private NotificacionService notificacionService;
 
+	@Autowired
+	private AlumnoService alumnoService;
+
 	private Administrador admin;
 	private AdministradorForm adminForm;
 	private int idNotificacion;
@@ -48,8 +51,9 @@ public class AdministracionController {
 		String dniLimpio = desencriptar(dni);
 		admin = administradorService.getAdministradorByDni(dniLimpio);
 		int notificaciones = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
-		adminForm = new AdministradorForm(admin, notificaciones);
+		adminForm = new AdministradorForm(admin, notificaciones, dni);
 		model.addAttribute("administradorForm", adminForm);
+		model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
 		return "administracion";
 	}
 
@@ -68,7 +72,8 @@ public class AdministracionController {
 					model.addAttribute("listaNotificaciones", notificaciones);
 				} catch (Exception e) {
 					int notificacionesCount = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
-					model.addAttribute("administradorForm", new AdministradorForm(admin, notificacionesCount));
+					model.addAttribute("administradorForm",
+							new AdministradorForm(admin, notificacionesCount, encriptar(admin.getDni())));
 					return "administracion";
 				}
 			} else {
@@ -79,6 +84,30 @@ public class AdministracionController {
 			System.out.println("Error no controlado");
 		}
 		return "notificacion";
+	}
+
+	private String encriptar(String dni) {
+		String secretKey = "qualityinfosolutions"; // llave para encriptar datos
+		String base64EncryptedString = "";
+
+		try {
+
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
+			byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
+
+			SecretKey key = new SecretKeySpec(keyBytes, "DESede");
+			Cipher cipher = Cipher.getInstance("DESede");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+
+			byte[] plainTextBytes = dni.getBytes("utf-8");
+			byte[] buf = cipher.doFinal(plainTextBytes);
+			byte[] base64Bytes = Base64.encodeBase64(buf);
+			base64EncryptedString = new String(base64Bytes);
+
+		} catch (Exception ex) {
+		}
+		return base64EncryptedString;
 	}
 
 	@RequestMapping(value = "/leido", method = RequestMethod.GET)
@@ -98,32 +127,26 @@ public class AdministracionController {
 		return "notificacion";
 	}
 
-	@RequestMapping(value = "/editarAlumnos", method = RequestMethod.GET)
-	public String editarAlumnos(@ModelAttribute("administradorForm") AdministradorForm administradorForm,
-			BindingResult result, Model model) {
+	@RequestMapping(value = "/{id}/editarAlumnos", method = { RequestMethod.GET, RequestMethod.POST })
+	public String editarAlumnos(@PathVariable("id") String id, @ModelAttribute EditarAlumnoForm editarAlumnoForm,
+			AdministradorForm administradorForm, BindingResult result, Model model) {
 		try {
-			if (adminForm == null) {
+			if (!desencriptar(id).equals(admin.getDni())) {
 				result.addError(null);
 			}
 
 			if (!result.hasErrors()) {
-				List<Notificacion> notificaciones = notificacionService
-						.getNotificacionByEstado(Constantes.BOOLEAN_TRUE);
-				try {
-					model.addAttribute("listaNotificaciones", notificaciones);
-				} catch (Exception e) {
-					int notificacionesCount = notificacionService.getTotalNotificaciones(Constantes.BOOLEAN_TRUE);
-					model.addAttribute("administradorForm", new AdministradorForm(admin, notificacionesCount));
-					return "administracion";
-				}
+				model.addAttribute("newInteresado", new EditarAlumnoForm());
+				List<Alumno> listaAlumnos = alumnoService.getAllAlumno();
+				model.addAttribute("listaAlumnos", listaAlumnos);
+				model.addAttribute("administradorForm", adminForm);
 			} else {
 				return "error";
 			}
 		} catch (NullPointerException e) {
-			// TODO
 			System.out.println("Error no controlado");
 		}
-		return "notificacion";
+		return "editarAlumnos";
 	}
 
 	public static String desencriptar(String textoEncriptado) {

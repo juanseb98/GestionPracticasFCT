@@ -12,6 +12,7 @@
 	href="<c:url value="/resources/css/screen.css"/>" />
 </head>
 <body>
+
 	<div id="container">
 
 		<div id="top-bar" class="top-bar home-border">
@@ -32,10 +33,11 @@
 						<ul id="menu-menu-principal" class="maxflat-menu maxflat-top-menu">
 							<li id="menu-item-582"
 								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-582"><a
-								href="<spring:message code="link.alumnoEdit"/> "> <i
-									class="_mi _before dashicons dashicons-calendar-alt"
+								href="/GestorPracticasFCT/administracion/${administradorForm.dniEncriptado }/editarAlumnos">
+									<i class="_mi _before dashicons dashicons-calendar-alt"
 									aria-hidden="true"></i><span><spring:message
-											code="menu.editarAlumnos" /></span></a></li>
+											code="menu.editarAlumnos" /></span>
+							</a></li>
 
 							<li id="menu-item-582"
 								class="menu-item menu-item-type-post_type menu-item-object-page menu-item-582"><a
