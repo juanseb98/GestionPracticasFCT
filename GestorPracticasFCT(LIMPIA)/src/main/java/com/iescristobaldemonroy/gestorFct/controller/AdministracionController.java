@@ -53,7 +53,7 @@ public class AdministracionController {
 		return "administracion";
 	}
 
-	@RequestMapping(value = "/notificaciones", method = RequestMethod.GET)
+	@RequestMapping(value = "/notificacion", method = RequestMethod.GET)
 	public String verNotificaciones(@ModelAttribute("administradorForm") AdministradorForm administradorForm,
 			BindingResult result, Model model) {
 		try {
@@ -81,9 +81,26 @@ public class AdministracionController {
 		return "notificacion";
 	}
 
-	@RequestMapping(value = "/leido", method = RequestMethod.POST)
-	public String marcarNotificaciones(@RequestParam(value = "id", required = true) String id, BindingResult result,
-			Model model) {
+	@RequestMapping(value = "/leido", method = RequestMethod.GET)
+	public String marcarNotificaciones(@RequestParam("id") String id, Model model) {
+
+		try {
+			Notificacion not = notificacionService.getNotificacionById(Integer.parseInt(id));
+			not.setNueva(Constantes.BOOLEAN_FALSE);
+			notificacionService.save(not);
+			List<Notificacion> notificaciones = notificacionService.getNotificacionByEstado(Constantes.BOOLEAN_TRUE);
+			model.addAttribute("listaNotificaciones", notificaciones);
+			model.addAttribute("administradorForm", adminForm);
+		} catch (Exception e) {
+			return "error";
+		}
+
+		return "notificacion";
+	}
+
+	@RequestMapping(value = "/editarAlumnos", method = RequestMethod.GET)
+	public String editarAlumnos(@ModelAttribute("administradorForm") AdministradorForm administradorForm,
+			BindingResult result, Model model) {
 		try {
 			if (adminForm == null) {
 				result.addError(null);

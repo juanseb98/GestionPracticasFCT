@@ -22,4 +22,8 @@ public interface NotificacionRepository
 	@Query(value = "SELECT o FROM Notificacion o WHERE o.nueva = ?1")
 	List<Notificacion> findByEstado(String nuevo);
 
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o FROM Notificacion o WHERE o.id = ?1")
+	Notificacion findById(int id);
+
 }

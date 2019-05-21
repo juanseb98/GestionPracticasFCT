@@ -81,4 +81,9 @@ public class NotificacionServiceImpl implements NotificacionService {
 		return contador;
 	}
 
+	@Override
+	public Notificacion getNotificacionById(int id) {
+		return repository.findById(id);
+	}
+
 }

@@ -13,9 +13,9 @@
 <body>
 	<c:if test="${not empty listaNotificaciones}">
 		<form:form modelAttribute="administradorForm">
-		<form:hidden path="dni" />
-		<form:hidden path="nombre" />
-		<form:hidden path="numeroNotificaciones" />
+			<form:hidden path="dni" />
+			<form:hidden path="nombre" />
+			<form:hidden path="numeroNotificaciones" />
 			<table>
 				<tr>
 					<th><spring:message code="administracion.tabla.tipo" /></th>
@@ -34,26 +34,49 @@
 						<c:if test="${not empty notificacion.valoracion}">
 							<td><c:out value="${notificacion.valoracion.id }" />
 						</c:if>
-						<td><a href="/leido?id=${notificacion.id }"><spring:message
+						<jsp:useBean id="notificacion"
+							class="com.iescristobaldemonroy.gestorFct.entity.Notificacion" />
+						<td><a
+							href="/GestorPracticasFCT/administracion/leido?id=${notificacion.id }"><spring:message
 									code="administracion.tabla.marcarLeido" /></a>
 					</tr>
 				</c:forEach>
+
 			</table>
 			<div class="col-md-2 col-md-offset-2 top-buffer">
 				<button type="submit" formmethod="post"
 					class="btn btn-primary btn-block"
-					title="<spring:message code="boton.guardar"/>"
-					onclick="alert('Notificaciones marcadas como leidas');refreshAndClose() ">
-					<spring:message code="boton.guardar" />
+					title="<spring:message code="boton.salir"/>"
+					onclick="refreshAndClose() ">
+					<spring:message code="boton.salir" />
 				</button>
 			</div>
 		</form:form>
 
 	</c:if>
+	<c:if test="${empty listaNotificaciones}">
+		<form:form modelAttribute="administradorForm">
+			<form:hidden path="dni" />
+			<form:hidden path="nombre" />
+			<form:hidden path="numeroNotificaciones" />
+			<h1>
+				<spring:message code="notificacion.sinNotificacion" />
+			</h1>
+			<div class="col-md-2 col-md-offset-2 top-buffer">
+				<button type="submit" formmethod="post"
+					class="btn btn-primary btn-block"
+					title="<spring:message code="boton.salir"/>"
+					onclick="refreshAndClose();">
+					<spring:message code="boton.salir" />
+				</button>
+			</div>
+		</form:form>
+	</c:if>
 </body>
 </html>
 <script type="text/javascript">
 	function refreshAndClose() {
-		window.close();
+		window.opener.location.reload();
+		this.close();
 	}
 </script>

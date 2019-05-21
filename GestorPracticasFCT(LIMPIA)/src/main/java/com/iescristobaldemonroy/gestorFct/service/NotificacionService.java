@@ -9,6 +9,8 @@ import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 public interface NotificacionService {
 	public List getAllNotificacion();
 
+	public Notificacion getNotificacionById(int id);
+	
 	public Notificacion getNotificacionByTipo(String tipo);
 
 	public List getNotificacionByEstado(String nueva);
