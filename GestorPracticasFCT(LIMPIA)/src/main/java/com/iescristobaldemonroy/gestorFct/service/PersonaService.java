@@ -10,7 +10,7 @@ public interface PersonaService {
 
 	public Persona getPersonaByDni(String dni);
 
-	public Persona getPersonaByNombre(String nombre);
+	public List<Persona> getPersonaByNombre(String nombre);
 
 	public Persona getPersonaBydniAndNombre(String dni, String nombre);
 

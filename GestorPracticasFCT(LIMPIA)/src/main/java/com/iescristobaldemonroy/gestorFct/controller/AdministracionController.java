@@ -21,15 +21,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
+import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
+import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoForm;
+import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoTestForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
 import com.iescristobaldemonroy.gestorFct.service.AdministradorService;
 import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
+import com.iescristobaldemonroy.gestorFct.service.PersonaService;
+import com.iescristobaldemonroy.gestorFct.util.ComunUtil;
+import com.iescristobaldemonroy.gestorFct.util.Constantes;
 
 @Controller
 @RequestMapping(value = "/administracion")
@@ -43,6 +48,9 @@ public class AdministracionController {
 
 	@Autowired
 	private AlumnoService alumnoService;
+
+	@Autowired
+	private PersonaService personaService;
 
 	private AdministradorForm adminForm;
 
@@ -113,14 +121,14 @@ public class AdministracionController {
 				result.addError(null);
 			}
 
+			if ("limpiarFiltros".equals(editarAlumnoForm.getOperacion())) {
+				editarAlumnoForm.limpiarFiltros();
+			}
+
 			if (!result.hasErrors()) {
-				List<Alumno> listaAlumnos;
-
-				// model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
-
-				listaAlumnos = alumnoService.search(editarAlumnoForm.getFiltroDni(),
+				List<Alumno> listaAlumnos = alumnoService.search(editarAlumnoForm.getFiltroDni(),
 						editarAlumnoForm.getFiltroNombre());
-
+				System.err.println(listaAlumnos.size());
 				model.addAttribute("listaAlumnos", listaAlumnos);
 				model.addAttribute("administradorForm", adminForm);
 			} else {
@@ -130,6 +138,83 @@ public class AdministracionController {
 			System.out.println("Error no controlado");
 		}
 		return "editarAlumnos";
+	}
+
+	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.GET)
+	public String editarAlumnos(@RequestParam(value = "id", required = false) String dni,
+			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
+				EdicionAlumnoTestForm edicionAlumnoTestForm = new EdicionAlumnoTestForm();
+				if (!StringUtils.isEmpty(dni) && alumnoService.exist(dni)) {
+					edicionAlumnoTestForm.setPersona(personaService.getPersonaByDni(dni));
+				}
+
+				model.addAttribute("edicionAlumnoForm", edicionAlumnoTestForm);
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editar";
+	}
+
+	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.POST)
+	public String editarAlumnosSubmit(@RequestParam(value = "id", required = false) String dni,
+			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm, AdministradorForm administradorForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				if (dni.equals(edicionAlumnoForm.getDni())) {
+					Persona personaActualizada = personaService.getPersonaByDni(edicionAlumnoForm.getDni());
+					Alumno alumnoActualizado = personaActualizada.getAlumno();
+					alumnoActualizado.setTelefono(edicionAlumnoForm.getTelefono());
+					alumnoActualizado.setEmail(edicionAlumnoForm.getEmail());
+					personaActualizada.setNombre(edicionAlumnoForm.getNombre());
+					personaActualizada.setAlumno(alumnoActualizado);
+					personaService.save(personaActualizada);
+				} else {
+					personaService.delete(personaService.getPersonaByDni(dni));
+					Persona personaNueva = new Persona();
+					personaNueva.setDni(edicionAlumnoForm.getDni());
+					personaNueva.setNombre(edicionAlumnoForm.getNombre());
+					Alumno alumnoNuevo = new Alumno();
+					alumnoNuevo.setDni(edicionAlumnoForm.getDni());
+					alumnoNuevo.setContrasenia(edicionAlumnoForm.getContrasenia());
+					alumnoNuevo.setEmail(edicionAlumnoForm.getEmail());
+					alumnoNuevo.setTelefono(edicionAlumnoForm.getTelefono());
+					personaNueva.setAlumno(alumnoNuevo);
+
+					personaService.save(personaNueva);
+				}
+
+				List<Alumno> listaAlumnos = alumnoService.getAllAlumno();
+
+				model.addAttribute("listaAlumnos", listaAlumnos);
+				model.addAttribute("administradorForm", adminForm);
+				model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+			return "error";
+		}
+		return "redirect: /GestorPracticasFCT/administracion/editarAlumnos";
 	}
 
 	private String encriptar(String dni) {

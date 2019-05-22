@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Practica;
@@ -32,6 +31,7 @@ import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
 import com.iescristobaldemonroy.gestorFct.service.PracticaService;
 import com.iescristobaldemonroy.gestorFct.service.ValoracionService;
+import com.iescristobaldemonroy.gestorFct.util.Constantes;
 
 @Controller
 @RequestMapping(value = "/alumno")

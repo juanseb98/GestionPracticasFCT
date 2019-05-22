@@ -9,7 +9,7 @@ public interface AlumnoService {
 
 	public Alumno getAlumnoByDni(String dni);
 
-	public Alumno getAlumnoByNombre(String nombre);
+	public List<Alumno> getAlumnoByNombre(String nombre);
 
 	public List<Alumno> search(String dni, String nombre);
 

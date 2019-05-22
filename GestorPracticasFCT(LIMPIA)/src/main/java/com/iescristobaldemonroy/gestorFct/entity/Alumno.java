@@ -21,6 +21,8 @@ public class Alumno implements Serializable {
 
 	private String telefono;
 
+	private String email;
+
 	// bi-directional one-to-one association to Persona
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	@JoinColumn(name = "dni")
@@ -31,6 +33,14 @@ public class Alumno implements Serializable {
 	private List<Practica> practicas;
 
 	public Alumno() {
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getTelefono() {

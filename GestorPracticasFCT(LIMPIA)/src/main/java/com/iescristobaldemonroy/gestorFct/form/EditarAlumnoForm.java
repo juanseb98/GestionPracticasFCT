@@ -6,6 +6,12 @@ public class EditarAlumnoForm {
 	private String filtroNombre;
 	private String operacion;
 
+	public void limpiarFiltros() {
+		this.filtroDni = null;
+		this.filtroNombre = null;
+		this.operacion = "";
+	}
+
 	public String getOperacion() {
 		return operacion;
 	}

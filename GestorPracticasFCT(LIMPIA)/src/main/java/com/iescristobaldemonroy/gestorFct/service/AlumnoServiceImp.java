@@ -79,9 +79,15 @@ public class AlumnoServiceImp implements AlumnoService {
 	}
 
 	@Override
-	public Alumno getAlumnoByNombre(String nombre) {
-		Persona per = rep.findByNombre(nombre);
-		return repository.findByDni(per.getDni());
+	public List<Alumno> getAlumnoByNombre(String nombre) {
+		List<Alumno> listado = new ArrayList<Alumno>();
+		List<Persona> per = rep.findByNombre(nombre);
+		for (Persona persona : per) {
+			if (persona.getAlumno() != null) {
+				listado.add(repository.findByDni(persona.getDni()));
+			}
+		}
+		return listado;
 	}
 
 	@Override
@@ -101,8 +107,12 @@ public class AlumnoServiceImp implements AlumnoService {
 
 		} else if (!StringUtils.isEmpty(nombre)) {
 			try {
-				Persona per = rep.findByNombre(nombre);
-				lista.add(rep.findByNombre(nombre).getAlumno());
+				List<Persona> per = rep.findByNombre(nombre);
+				for (Persona persona : per) {
+					if (persona.getAlumno() != null) {
+						lista.add(persona.getAlumno());
+					}
+				}
 			} catch (NullPointerException e) {
 
 			}

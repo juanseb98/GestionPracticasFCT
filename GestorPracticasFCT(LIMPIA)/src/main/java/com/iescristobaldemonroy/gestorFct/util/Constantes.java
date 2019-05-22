@@ -1,4 +1,4 @@
-package com.iescristobaldemonroy.gestorFct.constantes;
+package com.iescristobaldemonroy.gestorFct.util;
 
 import java.io.Serializable;
 
@@ -19,4 +19,5 @@ public class Constantes implements Serializable {
 	public static final String NOTIFICACION_NUEVA_VALORACION = "NuevaValoracion";
 	public static final String NOTIFICACION_NUEVO_INTERESADO = "NuevoInteresado";
 
+	public static final String FORMAT_DATE_COMPLETE_SIMPLEDATEFORMAT = "dd/MM/yyyy HH:mm:ss";
 }

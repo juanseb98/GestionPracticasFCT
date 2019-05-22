@@ -1,5 +1,7 @@
 package com.iescristobaldemonroy.gestorFct.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,10 +18,10 @@ public interface PersonaRepository extends JpaRepository<Persona, Long>, JpaSpec
 	Persona findByDni(String dni);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o FROM Persona o WHERE o.nombre = ?1")
-	Persona findByNombre(String nombre);
+	@Query(value = "SELECT o FROM Persona o WHERE o.nombre LIKE %?1%")
+	List<Persona> findByNombre(String nombre);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o FROM Persona o WHERE o.dni = ?1 AND o.nombre = ?2")
+	@Query(value = "SELECT o FROM Persona o WHERE o.dni = ?1 AND o.nombre LIKE %?2%")
 	Persona findByDniAndNombre(String dni, String nombre);
 }

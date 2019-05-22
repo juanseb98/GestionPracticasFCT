@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.iescristobaldemonroy.gestorFct.constantes.Constantes;
 import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 import com.iescristobaldemonroy.gestorFct.entity.Interesado;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
@@ -24,6 +23,7 @@ import com.iescristobaldemonroy.gestorFct.service.InteresadoService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionServiceImpl;
 import com.iescristobaldemonroy.gestorFct.service.PersonaContactoService;
+import com.iescristobaldemonroy.gestorFct.util.Constantes;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Controller
