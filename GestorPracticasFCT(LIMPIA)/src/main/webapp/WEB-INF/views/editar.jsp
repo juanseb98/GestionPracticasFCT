@@ -81,7 +81,7 @@
 								<div class="form-group">
 									<form:label path="telefono" for="telefono"
 										class="col-md-1 control-label">
-											*<spring:message code="administracion.alumno.email" />
+											*<spring:message code="administracion.alumno.telefono" />
 										<form:errors path="telefono" cssClass="errores" />
 									</form:label>
 									<div class="col-md-3">

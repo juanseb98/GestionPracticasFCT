@@ -127,8 +127,8 @@
 					</tr>
 				</c:if>
 			</c:forEach>
-
 		</table>
+		<a class="button" href="editarAlumnos/editar">Crear nuevo Alumno</a>
 	</div>
 </body>
 </html>

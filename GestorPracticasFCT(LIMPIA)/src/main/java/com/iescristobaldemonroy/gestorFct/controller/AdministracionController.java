@@ -10,10 +10,10 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -169,35 +169,46 @@ public class AdministracionController {
 
 	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.POST)
 	public String editarAlumnosSubmit(@RequestParam(value = "id", required = false) String dni,
-			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm, AdministradorForm administradorForm,
+			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm,
 			BindingResult result, Model model, HttpSession session) {
 		try {
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
 			}
 
-			if (!result.hasErrors()) {
-				if (dni.equals(edicionAlumnoForm.getDni())) {
-					Persona personaActualizada = personaService.getPersonaByDni(edicionAlumnoForm.getDni());
-					Alumno alumnoActualizado = personaActualizada.getAlumno();
-					alumnoActualizado.setTelefono(edicionAlumnoForm.getTelefono());
-					alumnoActualizado.setEmail(edicionAlumnoForm.getEmail());
-					personaActualizada.setNombre(edicionAlumnoForm.getNombre());
-					personaActualizada.setAlumno(alumnoActualizado);
-					personaService.save(personaActualizada);
-				} else {
-					personaService.delete(personaService.getPersonaByDni(dni));
-					Persona personaNueva = new Persona();
-					personaNueva.setDni(edicionAlumnoForm.getDni());
-					personaNueva.setNombre(edicionAlumnoForm.getNombre());
-					Alumno alumnoNuevo = new Alumno();
-					alumnoNuevo.setDni(edicionAlumnoForm.getDni());
-					alumnoNuevo.setContrasenia(edicionAlumnoForm.getContrasenia());
-					alumnoNuevo.setEmail(edicionAlumnoForm.getEmail());
-					alumnoNuevo.setTelefono(edicionAlumnoForm.getTelefono());
-					personaNueva.setAlumno(alumnoNuevo);
+			// if (StringUtils.isEmpty(edicionAlumnoForm.getDni())) {
+			// result.rejectValue("dni", "error.campoObligatorio");
+			// }
+			// if (StringUtils.isEmpty(edicionAlumnoForm.getEmail())) {
+			// result.rejectValue("email", "error.campoObligatorio");
+			// }
+			// if (StringUtils.isEmpty(edicionAlumnoForm.getNombre())) {
+			// result.rejectValue("nombre", "error.campoObligatorio");
+			// }
+			// if (StringUtils.isEmpty(edicionAlumnoForm.getTelefono())) {
+			// result.rejectValue("telefono", "error.campoObligatorio");
+			// } else if (StringUtils.isNumeric(edicionAlumnoForm.getTelefono())) {
+			// result.rejectValue("telefono", "error.numerico");
+			// }
 
+			if (!result.hasErrors()) {
+				if (dni == null) {
+					Persona personaNueva = crearNuevaPersonaAlumno(edicionAlumnoForm);
 					personaService.save(personaNueva);
+				} else {
+					if (dni.equals(edicionAlumnoForm.getDni())) {
+						Persona personaActualizada = personaService.getPersonaByDni(edicionAlumnoForm.getDni());
+						Alumno alumnoActualizado = personaActualizada.getAlumno();
+						alumnoActualizado.setTelefono(edicionAlumnoForm.getTelefono());
+						alumnoActualizado.setEmail(edicionAlumnoForm.getEmail());
+						personaActualizada.setNombre(edicionAlumnoForm.getNombre());
+						personaActualizada.setAlumno(alumnoActualizado);
+						personaService.save(personaActualizada);
+					} else {
+						personaService.delete(personaService.getPersonaByDni(dni));
+						Persona personaNueva = crearNuevaPersonaAlumno(edicionAlumnoForm);
+						personaService.save(personaNueva);
+					}
 				}
 
 				List<Alumno> listaAlumnos = alumnoService.getAllAlumno();
@@ -208,13 +219,24 @@ public class AdministracionController {
 			} else {
 				return "error";
 			}
-		} catch (
-
-		NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.out.println("Error no controlado");
 			return "error";
 		}
 		return "redirect: /GestorPracticasFCT/administracion/editarAlumnos";
+	}
+
+	private Persona crearNuevaPersonaAlumno(EdicionAlumnoTestForm edicionAlumnoForm) {
+		Persona personaNueva = new Persona();
+		personaNueva.setDni(edicionAlumnoForm.getDni());
+		personaNueva.setNombre(edicionAlumnoForm.getNombre());
+		Alumno alumnoNuevo = new Alumno();
+		alumnoNuevo.setDni(edicionAlumnoForm.getDni());
+		alumnoNuevo.setContrasenia(edicionAlumnoForm.getContrasenia());
+		alumnoNuevo.setEmail(edicionAlumnoForm.getEmail());
+		alumnoNuevo.setTelefono(edicionAlumnoForm.getTelefono());
+		personaNueva.setAlumno(alumnoNuevo);
+		return personaNueva;
 	}
 
 	private String encriptar(String dni) {
