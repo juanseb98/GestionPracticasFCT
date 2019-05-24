@@ -42,7 +42,7 @@
 		</div>
 	</div>
 
-	<form:form modelAttribute="editarAlumnoForm" id="reg">
+	<form:form modelAttribute="editarEmpresaForm" id="reg">
 		<form:hidden path="operacion" id="operacion" val="" />
 		<div class="fondoFormulario">
 			<div class="row">
@@ -53,24 +53,24 @@
 						</legend>
 						<div class="form-horizontal">
 							<div class="form-group">
-								<form:label path="filtroDni" for="filtroDni"
+								<form:label path="filtroCif" for="filtroCif"
 									class="col-md-1 control-label">
-									<spring:message code="administracion.alumno.dni" />
-									<form:errors path="filtroDni" cssClass="errores" />
+									<spring:message code="administracion.empresa.cif" />
+									<form:errors path="filtroCif" cssClass="errores" />
 								</form:label>
 								<div class="col-md-3">
-									<form:input id="filtroDni" path="filtroDni"
+									<form:input id="filtroCif" path="filtroCif"
 										class="form-control" />
 								</div>
 							</div>
 							<div class="form-group">
-								<form:label path="filtroNombre" for="filtroNombre"
+								<form:label path="filtroDenominacion" for="filtroDenominacion"
 									class="col-md-1 control-label">
-											*<spring:message code="administracion.alumno.nombre" />
-									<form:errors path="filtroNombre" cssClass="errores" />
+											*<spring:message code="administracion.empresa.denominacion" />
+									<form:errors path="filtroDenominacion" cssClass="errores" />
 								</form:label>
 								<div class="col-md-3">
-									<form:input id="filtroNombre" path="filtroNombre"
+									<form:input id="filtroDenominacion" path="filtroDenominacion"
 										class="form-control" />
 								</div>
 							</div>
@@ -78,11 +78,10 @@
 
 						<input type="submit"
 							value="<spring:message code="boton.filtrar"/>" class="register" />
-						<!-- TODO
 						<input type="submit"
 							value="<spring:message code="boton.limpiarFiltros"/>"
 							class="register" onclick="limpiar();" />
-						 -->
+						<!-- TODO -->
 					</fieldset>
 					<br />
 				</div>
@@ -93,44 +92,41 @@
 	<div>
 		<table>
 			<tr>
-				<th><spring:message code="administracion.alumno.dni" /></th>
-				<th><spring:message code="administracion.alumno.nombre" /></th>
-				<th><spring:message code="administracion.alumno.telefono" /></th>
-				<th><spring:message code="administracion.alumno.email" /></th>
-				<th><spring:message code="administracion.alumno.acciones" /></th>
+				<th><spring:message code="administracion.empresa.cif" /></th>
+				<th><spring:message code="administracion.empresa.denominacion" /></th>
+				<th><spring:message code="administracion.empresa.telefono" /></th>
+				<th><spring:message code="administracion.empresa.centroTrabajo" /></th>
+				<th><spring:message code="administracion.empresa.acciones" /></th>
 			</tr>
 
-			<c:forEach items="${listaAlumnos}" var="alumno">
-				<c:if test="${not empty alumno }">
+			<c:forEach items="${listaEmpresas}" var="empresa">
+				<c:if test="${not empty empresa }">
 					<tr>
-						<td><c:out value="${alumno.persona.dni }" /></td>
-						<td><c:out value="${alumno.persona.nombre }" /></td>
-						<td><c:out value="${alumno.telefono }" /></td>
-						<td><a href="mailto:<c:out value="${alumno.email }"/>"><c:out
-									value="${alumno.email }" /></a></td>
-						<td><spring:url value="/administracion/editarAlumnos/editar"
+						<td><c:out value="${empresa.cif }" /></td>
+						<td><c:out value="${empresa.denominacion }" /></td>
+						<td><c:out value="${empresa.telefono }" /></td>
+						<td><spring:url value="/administracion/editarEmpresas/editar"
 								var="editURL">
 								<spring:param name="id" value="${alumno.dni}" />
-							</spring:url> <a class="enlaces" href="${editURL}"
-							title="<spring:message code="boton.editar"/>"> <img
-								style="height: 16px; padding: 0px 0px 0px 8px;" alt="editar"
-								src="${pageContext.request.contextPath}/resources/gfx/web/edit.png" />
-								<spring:message code="administracion.editar" />
-						</a> <a><img style="height: 16px; padding: 0px 0px 0px 8px;"
+							</spring:url> 
+							<a class="enlaces" href="${editURL}" title="<spring:message code="boton.editar"/>"> 
+								<img style="height: 16px; padding: 0px 0px 0px 8px;" alt="editar"
+								src="${pageContext.request.contextPath}/resources/gfx/web/edit.png" />editar
+							</a> 
+							<a><img style="height: 16px; padding: 0px 0px 0px 8px;"
 								alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/contract.png" />
-								<spring:message code="administracion.crearPractica" /></a> <spring:url
+								src="${pageContext.request.contextPath}/resources/gfx/web/contract.png" />crear
+								Practica</a> <spring:url
 								value="/administracion/editarAlumnos/restaurar" var="restart" />
 							<a class="enlaces" href="${restart}"><img
 								style="height: 16px; padding: 0px 0px 0px 8px;" alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/access.png" />
-								<spring:message code="administracion.restaurarContrasenia" /></a></td>
+								src="${pageContext.request.contextPath}/resources/gfx/web/access.png" />Restaurar
+								Contraseña</a></td>
 					</tr>
 				</c:if>
 			</c:forEach>
 		</table>
-		<a class="button" href="editarAlumnos/editar"><spring:message
-				code="administracion.alumno.boton.crearAlumno" /></a>
+		<a class="button" href="editarAlumnos/editar">Crear nuevo Alumno</a>
 	</div>
 	<script>
 		function limpiar() {

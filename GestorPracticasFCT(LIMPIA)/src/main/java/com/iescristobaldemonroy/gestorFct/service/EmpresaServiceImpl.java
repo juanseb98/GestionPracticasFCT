@@ -7,8 +7,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Empresa;
+import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.repository.EmpresaRepository;
 
 @Service
@@ -66,6 +69,37 @@ public class EmpresaServiceImpl implements EmpresaService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<Empresa> search(String cif, String denominacion) {
+		List<Empresa> lista = new ArrayList<Empresa>();
+
+		if (!StringUtils.isEmpty(cif)) {
+			if (!StringUtils.isEmpty(denominacion)) {
+				try {
+					lista.add(repository.findByCifAndDenominacion(cif, denominacion));
+				} catch (NullPointerException e) {
+
+				}
+			} else {
+				lista.add(repository.findByCif(cif));
+			}
+
+		} else if (!StringUtils.isEmpty(denominacion)) {
+			try {
+				Empresa emp = repository.findByDenominacion(denominacion);
+
+				lista.add(emp);
+
+			} catch (NullPointerException e) {
+
+			}
+		} else {
+			lista = getAllEmpresa();
+		}
+
+		return lista;
 	}
 
 }

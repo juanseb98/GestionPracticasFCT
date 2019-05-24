@@ -30,7 +30,7 @@
 					<ul id="menu-menu-principal" class="maxflat-menu maxflat-top-menu">
 						<li id="menu-item-582"
 							class="menu-item menu-item-type-post_type menu-item-object-page menu-item-582"><a
-							href="/GestorPracticasFCT/administracion"> <i
+							href="/GestorPracticasFCT/administracion/editarAlumnos"> <i
 								class="_mi _before dashicons dashicons-calendar-alt"
 								aria-hidden="true"></i><span><spring:message
 										code="menu.volver" /></span>

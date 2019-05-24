@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 
-
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, String>, JpaSpecificationExecutor<Empresa> {
 
@@ -19,5 +18,9 @@ public interface EmpresaRepository extends JpaRepository<Empresa, String>, JpaSp
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM Empresa o WHERE LOWER(o.denominacion) = LOWER(?1)")
 	Empresa findByDenominacion(String code);
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o FROM Empresa o WHERE o.cif = ?1 AND LOWER(o.denominacion) = LOWER(?2)")
+	Empresa findByCifAndDenominacion(String cif, String denominacion);
 
 }

@@ -8,6 +8,8 @@ public interface EmpresaService {
 	public List getAllEmpresa();
 
 	public Empresa getEmpresaByCif(String cif);
+	
+	public List<Empresa> search(String cif, String denominacion);
 
 	public boolean save(Empresa persona);
 

@@ -16,24 +16,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
+import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
-import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoTestForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
+import com.iescristobaldemonroy.gestorFct.form.EditarEmpresaForm;
 import com.iescristobaldemonroy.gestorFct.service.AdministradorService;
 import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
+import com.iescristobaldemonroy.gestorFct.service.EmpresaService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
-import com.iescristobaldemonroy.gestorFct.util.ComunUtil;
 import com.iescristobaldemonroy.gestorFct.util.Constantes;
 
 @Controller
@@ -48,6 +48,9 @@ public class AdministracionController {
 
 	@Autowired
 	private AlumnoService alumnoService;
+
+	@Autowired
+	private EmpresaService empresaService;
 
 	@Autowired
 	private PersonaService personaService;
@@ -169,8 +172,8 @@ public class AdministracionController {
 
 	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.POST)
 	public String editarAlumnosSubmit(@RequestParam(value = "id", required = false) String dni,
-			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm,
-			BindingResult result, Model model, HttpSession session) {
+			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm, BindingResult result, Model model,
+			HttpSession session) {
 		try {
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
@@ -217,13 +220,40 @@ public class AdministracionController {
 				model.addAttribute("administradorForm", adminForm);
 				model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
 			} else {
-				return "error";
+				return "editar";
 			}
 		} catch (NullPointerException e) {
 			System.out.println("Error no controlado");
 			return "error";
 		}
 		return "redirect: /GestorPracticasFCT/administracion/editarAlumnos";
+	}
+
+	@RequestMapping(value = "/editarEmpresas", method = { RequestMethod.GET, RequestMethod.POST })
+	public String editarEmpresas(@ModelAttribute EditarEmpresaForm editarEmpresaForm,
+			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if ("limpiarFiltros".equals(editarEmpresaForm.getOperacion())) {
+				editarEmpresaForm.limpiarFiltros();
+			}
+
+			if (!result.hasErrors()) {
+				List<Empresa> listaEmpresas = empresaService.search(editarEmpresaForm.getFiltroCif(),
+						editarEmpresaForm.getFiltroDenominacion());
+				System.err.println(listaEmpresas.size());
+				model.addAttribute("listaEmpresas", listaEmpresas);
+				model.addAttribute("administradorForm", adminForm);
+			} else {
+				return "error";
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarEmpresas";
 	}
 
 	private Persona crearNuevaPersonaAlumno(EdicionAlumnoTestForm edicionAlumnoForm) {
