@@ -17,4 +17,12 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long>, JpaSpecif
 	@Query(value = "SELECT o FROM Alumno o WHERE o.dni = ?1")
 	Alumno findByDni(String dni);
 
+	@Transactional(readOnly = true, noRollbackFor = Exception.class)
+	@Query(value = "SELECT o FROM Alumno o WHERE o.anioEstudio = ?1")
+	List<Alumno> findbyAnio(String anio);
+
+	@Transactional(readOnly = true, noRollbackFor = Exception.class)
+	@Query(value = "SELECT o.anioEstudio FROM Alumno o GROUP BY o.anioEstudio ORDER BY o.anioEstudio DESC")
+	List<String> findanioEstudio();
+
 }

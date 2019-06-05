@@ -6,6 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>No tienes permiso para acceder aqui
+<body>
+	No tienes permiso para acceder aqui. Loguee para poder acceder
+	<script type="text/javascript">
+		window.setTimeout(function() {
+			window.location.href = "/GestorPracticasFCT/login.html";
+		}, 2000);
+	</script>
 </body>
 </html>

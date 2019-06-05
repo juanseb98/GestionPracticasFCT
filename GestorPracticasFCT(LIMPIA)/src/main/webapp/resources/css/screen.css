@@ -22,6 +22,18 @@ html, body {
 	font-size: 100%;
 }
 
+.ui-datepicker-calendar {
+	display: none;
+}
+
+.ui-datepicker-month {
+	display: none;
+}
+
+.ui-datepicker-next, .ui-datepicker-prev {
+	display: none;
+}
+
 body {
 	background: white;
 	color: #222222;
@@ -1556,7 +1568,11 @@ to {
 
 
 
+
+
 .expanded
+
+
 
 
 
@@ -1594,7 +1610,9 @@ to {
 
 
 
+
  
+
 
 
 
@@ -1621,7 +1639,9 @@ to {
 
 
 
+
  
+
 
 
 
@@ -1661,7 +1681,10 @@ overflow-y
 
 
 
+
+
 :
+
 
 
 
@@ -1687,7 +1710,10 @@ overflow-y
 
 
 
+
 auto
+
+
 
 
 
@@ -1738,7 +1764,10 @@ height
 
 
 
+
+
 :
+
 
 
 
@@ -1764,7 +1793,10 @@ height
 
 
 
+
 auto
+
+
 
 
 
@@ -1815,6 +1847,8 @@ width
 
 
 
+
+
 :
 
 
@@ -1828,7 +1862,9 @@ width
 
 
 
+
  
+
 
 
 
@@ -1867,6 +1903,8 @@ max-height
 
 
 
+
+
 :
 
 
@@ -1880,7 +1918,9 @@ max-height
 
 
 
+
  
+
 
 
 
@@ -2269,6 +2309,7 @@ max-height
 	
 	
 	
+	
 	 
 	
 	
@@ -2282,7 +2323,10 @@ max-height
 	
 	
 	
+	
 	li
+	
+	
 	
 	
 	
@@ -2334,6 +2378,8 @@ max-height
 	
 	
 	
+	
+	
 	:not
 	
 	
@@ -2347,7 +2393,9 @@ max-height
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -2374,7 +2422,9 @@ max-height
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -2414,7 +2464,10 @@ max-height
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	
@@ -2440,7 +2493,10 @@ max-height
 	
 	
 	
+	
 	#272727
+	
+	
 	
 	
 	
@@ -2491,7 +2547,10 @@ max-height
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	
@@ -2517,7 +2576,10 @@ max-height
 	
 	
 	
+	
 	white
+	
+	
 	
 	
 	
@@ -2558,7 +2620,9 @@ max-height
 
 
 
+
  
+
 
 
 
@@ -2596,6 +2660,8 @@ li
 
 
 
+
+
 :not
 
 
@@ -2609,7 +2675,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -2636,7 +2704,9 @@ li
 
 
 
+
  
+
 
 
 
@@ -2675,6 +2745,8 @@ a
 
 
 
+
+
 :not
 
 
@@ -2688,7 +2760,9 @@ a
 
 
 
+
  
+
 
 
 
@@ -2715,7 +2789,9 @@ a
 
 
 
+
  
+
 
 
 
@@ -2755,7 +2831,10 @@ padding
 
 
 
+
+
 :
+
 
 
 
@@ -2781,9 +2860,12 @@ padding
 
 
 
+
 0
 15
 px
+
+
 
 
 
@@ -2834,7 +2916,10 @@ line-height
 
 
 
+
+
 :
+
 
 
 
@@ -2860,8 +2945,11 @@ line-height
 
 
 
+
 45
 px
+
+
 
 
 
@@ -2912,7 +3000,10 @@ background
 
 
 
+
+
 :
+
 
 
 
@@ -2938,7 +3029,10 @@ background
 
 
 
+
 #333333
+
+
 
 
 
@@ -7785,6 +7879,8 @@ audio
 
 
 
+
+
 :not
 
 
@@ -7798,7 +7894,9 @@ audio
 
 
 
+
  
+
 
 
 
@@ -7827,7 +7925,9 @@ controls
 
 
 
+
  
+
 
 
 
@@ -7867,7 +7967,10 @@ display
 
 
 
+
+
 :
+
 
 
 
@@ -7893,7 +7996,10 @@ display
 
 
 
+
 none
+
+
 
 
 

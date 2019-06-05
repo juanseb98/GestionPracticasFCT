@@ -130,9 +130,12 @@ public class AdministracionController {
 
 			if (!result.hasErrors()) {
 				List<Alumno> listaAlumnos = alumnoService.search(editarAlumnoForm.getFiltroDni(),
-						editarAlumnoForm.getFiltroNombre());
+						editarAlumnoForm.getFiltroNombre(), editarAlumnoForm.getFiltroAnio());
 				System.err.println(listaAlumnos.size());
 				model.addAttribute("listaAlumnos", listaAlumnos);
+
+				List<String> listaAnios = alumnoService.getAnios();
+				model.addAttribute("listaAnios", listaAnios);
 				model.addAttribute("administradorForm", adminForm);
 			} else {
 				return "error";
@@ -179,20 +182,27 @@ public class AdministracionController {
 				result.addError(null);
 			}
 
-			// if (StringUtils.isEmpty(edicionAlumnoForm.getDni())) {
-			// result.rejectValue("dni", "error.campoObligatorio");
-			// }
-			// if (StringUtils.isEmpty(edicionAlumnoForm.getEmail())) {
-			// result.rejectValue("email", "error.campoObligatorio");
-			// }
-			// if (StringUtils.isEmpty(edicionAlumnoForm.getNombre())) {
-			// result.rejectValue("nombre", "error.campoObligatorio");
-			// }
-			// if (StringUtils.isEmpty(edicionAlumnoForm.getTelefono())) {
-			// result.rejectValue("telefono", "error.campoObligatorio");
-			// } else if (StringUtils.isNumeric(edicionAlumnoForm.getTelefono())) {
-			// result.rejectValue("telefono", "error.numerico");
-			// }
+			if (StringUtils.isEmpty(edicionAlumnoForm.getDni())) {
+				result.rejectValue("dni", "error.campoObligatorio");
+			} else if (!edicionAlumnoForm.getDni().matches("\\d{8}\\D")) {
+				result.rejectValue("dni", "error.campoObligatorio");
+			}
+			if (StringUtils.isEmpty(edicionAlumnoForm.getEmail())) {
+				result.rejectValue("email", "error.campoObligatorio");
+			}
+			if (StringUtils.isEmpty(edicionAlumnoForm.getNombre())) {
+				result.rejectValue("nombre", "error.campoObligatorio");
+			}
+			if (StringUtils.isEmpty(edicionAlumnoForm.getTelefono())) {
+				result.rejectValue("telefono", "error.campoObligatorio");
+			} else {
+				try {
+					Integer.parseInt(edicionAlumnoForm.getTelefono());
+				} catch (NumberFormatException e) {
+					result.rejectValue("telefono", "error.numerico");
+				}
+
+			}
 
 			if (!result.hasErrors()) {
 				if (dni == null) {
@@ -220,6 +230,7 @@ public class AdministracionController {
 				model.addAttribute("administradorForm", adminForm);
 				model.addAttribute("editarAlumnoForm", new EditarAlumnoForm());
 			} else {
+				model.addAttribute("edicionAlumnoForm", edicionAlumnoForm);
 				return "editar";
 			}
 		} catch (NullPointerException e) {
@@ -262,8 +273,13 @@ public class AdministracionController {
 		personaNueva.setNombre(edicionAlumnoForm.getNombre());
 		Alumno alumnoNuevo = new Alumno();
 		alumnoNuevo.setDni(edicionAlumnoForm.getDni());
-		alumnoNuevo.setContrasenia(edicionAlumnoForm.getContrasenia());
+
+		StringBuilder str = new StringBuilder();
+		str.append(personaNueva.getNombre().substring(0, 2).toLowerCase());
+		str.append(personaNueva.getDni().substring(0, 5));
+		alumnoNuevo.setContrasenia(str.toString());
 		alumnoNuevo.setEmail(edicionAlumnoForm.getEmail());
+		alumnoNuevo.setAnioEstudio(edicionAlumnoForm.getAnioEstudio());
 		alumnoNuevo.setTelefono(edicionAlumnoForm.getTelefono());
 		personaNueva.setAlumno(alumnoNuevo);
 		return personaNueva;

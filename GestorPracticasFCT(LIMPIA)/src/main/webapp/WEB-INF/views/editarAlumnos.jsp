@@ -74,6 +74,19 @@
 										class="form-control" />
 								</div>
 							</div>
+
+							<div class="form-group">
+								<form:label path="filtroAnio" for="filtroAnio"
+									class="col-md-1 control-label">
+											*<spring:message code="administracion.alumno.anio" />
+									<form:errors path="filtroNombre" cssClass="errores" />
+								</form:label>
+								<div class="col-md-3">
+									<form:select path="filtroAnio">
+										<form:options items="${listaAnios }" />
+									</form:select>
+								</div>
+							</div>
 						</div>
 
 						<input type="submit"
@@ -97,6 +110,7 @@
 				<th><spring:message code="administracion.alumno.nombre" /></th>
 				<th><spring:message code="administracion.alumno.telefono" /></th>
 				<th><spring:message code="administracion.alumno.email" /></th>
+				<th><spring:message code="administracion.alumno.anio" /></th>
 				<th><spring:message code="administracion.alumno.acciones" /></th>
 			</tr>
 
@@ -108,6 +122,7 @@
 						<td><c:out value="${alumno.telefono }" /></td>
 						<td><a href="mailto:<c:out value="${alumno.email }"/>"><c:out
 									value="${alumno.email }" /></a></td>
+						<td><c:out value="${alumno.anioEstudio }"></c:out>
 						<td><spring:url value="/administracion/editarAlumnos/editar"
 								var="editURL">
 								<spring:param name="id" value="${alumno.dni}" />

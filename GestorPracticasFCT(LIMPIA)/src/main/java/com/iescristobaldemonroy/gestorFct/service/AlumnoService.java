@@ -11,12 +11,14 @@ public interface AlumnoService {
 
 	public List<Alumno> getAlumnoByNombre(String nombre);
 
-	public List<Alumno> search(String dni, String nombre);
+	public List<Alumno> search(String dni, String nombre, String anioEstudio);
 
 	public boolean save(Alumno alumno);
 
 	public boolean exist(String dni);
 
 	boolean delete(Alumno alumno);
+
+	List<String> getAnios();
 
 }

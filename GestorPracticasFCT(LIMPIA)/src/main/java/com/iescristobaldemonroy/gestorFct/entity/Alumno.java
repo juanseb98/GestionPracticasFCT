@@ -2,6 +2,8 @@ package com.iescristobaldemonroy.gestorFct.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +25,8 @@ public class Alumno implements Serializable {
 
 	private String email;
 
+	private String anioEstudio;
+
 	// bi-directional one-to-one association to Persona
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH })
 	@JoinColumn(name = "dni")
@@ -33,6 +37,14 @@ public class Alumno implements Serializable {
 	private List<Practica> practicas;
 
 	public Alumno() {
+	}
+
+	public String getAnioEstudio() {
+		return anioEstudio;
+	}
+
+	public void setAnioEstudio(String anioEstudio) {
+		this.anioEstudio = anioEstudio;
 	}
 
 	public String getEmail() {

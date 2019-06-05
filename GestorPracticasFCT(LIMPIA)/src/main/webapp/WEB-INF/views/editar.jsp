@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/css/screen.css"/>" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 </head>
 <body>
 	<div id="top-bar" class="top-bar home-border">
@@ -43,6 +45,12 @@
 	</div>
 	<div>
 		<form:form modelAttribute="edicionAlumnoForm" id="alu">
+			<div class="errores">
+				<c:if test="${not empty errores}">
+					<spring:message code="error.cumplimentadoIncorrecto" />
+				</c:if>
+
+			</div>
 			<form:hidden path="contrasenia" id="contrasenia" />
 			<div class="fondoFormulario">
 				<div class="row">
@@ -88,6 +96,17 @@
 										<form:input id="telefono" path="telefono" class="form-control" />
 									</div>
 								</div>
+								<div class="form-group">
+									<form:label path="anioEstudio" for="anioEstudio"
+										class="col-md-1 control-label">
+											*<spring:message code="administracion.alumno.anio" />
+										<form:errors path="anioEstudio" cssClass="errores" />
+									</form:label>
+									<div class="col-md-3">
+										<form:input type="text" id="anioEstudio" path="anioEstudio"
+											class="form-control" />
+									</div>
+								</div>
 							</div>
 							<input type="submit"
 								value="<spring:message code="boton.enviar"/>" class="register" />
@@ -99,5 +118,26 @@
 
 		</form:form>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#anioEstudio')
+					.datepicker(
+							{
+								changeYear : true,
+								showButtonPanel : true,
+								dateFormat : 'yy',
+								onClose : function(dateText, inst) {
+									var year = $(
+											"#ui-datepicker-div .ui-datepicker-year :selected")
+											.val();
+									$(this).datepicker('setDate',
+											new Date(year, 1));
+								}
+							});
+			$(".date-picker-year").focus(function() {
+				$(".ui-datepicker-month").hide();
+			});
+		});
+	</script>
 </body>
 </html>

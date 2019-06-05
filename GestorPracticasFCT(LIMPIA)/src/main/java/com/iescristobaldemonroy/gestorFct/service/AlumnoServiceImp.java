@@ -91,30 +91,66 @@ public class AlumnoServiceImp implements AlumnoService {
 	}
 
 	@Override
-	public List<Alumno> search(String dni, String nombre) {
+	public List<String> getAnios() {
+		List<String> listado = repository.findanioEstudio();
+		return listado;
+	}
+
+	@Override
+	public List<Alumno> search(String dni, String nombre, String anio) {
 		List<Alumno> lista = new ArrayList<Alumno>();
 
 		if (!StringUtils.isEmpty(dni)) {
 			if (!StringUtils.isEmpty(nombre)) {
-				try {
-					lista.add(rep.findByDniAndNombre(dni, nombre).getAlumno());
-				} catch (NullPointerException e) {
+				if (!StringUtils.isEmpty(anio)) {
+					List<Alumno> listaAlumnos = repository.findbyAnio(anio);
+					for (Alumno alumno : listaAlumnos) {
+						if (alumno.getDni().equals(dni) && rep.findByDni(alumno.getDni()).getNombre().equals(nombre)) {
+							lista.add(alumno);
+						}
+					}
+				} else {
+					try {
+						lista.add(rep.findByDniAndNombre(dni, nombre).getAlumno());
+					} catch (NullPointerException e) {
 
+					}
+				}
+			} else if (!StringUtils.isEmpty(anio)) {
+				List<Alumno> listaAlumnos = repository.findbyAnio(anio);
+				for (Alumno alumno : listaAlumnos) {
+					if (alumno.getDni().equals(dni)) {
+						lista.add(alumno);
+					}
 				}
 			} else {
 				lista.add(repository.findByDni(dni));
 			}
-
 		} else if (!StringUtils.isEmpty(nombre)) {
 			try {
-				List<Persona> per = rep.findByNombre(nombre);
-				for (Persona persona : per) {
-					if (persona.getAlumno() != null) {
-						lista.add(persona.getAlumno());
+				if (!StringUtils.isEmpty(anio)) {
+					List<Alumno> listaAlumnos = repository.findbyAnio(anio);
+					for (Alumno alumno : listaAlumnos) {
+						if (rep.findByDni(alumno.getDni()).getNombre().equals(nombre)) {
+							lista.add(alumno);
+						}
+					}
+				} else {
+					List<Persona> per = rep.findByNombre(nombre);
+					for (Persona persona : per) {
+						if (persona.getAlumno() != null) {
+							lista.add(persona.getAlumno());
+						}
 					}
 				}
+
 			} catch (NullPointerException e) {
 
+			}
+		} else if (!StringUtils.isEmpty(anio)) {
+			List<Alumno> listaAlumnos = repository.findbyAnio(anio);
+			for (Alumno alumno : listaAlumnos) {
+				lista.add(alumno);
 			}
 		} else {
 			lista = getAllAlumno();

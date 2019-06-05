@@ -8,6 +8,7 @@ public class EdicionAlumnoTestForm {
 	private String dni;
 	private String contrasenia;
 	private String email;
+	private String anioEstudio;
 	private String telefono;
 	private Persona persona;
 
@@ -23,7 +24,16 @@ public class EdicionAlumnoTestForm {
 			this.contrasenia = persona.getAlumno().getContrasenia();
 			this.email = persona.getAlumno().getEmail();
 			this.telefono = persona.getAlumno().getTelefono();
+			this.anioEstudio = persona.getAlumno().getAnioEstudio();
 		}
+	}
+
+	public String getAnioEstudio() {
+		return anioEstudio;
+	}
+
+	public void setAnioEstudio(String anioEstudio) {
+		this.anioEstudio = anioEstudio;
 	}
 
 	public String getNombre() {
