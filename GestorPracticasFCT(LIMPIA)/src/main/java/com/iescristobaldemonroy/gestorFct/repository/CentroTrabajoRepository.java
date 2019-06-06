@@ -27,8 +27,8 @@ public interface CentroTrabajoRepository
 	CentroTrabajo findByDireccion(String calle, String numero);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o FROM CentroTrabajo o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1)")
-	List<CentroTrabajo> findByEmpresa(String denominacion);
+	@Query(value = "SELECT o FROM CentroTrabajo o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.cif = ?1)")
+	List<CentroTrabajo> findByEmpresa(String cif);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM CentroTrabajo o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1) and o.principal = 'S'")
@@ -37,5 +37,13 @@ public interface CentroTrabajoRepository
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM CentroTrabajo o WHERE o.telefono = ?1")
 	CentroTrabajo findByTelefono(String telefono);
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o.municipio FROM CentroTrabajo o GROUP BY o.municipio")
+	List<String> findMunicipios();
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o.localidad FROM CentroTrabajo o GROUP BY o.localidad")
+	List<String> findLocalidades();
 
 }

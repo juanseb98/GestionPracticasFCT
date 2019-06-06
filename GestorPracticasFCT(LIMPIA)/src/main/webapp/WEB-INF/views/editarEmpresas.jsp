@@ -78,10 +78,11 @@
 
 						<input type="submit"
 							value="<spring:message code="boton.filtrar"/>" class="register" />
+						<!--
 						<input type="submit"
 							value="<spring:message code="boton.limpiarFiltros"/>"
 							class="register" onclick="limpiar();" />
-						<!-- TODO -->
+						 TODO -->
 					</fieldset>
 					<br />
 				</div>
@@ -105,23 +106,24 @@
 						<td><c:out value="${empresa.cif }" /></td>
 						<td><c:out value="${empresa.denominacion }" /></td>
 						<td><c:out value="${empresa.telefono }" /></td>
+						<td><spring:url value="/administracion/editarCentroTrabajo"
+								var="CentroURL">
+								<spring:param name="id" value="${empresa.cif }" />
+							</spring:url> <a class="enlaces" href="${CentroURL}"
+							title="<spring:message code="administracion.empresa.centroTrabajo"/>">
+								<img style="height: 16px; padding: 0px 0px 0px 8px;"
+								alt="centroTrabajo"
+								src="${pageContext.request.contextPath}/resources/gfx/web/oficina.png" />
+								<spring:message code="administracion.empresa.centroTrabajo" />
+						</a></td>
 						<td><spring:url value="/administracion/editarEmpresas/editar"
 								var="editURL">
-								<spring:param name="id" value="${alumno.dni}" />
-							</spring:url> 
-							<a class="enlaces" href="${editURL}" title="<spring:message code="boton.editar"/>"> 
-								<img style="height: 16px; padding: 0px 0px 0px 8px;" alt="editar"
+								<spring:param name="id" value="${empresa.cif }" />
+							</spring:url> <a class="enlaces" href="${editURL}"
+							title="<spring:message code="boton.editar"/>"> <img
+								style="height: 16px; padding: 0px 0px 0px 8px;" alt="editar"
 								src="${pageContext.request.contextPath}/resources/gfx/web/edit.png" />editar
-							</a> 
-							<a><img style="height: 16px; padding: 0px 0px 0px 8px;"
-								alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/contract.png" />crear
-								Practica</a> <spring:url
-								value="/administracion/editarAlumnos/restaurar" var="restart" />
-							<a class="enlaces" href="${restart}"><img
-								style="height: 16px; padding: 0px 0px 0px 8px;" alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/access.png" />Restaurar
-								Contraseña</a></td>
+						</a></td>
 					</tr>
 				</c:if>
 			</c:forEach>

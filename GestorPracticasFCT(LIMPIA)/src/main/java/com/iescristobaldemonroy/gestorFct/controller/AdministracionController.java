@@ -22,15 +22,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
+import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
 import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoTestForm;
+import com.iescristobaldemonroy.gestorFct.form.EdicionCentroTrabajoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
+import com.iescristobaldemonroy.gestorFct.form.EditarCentroTrabajoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarEmpresaForm;
 import com.iescristobaldemonroy.gestorFct.service.AdministradorService;
 import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
+import com.iescristobaldemonroy.gestorFct.service.CentroTrabajoService;
 import com.iescristobaldemonroy.gestorFct.service.EmpresaService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
@@ -45,6 +49,9 @@ public class AdministracionController {
 
 	@Autowired
 	private NotificacionService notificacionService;
+
+	@Autowired
+	private CentroTrabajoService centroTrabajoService;
 
 	@Autowired
 	private AlumnoService alumnoService;
@@ -253,9 +260,11 @@ public class AdministracionController {
 			}
 
 			if (!result.hasErrors()) {
+
 				List<Empresa> listaEmpresas = empresaService.search(editarEmpresaForm.getFiltroCif(),
 						editarEmpresaForm.getFiltroDenominacion());
 				System.err.println(listaEmpresas.size());
+				model.addAttribute("editarCentroTrabajoForm", new EditarCentroTrabajoForm());
 				model.addAttribute("listaEmpresas", listaEmpresas);
 				model.addAttribute("administradorForm", adminForm);
 			} else {
@@ -265,6 +274,43 @@ public class AdministracionController {
 			System.out.println("Error no controlado");
 		}
 		return "editarEmpresas";
+	}
+
+	@RequestMapping(value = "/editarCentroTrabajo", method = { RequestMethod.GET, RequestMethod.POST })
+	public String editarCentroTrabajo(@RequestParam(value = "id", required = false) String cif,
+			@ModelAttribute EditarCentroTrabajoForm editarCentroTrabajoForm, AdministradorForm administradorForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+			if ("limpiarFiltros".equals(editarCentroTrabajoForm.getOperacion())) {
+				editarCentroTrabajoForm.limpiarFiltros();
+			}
+
+			if (!result.hasErrors()) {
+				// List<CentroTrabajo> listacentrosTrabajo = centroTrabajoService.search(cif,
+				// editarCentroTrabajoForm.getFiltroCalle(),
+				// editarCentroTrabajoForm.getFiltroCodigoPostal(),
+				// editarCentroTrabajoForm.getFiltroLocalidad(),
+				// editarCentroTrabajoForm.getFiltroMunicipio(),
+				// editarCentroTrabajoForm.getFiltroPrincipal());
+				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
+				model.addAttribute("listaCentrosTrabajo", listaCentros);
+
+				List<String> municipios = centroTrabajoService.getLocaMunicipio();
+				model.addAttribute("listaMunicipios", municipios);
+				List<String> localidades = centroTrabajoService.getLocalidades();
+				model.addAttribute("listaLocalidades", localidades);
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarCentroTrabajo";
 	}
 
 	private Persona crearNuevaPersonaAlumno(EdicionAlumnoTestForm edicionAlumnoForm) {

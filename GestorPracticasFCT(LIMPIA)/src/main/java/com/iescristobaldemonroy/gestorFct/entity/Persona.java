@@ -21,8 +21,6 @@ public class Persona implements Serializable {
 	@Id
 	private String dni;
 
-	private String contrasenia;
-
 	@Column(name = "DTYPE")
 	private String dtype;
 
@@ -61,14 +59,6 @@ public class Persona implements Serializable {
 
 	public void setDni(String dni) {
 		this.dni = dni;
-	}
-
-	public String getContrasenia() {
-		return this.contrasenia;
-	}
-
-	public void setContrasenia(String contrasenia) {
-		this.contrasenia = contrasenia;
 	}
 
 	public String getDtype() {

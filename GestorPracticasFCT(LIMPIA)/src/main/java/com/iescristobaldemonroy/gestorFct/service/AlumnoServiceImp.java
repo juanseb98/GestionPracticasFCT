@@ -105,7 +105,8 @@ public class AlumnoServiceImp implements AlumnoService {
 				if (!StringUtils.isEmpty(anio)) {
 					List<Alumno> listaAlumnos = repository.findbyAnio(anio);
 					for (Alumno alumno : listaAlumnos) {
-						if (alumno.getDni().equals(dni) && rep.findByDni(alumno.getDni()).getNombre().equals(nombre)) {
+						if (alumno.getDni().equals(dni) && rep.findByDni(alumno.getDni()).getNombre().toLowerCase()
+								.matches(nombre.toLowerCase() + ".*")) {
 							lista.add(alumno);
 						}
 					}
@@ -131,7 +132,8 @@ public class AlumnoServiceImp implements AlumnoService {
 				if (!StringUtils.isEmpty(anio)) {
 					List<Alumno> listaAlumnos = repository.findbyAnio(anio);
 					for (Alumno alumno : listaAlumnos) {
-						if (rep.findByDni(alumno.getDni()).getNombre().equals(nombre)) {
+						if (rep.findByDni(alumno.getDni()).getNombre().toLowerCase()
+								.matches(nombre.toLowerCase() + ".*")) {
 							lista.add(alumno);
 						}
 					}
