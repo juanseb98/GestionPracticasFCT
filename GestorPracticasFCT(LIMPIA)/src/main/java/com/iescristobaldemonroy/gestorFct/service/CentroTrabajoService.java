@@ -1,6 +1,7 @@
 package com.iescristobaldemonroy.gestorFct.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
 
@@ -18,6 +19,8 @@ public interface CentroTrabajoService {
 
 	public List<String> getLocaMunicipio();
 
+	public CentroTrabajo getCentroTrabajoByIdC(String id);
+
 	public CentroTrabajo getCentroTrabajoPrincipalByEmpresa(String denominacion);
 
 	public CentroTrabajo getCentroTrabajoByTelefono(String telefono);
@@ -25,6 +28,8 @@ public interface CentroTrabajoService {
 	public CentroTrabajo getCentroTrabajoByDireccion(String calle, String numero);
 
 	public boolean save(CentroTrabajo centroTrabajo);
+
+	public boolean delete(String id);
 
 	public boolean deleteCentroTrabajoByTelefono(String telefono);
 

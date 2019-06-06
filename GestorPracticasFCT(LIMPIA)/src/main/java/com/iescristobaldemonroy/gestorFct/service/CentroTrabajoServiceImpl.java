@@ -2,6 +2,7 @@ package com.iescristobaldemonroy.gestorFct.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -92,9 +93,9 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 	}
 
 	@Override
-	public boolean exist(String cif) {
-		List<CentroTrabajo> emp = repository.findByEmpresa(cif);
-		if (emp.size() < 1) {
+	public boolean exist(String id) {
+		CentroTrabajo centroTrabajo = repository.findByIdC(Integer.parseInt(id));
+		if (centroTrabajo == null) {
 			return false;
 		}
 		return true;
@@ -166,6 +167,21 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 		lst = (List<CentroTrabajo>) em.createQuery(cq).getResultList();
 
 		return lst;
+	}
+
+	@Override
+	public CentroTrabajo getCentroTrabajoByIdC(String id) {
+		return repository.findByIdC(Integer.parseInt(id));
+	}
+
+	@Override
+	public boolean delete(String id) {
+		try {
+			repository.delete(getCentroTrabajoByIdC(id));
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
 	}
 
 }

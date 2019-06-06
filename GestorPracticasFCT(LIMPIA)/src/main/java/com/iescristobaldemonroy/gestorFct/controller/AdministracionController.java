@@ -295,6 +295,78 @@ public class AdministracionController {
 				// editarCentroTrabajoForm.getFiltroLocalidad(),
 				// editarCentroTrabajoForm.getFiltroMunicipio(),
 				// editarCentroTrabajoForm.getFiltroPrincipal());
+				Empresa empresa = empresaService.getEmpresaByCif(cif);
+				model.addAttribute("empresa", empresa);
+
+				session.setAttribute("cif", cif);
+
+				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
+				model.addAttribute("listaCentrosTrabajo", listaCentros);
+
+				List<String> municipios = centroTrabajoService.getLocaMunicipio();
+				model.addAttribute("listaMunicipios", municipios);
+				List<String> localidades = centroTrabajoService.getLocalidades();
+				model.addAttribute("listaLocalidades", localidades);
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarCentroTrabajo";
+	}
+
+	@RequestMapping(value = "/editarCentroTrabajo/editarC", method = RequestMethod.GET)
+	public String editarCentroTrabajo(@RequestParam(value = "id", required = false) String id,
+			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+			model.addAttribute("cif", session.getAttribute("cif"));
+			// session.removeAttribute("cif");
+			if (!result.hasErrors()) {
+				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
+				EdicionCentroTrabajoForm edicionCentroTrabajoForm = new EdicionCentroTrabajoForm();
+				if (!StringUtils.isEmpty(id) && centroTrabajoService.exist(id)) {
+					edicionCentroTrabajoForm.setCentroTrabajo(centroTrabajoService.getCentroTrabajoByIdC(id));
+				}
+				model.addAttribute("edicionCentroTrabajoForm", edicionCentroTrabajoForm);
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarC";
+	}
+
+	@RequestMapping(value = "/editarCentroTrabajo/eliminar", method = RequestMethod.GET)
+	public String eliminarCentroTrabajo(@RequestParam(value = "id", required = true) String id,
+			AdministradorForm administradorForm, @ModelAttribute EditarCentroTrabajoForm editarCentroTrabajoForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+			String cif = (String) session.getAttribute("cif");
+			model.addAttribute("cif", cif);
+			// session.removeAttribute("cif");
+			if (!result.hasErrors()) {
+				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
+				EdicionCentroTrabajoForm edicionCentroTrabajoForm = new EdicionCentroTrabajoForm();
+				if (!StringUtils.isEmpty(id) && centroTrabajoService.exist(id)) {
+					centroTrabajoService.delete(id);
+				}
+				Empresa empresa = empresaService.getEmpresaByCif(cif);
+				model.addAttribute("empresa", empresa);
+				if (session.getAttribute("cif") == null) {
+					session.setAttribute("cif", cif);
+				}
 				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
 				model.addAttribute("listaCentrosTrabajo", listaCentros);
 

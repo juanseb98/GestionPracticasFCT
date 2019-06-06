@@ -1,6 +1,7 @@
 package com.iescristobaldemonroy.gestorFct.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -12,7 +13,11 @@ import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
 
 @Repository
 public interface CentroTrabajoRepository
-		extends JpaRepository<CentroTrabajo, String>, JpaSpecificationExecutor<CentroTrabajo> {
+		extends JpaRepository<CentroTrabajo, Integer>, JpaSpecificationExecutor<CentroTrabajo> {
+
+	@Transactional(readOnly = true)
+	@Query(value = "SELECT o FROM CentroTrabajo o WHERE o.id = ?1")
+	CentroTrabajo findByIdC(Integer id);
 
 	@Transactional(readOnly = true)
 	@Query(value = "SELECT o FROM CentroTrabajo o WHERE LOWER(o.provincia) = LOWER(?1)")

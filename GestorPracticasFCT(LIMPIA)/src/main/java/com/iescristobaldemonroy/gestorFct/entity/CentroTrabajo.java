@@ -3,14 +3,13 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the CENTRO_TRABAJO database table.
  * 
  */
 @Entity
-@Table(name="CENTRO_TRABAJO")
-@NamedQuery(name="CentroTrabajo.findAll", query="SELECT c FROM CentroTrabajo c")
+@Table(name = "CENTRO_TRABAJO")
+@NamedQuery(name = "CentroTrabajo.findAll", query = "SELECT c FROM CentroTrabajo c")
 public class CentroTrabajo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -45,9 +44,9 @@ public class CentroTrabajo implements Serializable {
 
 	private String tipoVia;
 
-	//bi-directional many-to-one association to Empresa
-	@ManyToOne(cascade={CascadeType.REMOVE})
-	@JoinColumn(name="cifEmpresa")
+	// bi-directional many-to-one association to Empresa
+	@ManyToOne()
+	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 
 	public CentroTrabajo() {

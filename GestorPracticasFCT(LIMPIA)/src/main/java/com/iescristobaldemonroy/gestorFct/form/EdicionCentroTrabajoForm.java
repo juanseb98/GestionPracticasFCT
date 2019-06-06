@@ -125,7 +125,7 @@ public class EdicionCentroTrabajoForm {
 	}
 
 	public String getPrincipal() {
-		return principal;
+		return this.principal;
 	}
 
 	public void setPrincipal(String principal) {
