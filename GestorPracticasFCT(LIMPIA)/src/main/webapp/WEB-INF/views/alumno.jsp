@@ -92,7 +92,8 @@
 						<th><spring:message code="alumno.tabla.permanencia" /></th>
 						<th><spring:message code="alumno.tabla.TutorDocente" /></th>
 						<th><spring:message code="alumno.tabla.TutorLaboral" /></th>
-						<th><spring:message code="alumno.tabla.fecha" /></th>
+						<th><spring:message code="alumno.tabla.fechaInicio" /></th>
+						<th><spring:message code="alumno.tabla.fechaFin" /></th>
 						<th><spring:message code="alumno.tabla.valoracion" /></th>
 					</tr>
 					<tr>
@@ -117,7 +118,8 @@
 								value="${practicaSeleccionada.tutorDocente.persona.nombre }" /></td>
 						<td><c:out
 								value="${practicaSeleccionada.tutorLaboral.persona.nombre }" /></td>
-						<td><c:out value="${practicaSeleccionada.fecha }" /></td>
+						<td><c:out value="${practicaSeleccionada.fechaInicio }" /></td>
+						<td><c:out value="${practicaSeleccionada.fechaFin }" /></td>
 						<td><a href="/GestorPracticasFCT/alumno/valoracion"
 							target="popup"
 							onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;"><spring:message

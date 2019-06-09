@@ -17,9 +17,9 @@ public class TutorLaboral implements Serializable {
 	@Id
 	private String dni;
 
-	private String email;
-
 	private String telefono;
+
+	private String email;
 
 	// bi-directional many-to-one association to Practica
 	@OneToMany(mappedBy = "tutorLaboral")

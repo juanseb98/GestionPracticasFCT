@@ -35,6 +35,6 @@ public interface PracticaRepository extends JpaRepository<Practica, Integer>, Jp
 	List<Practica> findByTutorLaboral(String dni);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o FROM Practica o WHERE o.fecha = ?1")
-	List<Practica> findByFecha(Date fecha);
+	@Query(value = "SELECT o FROM Practica o WHERE o.fechaInicio = ?1")
+	List<Practica> findByFechaInicio(Date fecha);
 }

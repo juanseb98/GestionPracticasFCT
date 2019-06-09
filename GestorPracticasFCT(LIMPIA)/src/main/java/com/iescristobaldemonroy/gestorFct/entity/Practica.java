@@ -18,10 +18,13 @@ public class Practica implements Serializable {
 	@Id
 	private int id;
 
-	@Temporal(TemporalType.DATE)
-	private Date fecha;
-
 	private double horasDia;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaInicio;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaFin;
 
 	private String permanencia;
 
@@ -53,7 +56,35 @@ public class Practica implements Serializable {
 	@OneToMany(mappedBy = "practica")
 	private List<Valoracion> valoracions;
 
+	// bi-directional many-to-one association to Valoracion
+	@OneToMany(mappedBy = "practica")
+	private List<ValoracionObligatoria> valoracionesObligatorias;
+
 	public Practica() {
+	}
+
+	public List<ValoracionObligatoria> getValoracionesObligatorias() {
+		return valoracionesObligatorias;
+	}
+
+	public void setValoracionesObligatorias(List<ValoracionObligatoria> valoracionesObligatorias) {
+		this.valoracionesObligatorias = valoracionesObligatorias;
+	}
+
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public List<Valoracion> getValoracions() {
@@ -70,14 +101,6 @@ public class Practica implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Date getFecha() {
-		return this.fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
 	}
 
 	public double getHorasDia() {

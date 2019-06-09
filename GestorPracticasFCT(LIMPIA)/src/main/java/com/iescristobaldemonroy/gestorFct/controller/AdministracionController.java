@@ -345,6 +345,41 @@ public class AdministracionController {
 		return "editarC";
 	}
 
+	@RequestMapping(value = "/editarCentroTrabajo/editarC", method = RequestMethod.POST)
+	public String editarCentroTrabajoSubmit(@RequestParam(value = "id", required = false) String id,
+			@ModelAttribute EdicionCentroTrabajoForm edicionCentroTrabajoForm, AdministradorForm administradorForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+			String cif = (String) session.getAttribute("cif");
+			model.addAttribute("cif", cif);
+			if (!result.hasErrors()) {
+				CentroTrabajo centro;
+				if (StringUtils.isNotEmpty(id)) {
+					centro = centroTrabajoService.getCentroTrabajoByIdC(id);
+					addValoresCentroTrabajo(edicionCentroTrabajoForm, centro);
+
+				} else {
+					centro = new CentroTrabajo();
+					addValoresCentroTrabajo(edicionCentroTrabajoForm, centro);
+					Empresa empresa = empresaService.getEmpresaByCif(cif);
+					centro.setEmpresa(empresa);
+				}
+				centroTrabajoService.save(centro);
+
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarC";
+	}
+
 	@RequestMapping(value = "/editarCentroTrabajo/eliminar", method = RequestMethod.GET)
 	public String eliminarCentroTrabajo(@RequestParam(value = "id", required = true) String id,
 			AdministradorForm administradorForm, @ModelAttribute EditarCentroTrabajoForm editarCentroTrabajoForm,
@@ -425,6 +460,23 @@ public class AdministracionController {
 		} catch (Exception ex) {
 		}
 		return base64EncryptedString;
+	}
+
+	private void addValoresCentroTrabajo(EdicionCentroTrabajoForm edicionCentroTrabajoForm, CentroTrabajo centro) {
+		centro.setCalle(edicionCentroTrabajoForm.getCalle());
+		centro.setCodigoPostal(edicionCentroTrabajoForm.getCodigoPostal());
+		centro.setDescripcion(edicionCentroTrabajoForm.getDescripcion());
+		centro.setEmail(edicionCentroTrabajoForm.getEmail());
+		centro.setEscalera(edicionCentroTrabajoForm.getEscalera());
+		centro.setLetra(edicionCentroTrabajoForm.getLetra());
+		centro.setLocalidad(edicionCentroTrabajoForm.getLocalidad());
+		centro.setMunicipio(edicionCentroTrabajoForm.getMunicipio());
+		centro.setNumero(edicionCentroTrabajoForm.getNumero());
+		centro.setPiso(edicionCentroTrabajoForm.getPiso());
+		centro.setPrincipal(edicionCentroTrabajoForm.getPrincipal());
+		centro.setProvincia(edicionCentroTrabajoForm.getProvincia());
+		centro.setTelefono(edicionCentroTrabajoForm.getTelefono());
+		centro.setTipoVia(edicionCentroTrabajoForm.getTipoVia());
 	}
 
 	public static String desencriptar(String textoEncriptado) {

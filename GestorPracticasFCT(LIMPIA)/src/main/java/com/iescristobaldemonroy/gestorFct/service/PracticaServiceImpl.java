@@ -58,8 +58,8 @@ public class PracticaServiceImpl implements PracticaService {
 	}
 
 	@Override
-	public List<Practica> getPracticaByFecha(Date fecha) {
-		return repository.findByFecha(fecha);
+	public List<Practica> getPracticaByFechaInicio(Date fecha) {
+		return repository.findByFechaInicio(fecha);
 	}
 
 	@Override

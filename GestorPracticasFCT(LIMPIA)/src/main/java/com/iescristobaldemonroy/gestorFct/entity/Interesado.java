@@ -18,11 +18,11 @@ public class Interesado implements Serializable {
 
 	private String email;
 
-	private String nombre;
+	private String telefono;
 
 	private String nombreEmpresa;
 
-	private String telefono;
+	private String nombre;
 
 	public Interesado() {
 	}

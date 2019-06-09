@@ -18,7 +18,7 @@ public interface PracticaService {
 
 	public List<Practica> getPracticaByTutorLaboral(String dni);
 
-	public List<Practica> getPracticaByFecha(Date fecha);
+	public List<Practica> getPracticaByFechaInicio(Date fecha);
 
 	public boolean save(Practica pratica);
 

@@ -4,6 +4,7 @@ import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
 
 public class EdicionCentroTrabajoForm {
 
+	private int id;
 	private String calle;
 	private String codigoPostal;
 	private String descripcion;
@@ -23,6 +24,7 @@ public class EdicionCentroTrabajoForm {
 	public void setCentroTrabajo(CentroTrabajo centroTrabajo) {
 		this.centroTrabajo = centroTrabajo;
 		if (centroTrabajo != null) {
+			this.id = centroTrabajo.getId();
 			this.calle = centroTrabajo.getCalle();
 			this.codigoPostal = centroTrabajo.getCodigoPostal();
 			this.descripcion = centroTrabajo.getDescripcion();
@@ -38,6 +40,14 @@ public class EdicionCentroTrabajoForm {
 			this.telefono = centroTrabajo.getTelefono();
 			this.tipoVia = centroTrabajo.getTipoVia();
 		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public CentroTrabajo getCentroTrabajo() {

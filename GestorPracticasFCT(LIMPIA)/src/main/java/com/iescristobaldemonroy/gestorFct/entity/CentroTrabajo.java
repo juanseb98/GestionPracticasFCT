@@ -16,33 +16,33 @@ public class CentroTrabajo implements Serializable {
 	@Id
 	private int id;
 
-	private String calle;
+	private String provincia;
 
-	private String codigoPostal;
-
-	private String descripcion;
-
-	private String email;
-
-	private String escalera;
-
-	private String letra;
+	private String municipio;
 
 	private String localidad;
 
-	private String municipio;
+	private String codigoPostal;
+
+	private String tipoVia;
+
+	private String calle;
 
 	private String numero;
 
 	private String piso;
 
-	private String principal;
+	private String letra;
 
-	private String provincia;
+	private String escalera;
 
 	private String telefono;
 
-	private String tipoVia;
+	private String email;
+
+	private String descripcion;
+
+	private String principal;
 
 	// bi-directional many-to-one association to Empresa
 	@ManyToOne()

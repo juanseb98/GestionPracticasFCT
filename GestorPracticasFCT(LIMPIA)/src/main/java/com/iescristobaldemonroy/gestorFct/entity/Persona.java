@@ -21,9 +21,6 @@ public class Persona implements Serializable {
 	@Id
 	private String dni;
 
-	@Column(name = "DTYPE")
-	private String dtype;
-
 	private String nombre;
 
 	// bi-directional one-to-one association to Administrador
@@ -50,7 +47,19 @@ public class Persona implements Serializable {
 	@OneToMany(mappedBy = "persona")
 	private List<Valoracion> valoracions;
 
+	// bi-directional many-to-one association to Valoracion
+	@OneToMany(mappedBy = "persona")
+	private List<ValoracionObligatoria> valoracionesObligatorias;
+
 	public Persona() {
+	}
+
+	public List<ValoracionObligatoria> getValoracionesObligatorias() {
+		return valoracionesObligatorias;
+	}
+
+	public void setValoracionesObligatorias(List<ValoracionObligatoria> valoracionesObligatorias) {
+		this.valoracionesObligatorias = valoracionesObligatorias;
 	}
 
 	public String getDni() {
@@ -59,14 +68,6 @@ public class Persona implements Serializable {
 
 	public void setDni(String dni) {
 		this.dni = dni;
-	}
-
-	public String getDtype() {
-		return this.dtype;
-	}
-
-	public void setDtype(String dtype) {
-		this.dtype = dtype;
 	}
 
 	public String getNombre() {

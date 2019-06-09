@@ -3,29 +3,28 @@ package com.iescristobaldemonroy.gestorFct.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the PERSONA_CONTACTO database table.
  * 
  */
 @Entity
-@Table(name="PERSONA_CONTACTO")
-@NamedQuery(name="PersonaContacto.findAll", query="SELECT p FROM PersonaContacto p")
+@Table(name = "PERSONA_CONTACTO")
+@NamedQuery(name = "PersonaContacto.findAll", query = "SELECT p FROM PersonaContacto p")
 public class PersonaContacto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private int id;
 
-	private String email;
-
 	private String nombre;
 
 	private String telefono;
 
-	//bi-directional many-to-one association to Empresa
-	@ManyToOne(cascade={CascadeType.REMOVE})
-	@JoinColumn(name="cifEmpresa")
+	private String email;
+
+	// bi-directional many-to-one association to Empresa
+	@ManyToOne(cascade = { CascadeType.REMOVE })
+	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 
 	public PersonaContacto() {
