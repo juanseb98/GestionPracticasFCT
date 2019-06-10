@@ -102,4 +102,13 @@ public class EmpresaServiceImpl implements EmpresaService {
 		return lista;
 	}
 
+	@Override
+	public boolean existByCif(String cif) {
+		Empresa emp = repository.findByCif(cif);
+		if (emp == null) {
+			return false;
+		}
+		return true;
+	}
+
 }

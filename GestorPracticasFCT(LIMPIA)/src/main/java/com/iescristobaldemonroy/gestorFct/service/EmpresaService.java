@@ -8,7 +8,7 @@ public interface EmpresaService {
 	public List getAllEmpresa();
 
 	public Empresa getEmpresaByCif(String cif);
-	
+
 	public List<Empresa> search(String cif, String denominacion);
 
 	public boolean save(Empresa persona);
@@ -16,5 +16,7 @@ public interface EmpresaService {
 	public boolean deleteEmpresaBycif(String cif);
 
 	public boolean exist(String denominacion);
+
+	public boolean existByCif(String cif);
 
 }

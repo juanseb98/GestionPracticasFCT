@@ -4,14 +4,13 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the EMPRESA database table.
  * 
  */
 @Entity
-@Table(name="EMPRESA")
-@NamedQuery(name="Empresa.findAll", query="SELECT e FROM Empresa e")
+@Table(name = "EMPRESA")
+@NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")
 public class Empresa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,24 +23,24 @@ public class Empresa implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to CentroTrabajo
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to CentroTrabajo
+	@OneToMany(mappedBy = "empresa")
 	private List<CentroTrabajo> centroTrabajos;
 
-	//bi-directional many-to-one association to PersonaContacto
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to PersonaContacto
+	@OneToMany(mappedBy = "empresa")
 	private List<PersonaContacto> personaContactos;
 
-	//bi-directional many-to-one association to Practica
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to Practica
+	@OneToMany(mappedBy = "empresa")
 	private List<Practica> practicas;
 
-	//bi-directional many-to-one association to Representante
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to Representante
+	@OneToMany(mappedBy = "empresa")
 	private List<Representante> representantes;
 
-	//bi-directional many-to-one association to TutorLaboral
-	@OneToMany(mappedBy="empresa")
+	// bi-directional many-to-one association to TutorLaboral
+	@OneToMany(mappedBy = "empresa")
 	private List<TutorLaboral> tutorLaborals;
 
 	public Empresa() {

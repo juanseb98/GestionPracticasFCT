@@ -128,7 +128,7 @@
 				</c:if>
 			</c:forEach>
 		</table>
-		<a class="button" href="editarAlumnos/editar">Crear nuevo Alumno</a>
+		<a class="button" href="editarEmpresas/editar">Crear nuevo Empresa</a>
 	</div>
 	<script>
 		function limpiar() {

@@ -74,7 +74,7 @@
 			</div>
 		</div>
 		<div>
-
+			<div id="deslog"></div>
 			<h1>
 				<spring:message code="administracion.saludo" />
 				<c:out value="${administradorForm.nombre }" />
@@ -93,5 +93,6 @@
 			</p>
 		</div>
 	</div>
+
 </body>
 </html>

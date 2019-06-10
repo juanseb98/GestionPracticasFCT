@@ -18,7 +18,7 @@ public class EdicionCentroTrabajoForm {
 	private String principal;
 	private String provincia;
 	private String telefono;
-	private String tipoVia;
+	private String tipoVia = "Calle";
 	private CentroTrabajo centroTrabajo;
 
 	public void setCentroTrabajo(CentroTrabajo centroTrabajo) {

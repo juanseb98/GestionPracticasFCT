@@ -53,6 +53,11 @@
 			<div class="fondoFormulario">
 				<div class="row">
 					<div class="col-md-12">
+						<div class="errores">
+							<c:if test="${not empty error }">
+								<spring:message code="error.noControladoDatos" />
+							</c:if>
+						</div>
 						<fieldset class="fondoRecuadro">
 							<div class="form-horizontal">
 								<fieldset class="fondoRecuadro">
@@ -60,7 +65,8 @@
 									<div class="form-group">
 										<form:label path="descripcion" for="descripcion"
 											class="col-md-1 control-label">
-											*<spring:message
+											<div class="errores">*</div>
+											<spring:message
 												code="administracion.empresa.centroTrabajo.descripcion" />
 											<form:errors path="descripcion" cssClass="errores" />
 										</form:label>
@@ -73,7 +79,8 @@
 								<div class="form-group">
 									<form:label path="calle" for="calle"
 										class="col-md-1 control-label">
-											*<spring:message
+										<div class="errores">*</div>
+										<spring:message
 											code="administracion.empresa.centroTrabajo.calle" />
 										<form:errors path="calle" cssClass="errores" />
 									</form:label>
@@ -84,7 +91,8 @@
 								<div class="form-group">
 									<form:label path="codigoPostal" for="codigoPostal"
 										class="col-md-1 control-label">
-											*<spring:message
+										<div class="errores">*</div>
+										<spring:message
 											code="administracion.empresa.centroTrabajo.codigoPostal" />
 										<form:errors path="codigoPostal" cssClass="errores" />
 									</form:label>
@@ -97,7 +105,7 @@
 								<div class="form-group">
 									<form:label path="email" for="email"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.email" />
 										<form:errors path="email" cssClass="errores" />
 									</form:label>
@@ -108,7 +116,7 @@
 								<div class="form-group">
 									<form:label path="escalera" for="escalera"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.escalera" />
 										<form:errors path="escalera" cssClass="errores" />
 									</form:label>
@@ -120,7 +128,7 @@
 								<div class="form-group">
 									<form:label path="letra" for="letra"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.letra" />
 										<form:errors path="letra" cssClass="errores" />
 									</form:label>
@@ -132,7 +140,8 @@
 								<div class="form-group">
 									<form:label path="localidad" for="localidad"
 										class="col-md-1 control-label">
-											*<spring:message
+										<div class="errores">*</div>
+										<spring:message
 											code="administracion.empresa.centroTrabajo.localidad" />
 										<form:errors path="localidad" cssClass="errores" />
 									</form:label>
@@ -144,7 +153,8 @@
 								<div class="form-group">
 									<form:label path="municipio" for="municipio"
 										class="col-md-1 control-label">
-											*<spring:message
+										<div class="errores">*</div>
+										<spring:message
 											code="administracion.empresa.centroTrabajo.municipio" />
 										<form:errors path="municipio" cssClass="errores" />
 									</form:label>
@@ -156,7 +166,7 @@
 								<div class="form-group">
 									<form:label path="numero" for="numero"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.numero" />
 										<form:errors path="numero" cssClass="errores" />
 									</form:label>
@@ -168,7 +178,7 @@
 								<div class="form-group">
 									<form:label path="piso" for="piso"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.piso" />
 										<form:errors path="piso" cssClass="errores" />
 									</form:label>
@@ -178,7 +188,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									*
+
 									<spring:message
 										code="administracion.empresa.centroTrabajo.principal" />
 									<div class="col-md-3">
@@ -191,8 +201,9 @@
 								<div class="form-group">
 									<form:label path="provincia" for="provincia"
 										class="col-md-1 control-label">
-											*<spring:message
-											code="administracion.empresa.centroTrabajo.piso" />
+										<div class="errores">*</div>
+										<spring:message
+											code="administracion.empresa.centroTrabajo.provincia" />
 										<form:errors path="provincia" cssClass="errores" />
 									</form:label>
 									<div class="col-md-3">
@@ -203,7 +214,7 @@
 								<div class="form-group">
 									<form:label path="telefono" for="telefono"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.telefono" />
 										<form:errors path="telefono" cssClass="errores" />
 									</form:label>
@@ -215,7 +226,7 @@
 								<div class="form-group">
 									<form:label path="tipoVia" for="tipoVia"
 										class="col-md-1 control-label">
-											*<spring:message
+										<spring:message
 											code="administracion.empresa.centroTrabajo.tipoVia" />
 										<form:errors path="tipoVia" cssClass="tipoVia" />
 									</form:label>

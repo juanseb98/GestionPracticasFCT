@@ -8,7 +8,7 @@ public class EditarCentroTrabajoForm {
 	private String filtroLocalidad;
 	private String filtroMunicipio;
 	private String filtroProvincia;
-	private Boolean filtroPrincipal;
+	private Boolean filtroPrincipal = false;
 	private String operacion;
 
 	public void limpiarFiltros() {
@@ -18,7 +18,7 @@ public class EditarCentroTrabajoForm {
 		this.filtroLocalidad = null;
 		this.filtroMunicipio = null;
 		this.filtroProvincia = null;
-		this.filtroPrincipal = null;
+		this.filtroPrincipal = false;
 		this.operacion = "";
 	}
 

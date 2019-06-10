@@ -23,7 +23,7 @@ public class PersonaContacto implements Serializable {
 	private String email;
 
 	// bi-directional many-to-one association to Empresa
-	@ManyToOne(cascade = { CascadeType.REMOVE })
+	@ManyToOne()
 	@JoinColumn(name = "cifEmpresa")
 	private Empresa empresa;
 

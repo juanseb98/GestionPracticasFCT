@@ -1,6 +1,8 @@
 
 package com.iescristobaldemonroy.gestorFct.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class IndexController {
 	private NotificacionService notificacionService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String displaySortedMembers(Model model) {
+	public String displaySortedMembers(Model model, HttpSession session) {
 		model.addAttribute("newInteresado", new InteresadoForm());
 		return "index";
 	}

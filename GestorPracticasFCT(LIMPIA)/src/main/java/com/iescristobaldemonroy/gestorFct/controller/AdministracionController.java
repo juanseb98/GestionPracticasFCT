@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ import com.iescristobaldemonroy.gestorFct.entity.Persona;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoTestForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionCentroTrabajoForm;
+import com.iescristobaldemonroy.gestorFct.form.EdicionEmpresaForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarCentroTrabajoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarEmpresaForm;
@@ -276,8 +278,100 @@ public class AdministracionController {
 		return "editarEmpresas";
 	}
 
+	@RequestMapping(value = "/editarEmpresas/editar", method = RequestMethod.GET)
+	public String editarEmpresas(@RequestParam(value = "id", required = false) String cif,
+			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				EdicionEmpresaForm edicionEmpresaForm = new EdicionEmpresaForm();
+				if (!StringUtils.isEmpty(cif) && empresaService.existByCif(cif)) {
+					edicionEmpresaForm.setEmpresa(empresaService.getEmpresaByCif(cif));
+				}
+
+				model.addAttribute("edicionEmpresaForm", edicionEmpresaForm);
+			} else {
+				return "error";
+			}
+		} catch (
+
+		NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "editarE";
+	}
+
+	@RequestMapping(value = "/editarEmpresas/editar", method = RequestMethod.POST)
+	public String editarEmpresasSubmit(@RequestParam(value = "id", required = false) String cif,
+			@ModelAttribute EdicionEmpresaForm edicionEmpresaForm, @ModelAttribute EditarEmpresaForm editarEmpresaForm,
+			BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (StringUtils.isEmpty(edicionEmpresaForm.getCif())) {
+				result.rejectValue("cif", "error.campoObligatorio");
+			} else if (!edicionEmpresaForm.getCif().matches("\\D\\d{8}")) {
+				result.rejectValue("cif", "error.campoObligatorio");
+			}
+			if (StringUtils.isEmpty(edicionEmpresaForm.getDenominacion())) {
+				result.rejectValue("denominacion", "error.campoObligatorio");
+			}
+			if (StringUtils.isEmpty(edicionEmpresaForm.getTelefono())) {
+				result.rejectValue("telefono", "error.campoObligatorio");
+			} else {
+				try {
+					Integer.parseInt(edicionEmpresaForm.getTelefono());
+				} catch (NumberFormatException e) {
+					result.rejectValue("telefono", "error.numerico");
+				}
+
+			}
+
+			if (!result.hasErrors()) {
+				Empresa empresa;
+				if (cif == null) {
+					empresa = new Empresa();
+					darDatosEmpresa(edicionEmpresaForm, empresa);
+				} else {
+					if (!cif.equals(edicionEmpresaForm.getCif())) {
+						empresa = empresaService.getEmpresaByCif(cif);
+						empresaService.deleteEmpresaBycif(cif);
+					} else {
+						empresa = empresaService.getEmpresaByCif(cif);
+					}
+
+					darDatosEmpresa(edicionEmpresaForm, empresa);
+				}
+				empresaService.save(empresa);
+
+				List<Empresa> listaEmpresas = empresaService.search(editarEmpresaForm.getFiltroCif(),
+						editarEmpresaForm.getFiltroDenominacion());
+				model.addAttribute("editarCentroTrabajoForm", new EditarCentroTrabajoForm());
+				model.addAttribute("listaEmpresas", listaEmpresas);
+				model.addAttribute("administradorForm", adminForm);
+			} else {
+				return "editarE";
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Error no controlado");
+			return "error";
+		}
+		return "redirect: /GestorPracticasFCT/administracion/editarEmpresas";
+	}
+
+	private void darDatosEmpresa(EdicionEmpresaForm edicionEmpresaForm, Empresa empresa) {
+		empresa.setCif(edicionEmpresaForm.getCif());
+		empresa.setDenominacion(edicionEmpresaForm.getDenominacion());
+		empresa.setTelefono(edicionEmpresaForm.getTelefono());
+	}
+
 	@RequestMapping(value = "/editarCentroTrabajo", method = { RequestMethod.GET, RequestMethod.POST })
-	public String editarCentroTrabajo(@RequestParam(value = "id", required = false) String cif,
+	public String editarCentroTrabajo(@RequestParam(value = "id", required = true) String cif,
 			@ModelAttribute EditarCentroTrabajoForm editarCentroTrabajoForm, AdministradorForm administradorForm,
 			BindingResult result, Model model, HttpSession session) {
 		try {
@@ -289,19 +383,17 @@ public class AdministracionController {
 			}
 
 			if (!result.hasErrors()) {
-				// List<CentroTrabajo> listacentrosTrabajo = centroTrabajoService.search(cif,
-				// editarCentroTrabajoForm.getFiltroCalle(),
-				// editarCentroTrabajoForm.getFiltroCodigoPostal(),
-				// editarCentroTrabajoForm.getFiltroLocalidad(),
-				// editarCentroTrabajoForm.getFiltroMunicipio(),
-				// editarCentroTrabajoForm.getFiltroPrincipal());
+				List<CentroTrabajo> listacentrosTrabajo = centroTrabajoService.search(cif,
+						editarCentroTrabajoForm.getFiltroCalle(), editarCentroTrabajoForm.getFiltroCodigoPostal(),
+						editarCentroTrabajoForm.getFiltroLocalidad(), editarCentroTrabajoForm.getFiltroMunicipio(),
+						editarCentroTrabajoForm.getFiltroPrincipal());
 				Empresa empresa = empresaService.getEmpresaByCif(cif);
 				model.addAttribute("empresa", empresa);
 
 				session.setAttribute("cif", cif);
 
 				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
-				model.addAttribute("listaCentrosTrabajo", listaCentros);
+				model.addAttribute("listaCentrosTrabajo", listacentrosTrabajo);
 
 				List<String> municipios = centroTrabajoService.getLocaMunicipio();
 				model.addAttribute("listaMunicipios", municipios);
@@ -347,14 +439,47 @@ public class AdministracionController {
 
 	@RequestMapping(value = "/editarCentroTrabajo/editarC", method = RequestMethod.POST)
 	public String editarCentroTrabajoSubmit(@RequestParam(value = "id", required = false) String id,
-			@ModelAttribute EdicionCentroTrabajoForm edicionCentroTrabajoForm, AdministradorForm administradorForm,
-			BindingResult result, Model model, HttpSession session) {
+			@ModelAttribute EdicionCentroTrabajoForm edicionCentroTrabajoForm, BindingResult result, Model model,
+			HttpSession session) {
+		String cif = (String) session.getAttribute("cif");
+		model.addAttribute("cif", cif);
 		try {
+
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
 			}
-			String cif = (String) session.getAttribute("cif");
-			model.addAttribute("cif", cif);
+
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getProvincia())) {
+				result.rejectValue("provincia", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getProvincia().length() > 30) {
+				result.rejectValue("provincia", "error.datoMuyLargo");
+			}
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getDescripcion())) {
+				result.rejectValue("descripcion", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getDescripcion().length() > 100) {
+				result.rejectValue("descripcion", "error.datoMuyLargo");
+			}
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getMunicipio())) {
+				result.rejectValue("municipio", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getMunicipio().length() > 30) {
+				result.rejectValue("municipio", "error.datoMuyLargo");
+			}
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getLocalidad())) {
+				result.rejectValue("localidad", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getLocalidad().length() > 30) {
+				result.rejectValue("localidad", "error.datoMuyLargo");
+			}
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCodigoPostal())) {
+				result.rejectValue("codigoPostal", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getCodigoPostal().length() > 5) {
+				result.rejectValue("codigoPostal", "error.datoMuyLargo");
+			}
+			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCalle())) {
+				result.rejectValue("calle", "error.campoObligatorio");
+			} else if (edicionCentroTrabajoForm.getCalle().length() > 20) {
+				result.rejectValue("calle", "error.datoMuyLargo");
+			}
+
 			if (!result.hasErrors()) {
 				CentroTrabajo centro;
 				if (StringUtils.isNotEmpty(id)) {
@@ -367,17 +492,23 @@ public class AdministracionController {
 					Empresa empresa = empresaService.getEmpresaByCif(cif);
 					centro.setEmpresa(empresa);
 				}
-				centroTrabajoService.save(centro);
+
+				if (!centroTrabajoService.save(centro)) {
+					String error = "Error";
+					model.addAttribute("error", error);
+					return "editarC";
+				}
 
 			} else {
-				return "error";
+				return "editarC";
 			}
-		} catch (
-
-		NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.out.println("Error no controlado");
+			return "error";
 		}
-		return "editarC";
+
+		model.addAttribute("editarCentroTrabajoForm", new EditarCentroTrabajoForm());
+		return "redirect: /GestorPracticasFCT/administracion/editarCentroTrabajo?id=" + cif;
 	}
 
 	@RequestMapping(value = "/editarCentroTrabajo/eliminar", method = RequestMethod.GET)
@@ -412,12 +543,10 @@ public class AdministracionController {
 			} else {
 				return "error";
 			}
-		} catch (
-
-		NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.out.println("Error no controlado");
 		}
-		return "editarCentroTrabajo";
+		return "redirect: /GestorPracticasFCT/administracion/editarCentroTrabajo";
 	}
 
 	private Persona crearNuevaPersonaAlumno(EdicionAlumnoTestForm edicionAlumnoForm) {
