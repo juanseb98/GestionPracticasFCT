@@ -137,28 +137,27 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
 		if (StringUtils.isNotBlank(calle)) {
-			predicates.add(cb.like(cb.function("QUITAR_ACENTOS", String.class, cb.lower(root.<String>get(CALLE))),
+			predicates.add(cb.like(cb.lower(root.<String>get(CALLE)),
 					"%" + ComunUtil.quitarAcentos(calle.toLowerCase()) + "%"));
 		}
 
 		if (StringUtils.isNotBlank(codigoPostal)) {
-			predicates
-					.add(cb.like(cb.function("QUITAR_ACENTOS", String.class, cb.lower(root.<String>get(CODIGO_POSTAL))),
-							"%" + ComunUtil.quitarAcentos(codigoPostal.toLowerCase()) + "%"));
+			predicates.add(cb.like(cb.lower(root.<String>get(CODIGO_POSTAL)),
+					"%" + ComunUtil.quitarAcentos(codigoPostal.toLowerCase()) + "%"));
 		}
 
 		if (StringUtils.isNotBlank(localidad)) {
-			predicates.add(cb.like(cb.function("QUITAR_ACENTOS", String.class, cb.lower(root.<String>get(LOCALIDAD))),
+			predicates.add(cb.like(cb.lower(root.<String>get(LOCALIDAD)),
 					"%" + ComunUtil.quitarAcentos(localidad.toLowerCase()) + "%"));
 		}
 
 		if (StringUtils.isNotBlank(municipio)) {
-			predicates.add(cb.like(cb.function("QUITAR_ACENTOS", String.class, cb.lower(root.<String>get(MUNICIPIO))),
+			predicates.add(cb.like(cb.lower(root.<String>get(MUNICIPIO)),
 					"%" + ComunUtil.quitarAcentos(municipio.toLowerCase()) + "%"));
 		}
 
 		if (StringUtils.isNotBlank(principalStr)) {
-			predicates.add(cb.like(cb.function("QUITAR_ACENTOS", String.class, cb.lower(root.<String>get(PRINCIPAL))),
+			predicates.add(cb.like(cb.lower(root.<String>get(PRINCIPAL)),
 					"%" + ComunUtil.quitarAcentos(principalStr.toLowerCase()) + "%"));
 		}
 
