@@ -134,12 +134,7 @@
 						</a> <a><img style="height: 16px; padding: 0px 0px 0px 8px;"
 								alt="practica"
 								src="${pageContext.request.contextPath}/resources/gfx/web/contract.png" />
-								<spring:message code="administracion.crearPractica" /></a> <spring:url
-								value="/administracion/editarAlumnos/restaurar" var="restart" />
-							<a class="enlaces" href="${restart}"><img
-								style="height: 16px; padding: 0px 0px 0px 8px;" alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/access.png" />
-								<spring:message code="administracion.restaurarContrasenia" /></a></td>
+								<spring:message code="administracion.crearPractica" /></a></td>
 					</tr>
 				</c:if>
 			</c:forEach>
