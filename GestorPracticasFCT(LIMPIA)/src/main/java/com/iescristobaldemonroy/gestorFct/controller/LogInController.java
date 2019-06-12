@@ -77,14 +77,15 @@ public class LogInController {
 						result.rejectValue("password", "error.datoIncorrecto");
 					}
 					// Comprobamos si es tutor docente
-				} else if (per.getTutorDocente() != null) {
-					TutorDocente tutorDocente = per.getTutorDocente();
-					if (tutorDocente.getContrasenia().equals(intentoLogueo.getPassword())) {
-						return "tutorDocente";
-					} else {
-						result.rejectValue("password", "error.datoIncorrecto");
-					}
 				}
+				// else if (per.getTutorDocente() != null) {
+				// TutorDocente tutorDocente = per.getTutorDocente();
+				// if (tutorDocente.getContrasenia().equals(intentoLogueo.getPassword())) {
+				// return "tutorDocente";
+				// } else {
+				// result.rejectValue("password", "error.datoIncorrecto");
+				// }
+				// }
 			} catch (NullPointerException e) {
 				model.addAttribute("error", "No se ha encontrado usuario");
 				return "logIn";
