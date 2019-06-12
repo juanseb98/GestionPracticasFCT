@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.apache.commons.lang3.StringUtils;
 
 import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
+import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 import com.iescristobaldemonroy.gestorFct.repository.CentroTrabajoRepository;
+import com.iescristobaldemonroy.gestorFct.repository.EmpresaRepository;
 import com.iescristobaldemonroy.gestorFct.util.ComunUtil;
 import com.iescristobaldemonroy.gestorFct.util.Constantes;
 
@@ -29,11 +31,15 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 	private String LOCALIDAD = "localidad";
 	private String MUNICIPIO = "municipio";
 	private String PRINCIPAL = "principal";
+	private String EMPRESA = "empresa";
 	@PersistenceContext
 	EntityManager em;
 
 	@Autowired
 	private CentroTrabajoRepository repository;
+
+	@Autowired
+	private EmpresaRepository empresaRepository;
 
 	public CentroTrabajoServiceImpl() {
 
@@ -108,13 +114,13 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 	}
 
 	@Override
-	public List<String> getLocalidades() {
-		return repository.findLocalidades();
+	public List<String> getLocalidades(String cif) {
+		return repository.findLocalidades(cif);
 	}
 
 	@Override
-	public List<String> getLocaMunicipio() {
-		return repository.findMunicipios();
+	public List<String> getLocaMunicipio(String cif) {
+		return repository.findMunicipios(cif);
 	}
 
 	@Override
@@ -126,6 +132,8 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 		} else {
 			principalStr = Constantes.PRINCIPAL_NO;
 		}
+
+		Empresa empresa = empresaRepository.findByCif(cif);
 		List<CentroTrabajo> lst = null;
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -135,6 +143,15 @@ public class CentroTrabajoServiceImpl implements CentroTrabajoService {
 		cq.select(root);
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		if (StringUtils.isNotBlank(cif)) {
+			predicates.add(cb.equal(cb.lower(root.<String>get(EMPRESA)), empresa));
+		}
+
+		if (StringUtils.isNotBlank(calle)) {
+			predicates.add(cb.like(cb.lower(root.<String>get(CALLE)),
+					"%" + ComunUtil.quitarAcentos(calle.toLowerCase()) + "%"));
+		}
 
 		if (StringUtils.isNotBlank(calle)) {
 			predicates.add(cb.like(cb.lower(root.<String>get(CALLE)),

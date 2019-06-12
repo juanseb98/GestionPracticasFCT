@@ -10,6 +10,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/css/screen.css"/>" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
 </head>
 <body>
 	<div id="top-bar" class="top-bar home-border">
@@ -91,7 +93,7 @@
 	</form:form>
 
 	<div>
-		<table>
+		<table id="data">
 			<tr>
 				<th><spring:message code="administracion.empresa.cif" /></th>
 				<th><spring:message code="administracion.empresa.denominacion" /></th>
@@ -131,6 +133,40 @@
 		<a class="button" href="editarEmpresas/editar">Crear nuevo Empresa</a>
 	</div>
 	<script>
+		$(document)
+				.ready(
+						function() {
+							$('#data').after(
+									'<div id="nav" class="alignright"></div>');
+							var rowsShown = 10;
+							var rowsTotal = $('#data tbody tr').length;
+							var numPages = rowsTotal / rowsShown;
+							for (i = 0; i < numPages; i++) {
+								var pageNum = i + 1;
+								$('#nav').append(
+										'<a class="solid" href="#" rel="'+i+'">'
+												+ pageNum + '</a> ');
+							}
+							$('#data tbody tr').hide();
+							$('#data tbody tr').slice(0, rowsShown).show();
+							$('#nav a:first').addClass('active');
+							$('#nav a').bind(
+									'click',
+									function() {
+
+										$('#nav a').removeClass('active');
+										$(this).addClass('active');
+										var currPage = $(this).attr('rel');
+										var startItem = currPage * rowsShown;
+										var endItem = startItem + rowsShown;
+										$('#data tbody tr').css('opacity',
+												'0.0').hide().slice(startItem,
+												endItem).css('display',
+												'table-row').animate({
+											opacity : 1
+										}, 300);
+									});
+						});
 		function limpiar() {
 			$('#operacion').value = ('limpiarFiltros')
 		}

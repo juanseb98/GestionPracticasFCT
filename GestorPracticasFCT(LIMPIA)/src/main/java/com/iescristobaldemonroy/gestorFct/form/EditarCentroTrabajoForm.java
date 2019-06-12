@@ -9,6 +9,7 @@ public class EditarCentroTrabajoForm {
 	private String filtroMunicipio;
 	private String filtroProvincia;
 	private Boolean filtroPrincipal = false;
+	private String inicio = "S";
 	private String operacion;
 
 	public void limpiarFiltros() {
@@ -20,6 +21,15 @@ public class EditarCentroTrabajoForm {
 		this.filtroProvincia = null;
 		this.filtroPrincipal = false;
 		this.operacion = "";
+		this.inicio = "S";
+	}
+
+	public String getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(String inicio) {
+		this.inicio = inicio;
 	}
 
 	public String getFiltroCalle() {

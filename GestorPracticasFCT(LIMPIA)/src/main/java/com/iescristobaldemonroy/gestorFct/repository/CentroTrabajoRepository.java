@@ -44,11 +44,11 @@ public interface CentroTrabajoRepository
 	CentroTrabajo findByTelefono(String telefono);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o.municipio FROM CentroTrabajo o GROUP BY o.municipio")
-	List<String> findMunicipios();
+	@Query(value = "SELECT o.municipio FROM CentroTrabajo o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.cif = ?1) GROUP BY o.municipio")
+	List<String> findMunicipios(String cif);
 
 	@Transactional(readOnly = true)
-	@Query(value = "SELECT o.localidad FROM CentroTrabajo o GROUP BY o.localidad")
-	List<String> findLocalidades();
+	@Query(value = "SELECT o.localidad FROM CentroTrabajo o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.cif = ?1) GROUP BY o.localidad")
+	List<String> findLocalidades(String cif);
 
 }

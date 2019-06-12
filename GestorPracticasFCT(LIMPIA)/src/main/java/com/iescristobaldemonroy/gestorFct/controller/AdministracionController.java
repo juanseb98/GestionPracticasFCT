@@ -383,21 +383,26 @@ public class AdministracionController {
 			}
 
 			if (!result.hasErrors()) {
-				List<CentroTrabajo> listacentrosTrabajo = centroTrabajoService.search(cif,
-						editarCentroTrabajoForm.getFiltroCalle(), editarCentroTrabajoForm.getFiltroCodigoPostal(),
-						editarCentroTrabajoForm.getFiltroLocalidad(), editarCentroTrabajoForm.getFiltroMunicipio(),
-						editarCentroTrabajoForm.getFiltroPrincipal());
+				List<CentroTrabajo> listacentrosTrabajo;
+				if (editarCentroTrabajoForm.getInicio().equals("S")) {
+					listacentrosTrabajo = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
+				} else {
+					listacentrosTrabajo = centroTrabajoService.search(cif, editarCentroTrabajoForm.getFiltroCalle(),
+							editarCentroTrabajoForm.getFiltroCodigoPostal(),
+							editarCentroTrabajoForm.getFiltroLocalidad(), editarCentroTrabajoForm.getFiltroMunicipio(),
+							editarCentroTrabajoForm.getFiltroPrincipal());
+				}
+
 				Empresa empresa = empresaService.getEmpresaByCif(cif);
 				model.addAttribute("empresa", empresa);
 
 				session.setAttribute("cif", cif);
 
-				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
 				model.addAttribute("listaCentrosTrabajo", listacentrosTrabajo);
 
-				List<String> municipios = centroTrabajoService.getLocaMunicipio();
+				List<String> municipios = centroTrabajoService.getLocaMunicipio(cif);
 				model.addAttribute("listaMunicipios", municipios);
-				List<String> localidades = centroTrabajoService.getLocalidades();
+				List<String> localidades = centroTrabajoService.getLocalidades(cif);
 				model.addAttribute("listaLocalidades", localidades);
 			} else {
 				return "error";
@@ -521,9 +526,7 @@ public class AdministracionController {
 			}
 			String cif = (String) session.getAttribute("cif");
 			model.addAttribute("cif", cif);
-			// session.removeAttribute("cif");
 			if (!result.hasErrors()) {
-				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
 				EdicionCentroTrabajoForm edicionCentroTrabajoForm = new EdicionCentroTrabajoForm();
 				if (!StringUtils.isEmpty(id) && centroTrabajoService.exist(id)) {
 					centroTrabajoService.delete(id);
@@ -536,9 +539,9 @@ public class AdministracionController {
 				List<CentroTrabajo> listaCentros = centroTrabajoService.getCentroTrabajoByEmpresa(cif);
 				model.addAttribute("listaCentrosTrabajo", listaCentros);
 
-				List<String> municipios = centroTrabajoService.getLocaMunicipio();
+				List<String> municipios = centroTrabajoService.getLocaMunicipio(cif);
 				model.addAttribute("listaMunicipios", municipios);
-				List<String> localidades = centroTrabajoService.getLocalidades();
+				List<String> localidades = centroTrabajoService.getLocalidades(cif);
 				model.addAttribute("listaLocalidades", localidades);
 			} else {
 				return "error";

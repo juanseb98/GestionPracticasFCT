@@ -15,9 +15,9 @@ public interface CentroTrabajoService {
 	public List<CentroTrabajo> search(String cif, String calle, String codigoPostal, String Localidad, String Municipio,
 			Boolean principal);
 
-	public List<String> getLocalidades();
+	public List<String> getLocalidades(String cif);
 
-	public List<String> getLocaMunicipio();
+	public List<String> getLocaMunicipio(String cif);
 
 	public CentroTrabajo getCentroTrabajoByIdC(String id);
 

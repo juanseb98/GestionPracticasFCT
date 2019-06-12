@@ -95,10 +95,6 @@
 					<input type="submit"
 						value="<spring:message code="boton.conectar"/> " class="register" />
 					<br>
-					<div>
-						<a href="/recuperarCuenta"><spring:message
-								code="logIn.recuperar" /></a>
-					</div>
 				</form:form>
 			</div>
 		</div>
