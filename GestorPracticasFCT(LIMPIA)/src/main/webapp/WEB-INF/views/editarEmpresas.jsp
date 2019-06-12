@@ -68,7 +68,7 @@
 							<div class="form-group">
 								<form:label path="filtroDenominacion" for="filtroDenominacion"
 									class="col-md-1 control-label">
-											*<spring:message code="administracion.empresa.denominacion" />
+									<spring:message code="administracion.empresa.denominacion" />
 									<form:errors path="filtroDenominacion" cssClass="errores" />
 								</form:label>
 								<div class="col-md-3">

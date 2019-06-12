@@ -66,6 +66,13 @@ public class AdministracionController {
 
 	private AdministradorForm adminForm;
 
+	/**
+	 * Metodo que inicializa la pantalla de administracion
+	 * 
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(method = { RequestMethod.GET })
 	public String inicio(Model model, HttpSession session) {
 		Administrador admin = (Administrador) session.getAttribute("personaLog");
@@ -79,6 +86,15 @@ public class AdministracionController {
 		}
 	}
 
+	/**
+	 * Metodo para cargar pagina de notificaciones del administrador
+	 * 
+	 * @param administradorForm
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/notificacion", method = RequestMethod.GET)
 	public String verNotificaciones(@ModelAttribute("administradorForm") AdministradorForm administradorForm,
 			BindingResult result, Model model, HttpSession session) {
@@ -108,6 +124,13 @@ public class AdministracionController {
 		return "notificacion";
 	}
 
+	/**
+	 * Metodo encargado de marcar las notificaciones como leidas
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/leido", method = RequestMethod.GET)
 	public String marcarNotificaciones(@RequestParam("id") String id, Model model) {
 
@@ -125,6 +148,17 @@ public class AdministracionController {
 		return "notificacion";
 	}
 
+	/**
+	 * Controlador de la pantalla de edicion de alumnos que se encarga de cargar
+	 * listado de alumnos
+	 * 
+	 * @param editarAlumnoForm
+	 * @param administradorForm
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/editarAlumnos", method = { RequestMethod.GET, RequestMethod.POST })
 	public String editarAlumnos(@ModelAttribute EditarAlumnoForm editarAlumnoForm, AdministradorForm administradorForm,
 			BindingResult result, Model model, HttpSession session) {
@@ -140,7 +174,7 @@ public class AdministracionController {
 			if (!result.hasErrors()) {
 				List<Alumno> listaAlumnos = alumnoService.search(editarAlumnoForm.getFiltroDni(),
 						editarAlumnoForm.getFiltroNombre(), editarAlumnoForm.getFiltroAnio());
-				System.err.println(listaAlumnos.size());
+
 				model.addAttribute("listaAlumnos", listaAlumnos);
 
 				List<String> listaAnios = alumnoService.getAnios();
@@ -155,8 +189,19 @@ public class AdministracionController {
 		return "editarAlumnos";
 	}
 
+	/**
+	 * Controlador encargado de inicializar la pantalla de edicion de los datos de
+	 * un alumno en especifico
+	 * 
+	 * @param dni
+	 * @param administradorForm
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.GET)
-	public String editarAlumnos(@RequestParam(value = "id", required = false) String dni,
+	public String editarAlumno(@RequestParam(value = "id", required = false) String dni,
 			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
 		try {
 			if (session.getAttribute("personaLog") == null) {
@@ -164,7 +209,6 @@ public class AdministracionController {
 			}
 
 			if (!result.hasErrors()) {
-				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
 				EdicionAlumnoTestForm edicionAlumnoTestForm = new EdicionAlumnoTestForm();
 				if (!StringUtils.isEmpty(dni) && alumnoService.exist(dni)) {
 					edicionAlumnoTestForm.setPersona(personaService.getPersonaByDni(dni));
@@ -174,14 +218,23 @@ public class AdministracionController {
 			} else {
 				return "error";
 			}
-		} catch (
-
-		NullPointerException e) {
+		} catch (NullPointerException e) {
 			System.out.println("Error no controlado");
 		}
 		return "editar";
 	}
 
+	/**
+	 * Metodo que se llama a la hora de dar clic en el boton de guardar los nuevos
+	 * datos del alumno
+	 * 
+	 * @param dni
+	 * @param edicionAlumnoForm
+	 * @param result
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/editarAlumnos/editar", method = RequestMethod.POST)
 	public String editarAlumnosSubmit(@RequestParam(value = "id", required = false) String dni,
 			@ModelAttribute EdicionAlumnoTestForm edicionAlumnoForm, BindingResult result, Model model,
@@ -190,27 +243,61 @@ public class AdministracionController {
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
 			}
-
+			// Comprobar datos del alumno introducidos por el usuario
 			if (StringUtils.isEmpty(edicionAlumnoForm.getDni())) {
 				result.rejectValue("dni", "error.campoObligatorio");
+				model.addAttribute("errorDni", "error.campoObligatorio");
+			} else if (edicionAlumnoForm.getDni().length() > 9) {
+				result.rejectValue("dni", "error.datoMuyLargo");
+				model.addAttribute("errorDni", "error.datoMuyLargo");
 			} else if (!edicionAlumnoForm.getDni().matches("\\d{8}\\D")) {
-				result.rejectValue("dni", "error.campoObligatorio");
+				result.rejectValue("dni", "error.datoIncorrecto");
+				model.addAttribute("errorDni", "error.datoIncorrecto");
 			}
+
 			if (StringUtils.isEmpty(edicionAlumnoForm.getEmail())) {
 				result.rejectValue("email", "error.campoObligatorio");
+				model.addAttribute("errorEmail", "error.campoObligatorio");
+			} else if (edicionAlumnoForm.getEmail().length() > 300) {
+				result.rejectValue("email", "error.datoMuyLargo");
+				model.addAttribute("errorEmail", "error.datoMuyLargo");
+			} else if (!edicionAlumnoForm.getEmail().contains("@")) {
+				result.rejectValue("email", "error.datoMuyLargo");
+				model.addAttribute("errorEmail", "error.datoIncorrecto");
 			}
+
 			if (StringUtils.isEmpty(edicionAlumnoForm.getNombre())) {
 				result.rejectValue("nombre", "error.campoObligatorio");
+				model.addAttribute("errorNombre", "error.campoObligatorio");
+			} else if (edicionAlumnoForm.getNombre().length() > 200) {
+				result.rejectValue("nombre", "error.datoMuyLargo");
+				model.addAttribute("errorNombre", "error.datoMuyLargo");
 			}
+
 			if (StringUtils.isEmpty(edicionAlumnoForm.getTelefono())) {
 				result.rejectValue("telefono", "error.campoObligatorio");
+				model.addAttribute("errorTelefono", "error.campoObligatorio");
+			} else if (edicionAlumnoForm.getTelefono().length() > 9) {
+				result.rejectValue("telefono", "error.datoMuyLargo");
+				model.addAttribute("errorTelefono", "error.datoMuyLargo");
 			} else {
 				try {
 					Integer.parseInt(edicionAlumnoForm.getTelefono());
 				} catch (NumberFormatException e) {
 					result.rejectValue("telefono", "error.numerico");
+					model.addAttribute("errorTelefono", "error.numerico");
 				}
 
+			}
+			if (StringUtils.isEmpty(edicionAlumnoForm.getAnioEstudio())) {
+				result.rejectValue("anioEstudio", "error.campoObligatorio");
+				model.addAttribute("errorAnioEstudio", "error.campoObligatorio");
+			} else if (edicionAlumnoForm.getAnioEstudio().length() > 4) {
+				result.rejectValue("anioEstudio", "error.datoMuyLargo");
+				model.addAttribute("errorAnioEstudio", "error.datoMuyLargo");
+			} else if (!edicionAlumnoForm.getAnioEstudio().matches("\\d{4}")) {
+				result.rejectValue("anioEstudio", "error.datoIncorrecto");
+				model.addAttribute("errorAnioEstudio", "error.datoIncorrecto");
 			}
 
 			if (!result.hasErrors()) {
@@ -265,7 +352,7 @@ public class AdministracionController {
 
 				List<Empresa> listaEmpresas = empresaService.search(editarEmpresaForm.getFiltroCif(),
 						editarEmpresaForm.getFiltroDenominacion());
-				System.err.println(listaEmpresas.size());
+
 				model.addAttribute("editarCentroTrabajoForm", new EditarCentroTrabajoForm());
 				model.addAttribute("listaEmpresas", listaEmpresas);
 				model.addAttribute("administradorForm", adminForm);
@@ -306,8 +393,8 @@ public class AdministracionController {
 
 	@RequestMapping(value = "/editarEmpresas/editar", method = RequestMethod.POST)
 	public String editarEmpresasSubmit(@RequestParam(value = "id", required = false) String cif,
-			@ModelAttribute EdicionEmpresaForm edicionEmpresaForm, @ModelAttribute EditarEmpresaForm editarEmpresaForm,
-			BindingResult result, Model model, HttpSession session) {
+			@ModelAttribute EdicionEmpresaForm edicionEmpresaForm, BindingResult result, Model model,
+			HttpSession session) {
 		try {
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
@@ -316,13 +403,23 @@ public class AdministracionController {
 			if (StringUtils.isEmpty(edicionEmpresaForm.getCif())) {
 				result.rejectValue("cif", "error.campoObligatorio");
 			} else if (!edicionEmpresaForm.getCif().matches("\\D\\d{8}")) {
-				result.rejectValue("cif", "error.campoObligatorio");
+				result.rejectValue("cif", "error.datoIncorrecto");
+				edicionEmpresaForm.setCif(null);
+			} else if (edicionEmpresaForm.getCif().length() > 9) {
+				result.rejectValue("cif", "error.datoMuyLargo");
+				edicionEmpresaForm.setCif(null);
 			}
+
 			if (StringUtils.isEmpty(edicionEmpresaForm.getDenominacion())) {
 				result.rejectValue("denominacion", "error.campoObligatorio");
+			} else if (edicionEmpresaForm.getDenominacion().length() > 20) {
+				result.rejectValue("denominacion", "error.datoMuyLargo");
 			}
+
 			if (StringUtils.isEmpty(edicionEmpresaForm.getTelefono())) {
 				result.rejectValue("telefono", "error.campoObligatorio");
+			} else if (edicionEmpresaForm.getTelefono().length() > 9) {
+				result.rejectValue("telefono", "error.datoMuyLargo");
 			} else {
 				try {
 					Integer.parseInt(edicionEmpresaForm.getTelefono());
@@ -349,8 +446,7 @@ public class AdministracionController {
 				}
 				empresaService.save(empresa);
 
-				List<Empresa> listaEmpresas = empresaService.search(editarEmpresaForm.getFiltroCif(),
-						editarEmpresaForm.getFiltroDenominacion());
+				List<Empresa> listaEmpresas = empresaService.getAllEmpresa();
 				model.addAttribute("editarCentroTrabajoForm", new EditarCentroTrabajoForm());
 				model.addAttribute("listaEmpresas", listaEmpresas);
 				model.addAttribute("administradorForm", adminForm);
@@ -423,9 +519,7 @@ public class AdministracionController {
 				result.addError(null);
 			}
 			model.addAttribute("cif", session.getAttribute("cif"));
-			// session.removeAttribute("cif");
 			if (!result.hasErrors()) {
-				// EdicionAlumnoForm edicionAlumnoForm = new EdicionAlumnoForm();
 				EdicionCentroTrabajoForm edicionCentroTrabajoForm = new EdicionCentroTrabajoForm();
 				if (!StringUtils.isEmpty(id) && centroTrabajoService.exist(id)) {
 					edicionCentroTrabajoForm.setCentroTrabajo(centroTrabajoService.getCentroTrabajoByIdC(id));
@@ -454,36 +548,7 @@ public class AdministracionController {
 				result.addError(null);
 			}
 
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getProvincia())) {
-				result.rejectValue("provincia", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getProvincia().length() > 30) {
-				result.rejectValue("provincia", "error.datoMuyLargo");
-			}
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getDescripcion())) {
-				result.rejectValue("descripcion", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getDescripcion().length() > 100) {
-				result.rejectValue("descripcion", "error.datoMuyLargo");
-			}
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getMunicipio())) {
-				result.rejectValue("municipio", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getMunicipio().length() > 30) {
-				result.rejectValue("municipio", "error.datoMuyLargo");
-			}
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getLocalidad())) {
-				result.rejectValue("localidad", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getLocalidad().length() > 30) {
-				result.rejectValue("localidad", "error.datoMuyLargo");
-			}
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCodigoPostal())) {
-				result.rejectValue("codigoPostal", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getCodigoPostal().length() > 5) {
-				result.rejectValue("codigoPostal", "error.datoMuyLargo");
-			}
-			if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCalle())) {
-				result.rejectValue("calle", "error.campoObligatorio");
-			} else if (edicionCentroTrabajoForm.getCalle().length() > 20) {
-				result.rejectValue("calle", "error.datoMuyLargo");
-			}
+			comprobacionDatosCentroTrabajo(edicionCentroTrabajoForm, result);
 
 			if (!result.hasErrors()) {
 				CentroTrabajo centro;
@@ -516,16 +581,109 @@ public class AdministracionController {
 		return "redirect: /GestorPracticasFCT/administracion/editarCentroTrabajo?id=" + cif;
 	}
 
+	private void comprobacionDatosCentroTrabajo(EdicionCentroTrabajoForm edicionCentroTrabajoForm,
+			BindingResult result) {
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getDescripcion())) {
+			result.rejectValue("descripcion", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getDescripcion().length() > 100) {
+			result.rejectValue("descripcion", "error.datoMuyLargo");
+		}
+
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCalle())) {
+			result.rejectValue("calle", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getCalle().length() > 20) {
+			result.rejectValue("calle", "error.datoMuyLargo");
+		}
+
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getCodigoPostal())) {
+			result.rejectValue("codigoPostal", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getCodigoPostal().length() > 5) {
+			result.rejectValue("codigoPostal", "error.datoMuyLargo");
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getEmail())) {
+			if (edicionCentroTrabajoForm.getEmail().length() > 50) {
+				result.rejectValue("email", "error.datoMuyLargo");
+			} else if (!edicionCentroTrabajoForm.getEmail().contains("@")) {
+				result.rejectValue("email", "error.datoIncorrecto");
+			}
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getEscalera())) {
+			if (edicionCentroTrabajoForm.getEscalera().length() > 1) {
+				result.rejectValue("escalera", "error.datoMuyLargo");
+			}
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getLetra())) {
+			if (edicionCentroTrabajoForm.getLetra().length() > 1) {
+				result.rejectValue("letra", "error.datoMuyLargo");
+			} else if (StringUtils.isNumeric(edicionCentroTrabajoForm.getLetra())) {
+				result.rejectValue("letra", "error.datoIncorrecto");
+			}
+		}
+
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getLocalidad())) {
+			result.rejectValue("localidad", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getLocalidad().length() > 30) {
+			result.rejectValue("localidad", "error.datoMuyLargo");
+		}
+
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getMunicipio())) {
+			result.rejectValue("municipio", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getMunicipio().length() > 30) {
+			result.rejectValue("municipio", "error.datoMuyLargo");
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getNumero())) {
+			if (edicionCentroTrabajoForm.getLetra().length() > 2) {
+				result.rejectValue("numero", "error.datoMuyLargo");
+			} else if (!StringUtils.isNumeric(edicionCentroTrabajoForm.getNumero())) {
+				result.rejectValue("numero", "error.datoIncorrecto");
+			}
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getPiso())) {
+			if (edicionCentroTrabajoForm.getPiso().length() > 2) {
+				result.rejectValue("piso", "error.datoMuyLargo");
+			} else if (!StringUtils.isNumeric(edicionCentroTrabajoForm.getNumero())) {
+				result.rejectValue("piso", "error.datoIncorrecto");
+			}
+		}
+
+		if (StringUtils.isEmpty(edicionCentroTrabajoForm.getProvincia())) {
+			result.rejectValue("provincia", "error.campoObligatorio");
+		} else if (edicionCentroTrabajoForm.getProvincia().length() > 30) {
+			result.rejectValue("provincia", "error.datoMuyLargo");
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getTelefono())) {
+			if (edicionCentroTrabajoForm.getTelefono().length() > 9) {
+				result.rejectValue("telefono", "error.datoMuyLargo");
+			} else if (!StringUtils.isNumeric(edicionCentroTrabajoForm.getTelefono())) {
+				result.rejectValue("telefono", "error.datoIncorrecto");
+			}
+		}
+
+		if (!StringUtils.isEmpty(edicionCentroTrabajoForm.getTipoVia())) {
+			if (edicionCentroTrabajoForm.getTelefono().length() > 30) {
+				result.rejectValue("tipoVia", "error.datoMuyLargo");
+			}
+		}
+
+	}
+
 	@RequestMapping(value = "/editarCentroTrabajo/eliminar", method = RequestMethod.GET)
 	public String eliminarCentroTrabajo(@RequestParam(value = "id", required = true) String id,
 			AdministradorForm administradorForm, @ModelAttribute EditarCentroTrabajoForm editarCentroTrabajoForm,
 			BindingResult result, Model model, HttpSession session) {
+		String cif = (String) session.getAttribute("cif");
+		model.addAttribute("id", cif);
 		try {
 			if (session.getAttribute("personaLog") == null) {
 				result.addError(null);
 			}
-			String cif = (String) session.getAttribute("cif");
-			model.addAttribute("cif", cif);
+
 			if (!result.hasErrors()) {
 				EdicionCentroTrabajoForm edicionCentroTrabajoForm = new EdicionCentroTrabajoForm();
 				if (!StringUtils.isEmpty(id) && centroTrabajoService.exist(id)) {

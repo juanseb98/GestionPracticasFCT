@@ -45,6 +45,9 @@
 	</div>
 	<div>
 		<form:form modelAttribute="edicionEmpresaForm" id="alu">
+			<c:if test="${not empty edicionEmpresaForm.cif }">
+				<form:hidden path="cif" />
+			</c:if>
 			<div class="errores">
 				<c:if test="${not empty errores}">
 					<spring:message code="error.cumplimentadoIncorrecto" />

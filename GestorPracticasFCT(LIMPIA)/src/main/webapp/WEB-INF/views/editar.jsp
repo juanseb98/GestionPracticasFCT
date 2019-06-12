@@ -61,6 +61,11 @@
 									<form:label path="dni" for="dni" class="col-md-1 control-label">
 											*<spring:message code="administracion.alumno.dni" />
 										<form:errors path="dni" cssClass="errores" />
+										<c:if test="${not empty errorDni }">
+											<div class="errores">
+												<spring:message code="${errorDni }" />
+											</div>
+										</c:if>
 									</form:label>
 									<div class="col-md-3">
 										<form:input id="dni" path="dni" class="form-control" />
@@ -71,6 +76,11 @@
 										class="col-md-1 control-label">
 											*<spring:message code="administracion.alumno.nombre" />
 										<form:errors path="nombre" cssClass="errores" />
+										<c:if test="${not empty errorNombre }">
+											<div class="errores">
+												<spring:message code="${errorNombre }" />
+											</div>
+										</c:if>
 									</form:label>
 									<div class="col-md-3">
 										<form:input id="nombre" path="nombre" class="form-control" />
@@ -81,6 +91,11 @@
 										class="col-md-1 control-label">
 											*<spring:message code="administracion.alumno.email" />
 										<form:errors path="email" cssClass="errores" />
+										<c:if test="${not empty errorEmail }">
+											<div class="errores">
+												<spring:message code="${errorEmail }" />
+											</div>
+										</c:if>
 									</form:label>
 									<div class="col-md-3">
 										<form:input id="email" path="email" class="form-control" />
@@ -91,6 +106,11 @@
 										class="col-md-1 control-label">
 											*<spring:message code="administracion.alumno.telefono" />
 										<form:errors path="telefono" cssClass="errores" />
+										<c:if test="${not empty errorTelefono }">
+											<div class="errores">
+												<spring:message code="${errorTelefono }" />
+											</div>
+										</c:if>
 									</form:label>
 									<div class="col-md-3">
 										<form:input id="telefono" path="telefono" class="form-control" />
@@ -101,6 +121,11 @@
 										class="col-md-1 control-label">
 											*<spring:message code="administracion.alumno.anio" />
 										<form:errors path="anioEstudio" cssClass="errores" />
+										<c:if test="${not empty errorAnioEstudio }">
+											<div class="errores">
+												<spring:message code="${errorAnioEstudio }" />
+											</div>
+										</c:if>
 									</form:label>
 									<div class="col-md-3">
 										<form:input type="text" id="anioEstudio" path="anioEstudio"

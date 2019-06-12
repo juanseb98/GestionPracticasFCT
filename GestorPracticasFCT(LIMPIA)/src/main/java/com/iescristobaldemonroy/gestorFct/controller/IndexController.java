@@ -36,15 +36,30 @@ public class IndexController {
 	@Autowired
 	private NotificacionService notificacionService;
 
+	/**
+	 * Metodo para iniciar la pantalla inicial y principal de la aplicacion
+	 * 
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String displaySortedMembers(Model model, HttpSession session) {
+	public String initPage(Model model, HttpSession session) {
 		model.addAttribute("newInteresado", new InteresadoForm());
 		return "index";
 	}
 
+	/**
+	 * Metodo que se ejecuta cuando se intenta registrar un nuevo interesado
+	 * 
+	 * @param newInteresado
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String registerNewMember(@ModelAttribute("newInteresado") InteresadoForm newInteresado, BindingResult result,
-			Model model) {
+	public String registerNewInteresado(@ModelAttribute("newInteresado") InteresadoForm newInteresado,
+			BindingResult result, Model model) {
 		comprobarDatos(newInteresado, result);
 
 		if (!result.hasErrors()) {
@@ -86,32 +101,48 @@ public class IndexController {
 		}
 	}
 
+	/**
+	 * Metodo para comprobar los datos introducidos por el usurio
+	 * 
+	 * @param newInteresado
+	 * @param result
+	 */
 	private void comprobarDatos(InteresadoForm newInteresado, BindingResult result) {
 		if (StringUtils.isEmpty(newInteresado.getNombre())) {
 			result.rejectValue("nombre", "error.campoObligatorio");
+		} else if (newInteresado.getNombre().length() > 50) {
+			result.rejectValue("nombre", "error.datoMuyLargo");
 		}
 
 		if (StringUtils.isEmpty(newInteresado.getTelefono())) {
 			result.rejectValue("telefono", "error.campoObligatorio");
+		} else if (newInteresado.getTelefono().length() > 9) {
+			result.rejectValue("telefono", "error.datoMuyLargo");
 		} else {
 			try {
 				Integer.parseInt(newInteresado.getTelefono());
 			} catch (NumberFormatException ex) {
-				result.rejectValue("telefono", "error.campoObligatorio");
+				result.rejectValue("telefono", "error.numerico");
 			}
 		}
-
 		if (StringUtils.isEmpty(newInteresado.getEmail())) {
+			result.rejectValue("email", "error.campoObligatorio");
+		} else if (newInteresado.getEmail().length() > 100) {
+			result.rejectValue("email", "error.datoMuyLargo");
+		} else if (!newInteresado.getEmail().contains("@")) {
 			result.rejectValue("email", "error.datoIncorrecto");
-		} else {
-			// TODO comprobar patron correcto de datos
-
 		}
 		if (StringUtils.isEmpty(newInteresado.getEmpresa())) {
 			result.rejectValue("empresa", "error.campoObligatorio");
 		}
 	}
 
+	/**
+	 * Comprueba si existe alguna empresa con el nombre introducido
+	 * 
+	 * @param denominacion
+	 * @return
+	 */
 	private boolean ExisteEmpresa(String denominacion) {
 		return empresaService.exist(denominacion);
 

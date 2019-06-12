@@ -69,7 +69,7 @@
 							<div class="form-group">
 								<form:label path="filtroNombre" for="filtroNombre"
 									class="col-md-1 control-label">
-											*<spring:message code="administracion.alumno.nombre" />
+									<spring:message code="administracion.alumno.nombre" />
 									<form:errors path="filtroNombre" cssClass="errores" />
 								</form:label>
 								<div class="col-md-3">
@@ -81,7 +81,7 @@
 							<div class="form-group">
 								<form:label path="filtroAnio" for="filtroAnio"
 									class="col-md-1 control-label">
-											*<spring:message code="administracion.alumno.anio" />
+									<spring:message code="administracion.alumno.anio" />
 									<form:errors path="filtroNombre" cssClass="errores" />
 								</form:label>
 								<div class="col-md-3">
