@@ -110,7 +110,10 @@
 										</c:if> <c:if test="${not empty practicaSeleccionada.permanencia }">
 											<c:out value="${practicaSeleccionada.permanencia }" />
 										</c:if></td>
-									<td><a>aniadir</a></td>
+									<td><a
+										href="/GestorPracticasFCT/alumno/permanencia?id=${practicaSeleccionada.id }"
+										target="popup"
+										onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;"><spring:message code="boton.cambiar"/></a></td>
 								</tr>
 							</table>
 						</td>

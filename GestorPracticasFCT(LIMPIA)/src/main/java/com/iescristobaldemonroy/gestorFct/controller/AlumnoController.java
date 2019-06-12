@@ -116,7 +116,7 @@ public class AlumnoController {
 	}
 
 	@RequestMapping(value = "/valoracion", method = RequestMethod.POST)
-	public String saveValoracion(@ModelAttribute("valoracionAlumno") Valoracion valoracion, BindingResult result,
+	public String saveValoracionSubmit(@ModelAttribute("valoracionAlumno") Valoracion valoracion, BindingResult result,
 			Model model) {
 		try {
 			valoracion.setPractica(practicaSeleccionada);
@@ -140,6 +140,34 @@ public class AlumnoController {
 			System.out.println("Error no controlado");
 		}
 		return "valoracion";
+	}
+
+	@RequestMapping(value = "/permanencia", method = RequestMethod.GET)
+	public String marcarNotificaciones(@RequestParam("id") String id, Model model) {
+
+		try {
+			model.addAttribute("practicaSeleccionada", practicaSeleccionada);
+		} catch (Exception e) {
+			return "error";
+		}
+
+		return "permanencia";
+	}
+
+	@RequestMapping(value = "/permanencia", method = RequestMethod.POST)
+	public String marcarNotificacionesSubmit(@RequestParam("id") String id, Model model,
+			@ModelAttribute Practica practicaSeleccionada) {
+
+		try {
+			Practica practicaActualizada = practicaService.getPracticaById(practicaSeleccionada.getId());
+			practicaActualizada.setPermanencia(practicaSeleccionada.getPermanencia());
+			practicaService.save(practicaActualizada);
+			model.addAttribute("practicaSeleccionada", practicaActualizada);
+		} catch (Exception e) {
+			return "error";
+		}
+
+		return "permanencia";
 	}
 
 	public static String desencriptar(String textoEncriptado) {
