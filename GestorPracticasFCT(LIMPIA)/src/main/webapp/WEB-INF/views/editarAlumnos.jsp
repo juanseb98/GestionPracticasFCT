@@ -21,7 +21,7 @@
 			<div class="columns large-4 medium-3  small-6">
 				<h4 class="smartlib-logo-header">
 					<img
-						src="http://www.iescristobaldemonroy.es/wordpress/wp-content/uploads/2017/10/titulo_sinlogo.jpg"
+						src="${pageContext.request.contextPath}/resources/gfx/web/bannerIesCristobalDeMonroy.jpg"
 						alt="I.E.S. Cristóbal de Monroy">
 				</h4>
 			</div>

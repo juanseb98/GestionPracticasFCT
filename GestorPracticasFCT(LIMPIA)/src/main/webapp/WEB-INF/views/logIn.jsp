@@ -21,7 +21,7 @@
 						<a href="<spring:message code="link.inicio"/> "
 							title="I.E.S. Cristóbal de Monroy" rel="home"
 							class="smartlib-site-logo image-logo"> <img
-							src="http://www.iescristobaldemonroy.es/wordpress/wp-content/uploads/2017/10/titulo_sinlogo.jpg"
+							src="${pageContext.request.contextPath}/resources/gfx/web/bannerIesCristobalDeMonroy.jpg"
 							alt="I.E.S. Cristóbal de Monroy">
 						</a>
 					</h4>

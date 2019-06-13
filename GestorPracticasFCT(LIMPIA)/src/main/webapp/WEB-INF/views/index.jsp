@@ -23,7 +23,7 @@
 						<a href="<spring:message code="link.inicio"/> "
 							title="I.E.S. Cristóbal de Monroy" rel="home"
 							class="smartlib-site-logo image-logo"> <img
-							src="http://www.iescristobaldemonroy.es/wordpress/wp-content/uploads/2017/10/titulo_sinlogo.jpg"
+							src="${pageContext.request.contextPath}/resources/gfx/web/bannerIesCristobalDeMonroy.jpg"
 							alt="I.E.S. Cristóbal de Monroy">
 						</a>
 					</h4>
@@ -62,19 +62,19 @@
 			<hr />
 			<div>
 				<p>
-					<spring:message code="relleno" />
+					<spring:message code="mensaje.presentacionPagina" />
 				</p>
 			</div>
 
 			<div class="galeria">
 				<img
-					src="http://blog.tradesmen.ie/wp-content/uploads/2012/07/programmers360.jpg"
+					src="${pageContext.request.contextPath}/resources/gfx/web/practicasGenerica1.jpg"
 					width="260" height="300" alt="Img1" /> <img
-					src="http://www.responsabilidadsocial.net/wp-content/uploads/2015/05/images_articulos_2015_rse_buenas_condiciones_laborales.jpg"
+					src="${pageContext.request.contextPath}/resources/gfx/web/practicasGenerica2.jpg"
 					width="260" height="300" alt="Img2" /> <img
-					src="https://practicas.um.es/practicas/img_2017/02.empresas.jpg"
+					src="${pageContext.request.contextPath}/resources/gfx/web/practicasGenerica3.jpg"
 					width="260" height="300" alt="Img3" /> <img
-					src="http://noticias.universia.net.mx/net/images/practicas-empleo/l/la/la-/la-importancia-de-la-practica-profesional.jpg"
+					src="${pageContext.request.contextPath}/resources/gfx/web/practicasGenerica4.jpg"
 					width="260" height="300" alt="Img4" />
 			</div>
 			<hr />
