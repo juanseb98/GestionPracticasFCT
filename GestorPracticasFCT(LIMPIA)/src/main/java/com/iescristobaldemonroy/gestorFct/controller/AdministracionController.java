@@ -7,6 +7,8 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base64;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
@@ -27,6 +30,7 @@ import com.iescristobaldemonroy.gestorFct.entity.CentroTrabajo;
 import com.iescristobaldemonroy.gestorFct.entity.Empresa;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Persona;
+import com.iescristobaldemonroy.gestorFct.entity.TutorLaboral;
 import com.iescristobaldemonroy.gestorFct.form.AdministradorForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionAlumnoTestForm;
 import com.iescristobaldemonroy.gestorFct.form.EdicionCentroTrabajoForm;
@@ -34,12 +38,14 @@ import com.iescristobaldemonroy.gestorFct.form.EdicionEmpresaForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarAlumnoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarCentroTrabajoForm;
 import com.iescristobaldemonroy.gestorFct.form.EditarEmpresaForm;
+import com.iescristobaldemonroy.gestorFct.form.PracticaForm;
 import com.iescristobaldemonroy.gestorFct.service.AdministradorService;
 import com.iescristobaldemonroy.gestorFct.service.AlumnoService;
 import com.iescristobaldemonroy.gestorFct.service.CentroTrabajoService;
 import com.iescristobaldemonroy.gestorFct.service.EmpresaService;
 import com.iescristobaldemonroy.gestorFct.service.NotificacionService;
 import com.iescristobaldemonroy.gestorFct.service.PersonaService;
+import com.iescristobaldemonroy.gestorFct.service.TutorLaboralService;
 import com.iescristobaldemonroy.gestorFct.util.Constantes;
 
 @Controller
@@ -63,6 +69,9 @@ public class AdministracionController {
 
 	@Autowired
 	private PersonaService personaService;
+
+	@Autowired
+	private TutorLaboralService tutorLaboralService;
 
 	private AdministradorForm adminForm;
 
@@ -222,6 +231,39 @@ public class AdministracionController {
 			System.out.println("Error no controlado");
 		}
 		return "editar";
+	}
+
+	@RequestMapping(value = "/editarAlumnos/practica", method = RequestMethod.GET)
+	public String alumnoAddPractica(@RequestParam(value = "id", required = true) String dni,
+			AdministradorForm administradorForm, BindingResult result, Model model, HttpSession session) {
+		try {
+			if (session.getAttribute("personaLog") == null) {
+				result.addError(null);
+			}
+
+			if (!result.hasErrors()) {
+				Alumno alumno = alumnoService.getAlumnoByDni(dni);
+				List<Empresa> listaEmpresas = empresaService.getAllEmpresa();
+				model.addAttribute("listaEmpresas", listaEmpresas);
+				PracticaForm practicaForm = new PracticaForm();
+				practicaForm.setDniAlumno(alumno.getDni());
+				model.addAttribute("practicaForm", practicaForm);
+			} else {
+				return "error";
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Error no controlado");
+		}
+		return "practica";
+	}
+
+	@RequestMapping(value = "/editarAlumnos/practica/loadTutorLaboral", method = RequestMethod.GET)
+	public @ResponseBody List<TutorLaboral> cargarTutoresLaborales(HttpServletRequest request,
+			HttpServletResponse response, @RequestParam(value = "cifEmpresa", required = true) String cifEmpresa) {
+
+		List<TutorLaboral> listaTutoresLaborales = tutorLaboralService.getTutorLaboralByEmpresa(cifEmpresa);
+
+		return listaTutoresLaborales;
 	}
 
 	/**

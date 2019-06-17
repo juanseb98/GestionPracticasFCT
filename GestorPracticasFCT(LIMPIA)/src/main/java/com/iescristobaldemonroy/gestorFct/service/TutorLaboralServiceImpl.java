@@ -51,8 +51,8 @@ public class TutorLaboralServiceImpl implements TutorLaboralService {
 	}
 
 	@Override
-	public List<TutorLaboral> getTutorLaboralByEmpresa(String denominacion) {
-		return repository.findByEmpresa(denominacion);
+	public List<TutorLaboral> getTutorLaboralByEmpresa(String cifEmpresa) {
+		return repository.findByEmpresa(cifEmpresa);
 	}
 
 	@Override

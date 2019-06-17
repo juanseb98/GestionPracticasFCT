@@ -13,7 +13,7 @@ public interface TutorLaboralService {
 
 	public TutorLaboral getTutorLaboralByTelefono(String telefono);
 
-	public List<TutorLaboral> getTutorLaboralByEmpresa(String denominacion);
+	public List<TutorLaboral> getTutorLaboralByEmpresa(String cif);
 
 	public boolean save(TutorLaboral tutorLaboral);
 

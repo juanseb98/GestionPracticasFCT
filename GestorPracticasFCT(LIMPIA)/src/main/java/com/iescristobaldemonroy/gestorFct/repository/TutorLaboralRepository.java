@@ -27,6 +27,6 @@ public interface TutorLaboralRepository
 	TutorLaboral findByTelefono(String telefono);
 
 	@Transactional(readOnly = true, noRollbackFor = Exception.class)
-	@Query(value = "SELECT o FROM TutorLaboral o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.denominacion = ?1)")
-	List<TutorLaboral> findByEmpresa(String denominacion);
+	@Query(value = "SELECT o FROM TutorLaboral o WHERE o.empresa = (SELECT e FROM Empresa e WHERE e.cif = ?1)")
+	List<TutorLaboral> findByEmpresa(String cifEmpresa);
 }
