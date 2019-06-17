@@ -33,7 +33,7 @@ public class Alumno implements Serializable {
 	private Persona persona;
 
 	// bi-directional many-to-one association to Practica
-	@OneToMany(mappedBy = "alumno")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "alumno")
 	private List<Practica> practicas;
 
 	public Alumno() {

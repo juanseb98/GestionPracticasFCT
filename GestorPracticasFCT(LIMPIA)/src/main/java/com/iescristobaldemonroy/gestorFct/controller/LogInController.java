@@ -70,8 +70,8 @@ public class LogInController {
 					Alumno alumno = per.getAlumno();
 					// Comprobamos contraseña
 					if (alumno.getContrasenia().equals(intentoLogueo.getPassword())) {
-						String DniEncriptado = encriptar(alumno.getDni());
-						return "redirect: alumno?pikjuihj=" + DniEncriptado;
+						session.setAttribute("personaLog", alumno);
+						return "redirect: alumno";
 					} else {
 						// Comprobamos contraseña
 						result.rejectValue("password", "error.datoIncorrecto");

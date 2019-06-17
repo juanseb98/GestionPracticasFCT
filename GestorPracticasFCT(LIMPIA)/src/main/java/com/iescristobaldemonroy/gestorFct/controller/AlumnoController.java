@@ -8,6 +8,7 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.helpers.NotIdentifiableEventImpl;
 
 import org.apache.commons.codec.binary.Base64;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.iescristobaldemonroy.gestorFct.entity.Administrador;
 import com.iescristobaldemonroy.gestorFct.entity.Alumno;
 import com.iescristobaldemonroy.gestorFct.entity.Notificacion;
 import com.iescristobaldemonroy.gestorFct.entity.Practica;
@@ -55,12 +57,16 @@ public class AlumnoController {
 	private int idPractica;
 
 	@RequestMapping(method = { RequestMethod.GET })
-	public String inicio(@RequestParam(value = "pikjuihj", required = true) String dni, Model model) {
-		String dniLimpio = desencriptar(dni);
-		alumno = alumnoService.getAlumnoByDni(dniLimpio);
-		alumno.setPracticas(practicaService.getPracticaByAlumno(dniLimpio));
-		model.addAttribute("alumnoForm", new AlumnoForm(alumno));
-		return "alumno";
+	public String inicio(Model model, HttpSession session) {
+		Alumno alumno = (Alumno) session.getAttribute("personaLog");
+		if (alumno != null) {
+			model.addAttribute("alumnoForm", new AlumnoForm(alumno));
+			alumno.setPracticas(practicaService.getPracticaByAlumno(alumno.getDni()));
+			return "alumno";
+		} else {
+			return "error";
+		}
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -190,6 +196,7 @@ public class AlumnoController {
 			base64EncryptedString = new String(plainText, "UTF-8");
 
 		} catch (Exception ex) {
+			System.out.println("Error");
 		}
 		return base64EncryptedString;
 	}
