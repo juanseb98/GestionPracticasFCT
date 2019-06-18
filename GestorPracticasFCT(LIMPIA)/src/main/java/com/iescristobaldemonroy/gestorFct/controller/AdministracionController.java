@@ -1,6 +1,7 @@
 package com.iescristobaldemonroy.gestorFct.controller;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -257,13 +258,19 @@ public class AdministracionController {
 		return "practica";
 	}
 
-	@RequestMapping(value = "/editarAlumnos/practica/loadTutorLaboral", method = RequestMethod.GET)
-	public @ResponseBody List<TutorLaboral> cargarTutoresLaborales(HttpServletRequest request,
-			HttpServletResponse response, @RequestParam(value = "cifEmpresa", required = true) String cifEmpresa) {
+	@RequestMapping(value = "/editarAlumnos/cargarCiudad", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> cargarCiudad(@ModelAttribute("listarCrisisForm") PracticaForm practicaForm) {
+		List<TutorLaboral> listaCiudades = tutorLaboralService.getTutorLaboralByEmpresa(practicaForm.getCifEmpresa());
+		List<String> listaTutores = new ArrayList<String>();
+		for (TutorLaboral tutorLaboral : listaCiudades) {
+			String dni = tutorLaboral.getDni();
+			listaTutores.add(dni);
+		}
+		// objeto json
 
-		List<TutorLaboral> listaTutoresLaborales = tutorLaboralService.getTutorLaboralByEmpresa(cifEmpresa);
-
-		return listaTutoresLaborales;
+		practicaForm.setListaTutoresLaborales(listaCiudades);
+		return listaTutores;
 	}
 
 	/**

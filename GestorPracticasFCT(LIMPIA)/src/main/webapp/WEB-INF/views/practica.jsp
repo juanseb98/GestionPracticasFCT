@@ -65,7 +65,8 @@
 					<form:errors path="cifEmpresa" cssClass="errores" />
 				</form:label>
 				<div class="col-md-3">
-					<form:select path="cifEmpresa" id="cifEmpresa">
+					<form:select path="cifEmpresa" id="cifEmpresa"
+						onchange="madeAjaxCall(this);">
 						<c:forEach items="${listaEmpresas}" var="empresa">
 							<form:option value="${empresa.cif }">
 								<c:out value="${empresa.denominacion }" />
@@ -78,6 +79,12 @@
 			<div class="form-group" id="combo2">
 				<form:select path="dniTutorLaboral" name="dniTutorLaboral"
 					id="dniTutorLaboral" disabled="disabled">
+					<c:forEach items="${practicaForm.listaTutoresLaborales }"
+						var="tutorLaboral">
+						<form:option value="${tutorLaboral.dni }">
+							<c:out value="${tutorLaboral.dni }" />
+						</form:option>
+					</c:forEach>
 				</form:select>
 			</div>
 
@@ -114,101 +121,47 @@
 		</form:form>
 	</div>
 	<script type="text/javascript" language="javascript">
-	function cargarCiudad(obj) {
-		$.ajax({
-			url : "cargarCiudad",
-			method : "POST",
-			data : {
-				filtroPais : $(obj).val()
-			},
-			dataType : "json",
-			success : function(response) {
-				$("#selectFiltroCiudad option:not(:disabled)").remove();
-				var select = document.getElementById('selectFiltroCiudad');
-				$.each(response, function(index, option) {
-					console.log("option: " + option);
-					select.options[select.options.length] = new Option(option,
-							option);
-				});
+		function cargarCiudad(obj) {
+			$.ajax({
+				url : "cargarCiudad",
+				method : "POST",
+				data : {
+					cifEmpresa : $(obj).val()
+				},
+				success : function(response) {
+					$("#dniTutorLaboral option:not(:disabled)").remove();
+					var select = document.getElementById('dniTutorLaboral');
+					$.each(response, function(index, option) {
+						console.log("option: " + option);
+						select.options[select.options.length] = new Option(
+								option, option);
+					});
 
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("Error");
-			}
-		});
-	};
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert("Error");
+				}
+			});
+		};
 
-	$(document)
-	.ready(function() {
+		function madeAjaxCall(obj) {
+			$.ajax({
+				type : "get",
+				url : "cargarCiudad",
+				cache : false,
+				data : {
+					cifEmpresa : $(obj).val()
+				},
+				success : function(response) {
 
-var contexPath = "<%=request.getContextPath()%>
-		";
+					alert(response);
 
-							$('#cifEmpresa')
-									.change(
-											function(e) {
-
-												if (jQuery(this).val() != "-1") {
-													$('#dniTutorLaboral')
-															.find('option')
-															.remove()
-															.end()
-															.append(
-																	'<option value="-1">--Select state--</option>');
-
-													e.preventDefault();
-													var val = $(this).val();
-													jQuery("#dniTutorLaboral")
-															.removeAttr(
-																	"disabled");
-
-													alert(val);
-													//$('#othstate').val('').hide();
-													$
-															.ajax({
-																type : "POST",
-																url : contexPath
-																		+ '/loadTutorLaboral.htm',
-																dataType : 'json',
-																data : {
-																	cifEmpresa : val
-																},
-																success : function(
-																		data) {
-																	showUsers(data.listaTutoresLaborales);
-																	// $('#states').html( data.lstStates );
-																},
-																error : function(
-																		e) {
-																	alert('Error: '
-																			+ e);
-																}
-															});
-												} else {
-													$("#dniTutorLaboral").attr(
-															"disabled",
-															"disabled");
-													$('#dniTutorLaboral')
-															.find('option')
-															.remove()
-															.end()
-															.append(
-																	'<option value="-1">--Select state--</option>');
-												}
-											});
-
-							function showUsers(data) {
-
-								for (var i = 0, len = data.length; i < len; ++i) {
-									var tutorLaboral = data[i];
-									$('#dniTutorLaboral').append(
-											"<option value=\"" +tutorLaboral.dni + "\">"
-													+ tutorLaboral.dni
-													+ "</option>");
-								}
-							}
-
-						});
+				},
+				error : function() {
+					alert('Error while request..');
+				}
+			});
+		}
 	</script>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package com.iescristobaldemonroy.gestorFct.form;
 
 import java.util.Date;
+import java.util.List;
+
+import com.iescristobaldemonroy.gestorFct.entity.TutorLaboral;
 
 public class PracticaForm {
+	private List<TutorLaboral> listaTutoresLaborales;
 	private double horasDia;
 	private Date fechaInicio;
 	private Date fechaFin;
@@ -13,6 +17,14 @@ public class PracticaForm {
 	private String dniAlumno;
 	private String cifEmpresa;
 	private String dniTutorDocente;
+
+	public List<TutorLaboral> getListaTutoresLaborales() {
+		return listaTutoresLaborales;
+	}
+
+	public void setListaTutoresLaborales(List<TutorLaboral> listaTutoresDocentes) {
+		this.listaTutoresLaborales = listaTutoresDocentes;
+	}
 
 	public double getHorasDia() {
 		return horasDia;
