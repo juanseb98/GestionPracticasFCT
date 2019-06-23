@@ -134,14 +134,7 @@
 								style="height: 16px; padding: 0px 0px 0px 8px;" alt="editar"
 								src="${pageContext.request.contextPath}/resources/gfx/web/edit.png" />
 								<spring:message code="administracion.editar" />
-						</a> <spring:url value="/administracion/editarAlumnos/practica"
-								var="practicaURL">
-								<spring:param name="id" value="${alumno.dni}" />
-							</spring:url> <a class="enlaces" href="${practicaURL}"
-							title="<spring:message code="boton.editar"/>"><img
-								style="height: 16px; padding: 0px 0px 0px 8px;" alt="practica"
-								src="${pageContext.request.contextPath}/resources/gfx/web/contract.png" />
-								<spring:message code="administracion.crearPractica" /></a></td>
+						</a> </td>
 					</tr>
 				</c:if>
 			</c:forEach>
